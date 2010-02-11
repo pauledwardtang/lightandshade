@@ -1,7 +1,10 @@
 
 class GameObject
 {
-   float x, y; // X-coordinate, y-coordinate
+   private PImage icon;
+   private PImage myImage; 
+   
+   private float x, y; // X-coordinate, y-coordinate
    GameObject (float xpos, float ypos)
    {
      x = xpos;
@@ -16,19 +19,38 @@ class GameObject
    {
      return y;
    }
+   //Display the image on the screen
+   void display(float x, float y)
+   {
+   }
 
 }
 
-class Unit {
+class Unit extends GameObject{
  
- Unit() {
+ Unit(float xpos, float ypos, int type) 
+ {
+   super(xpos, ypos);
+   switch (type)
+   {
+     case 1:  //myImage = loadImage("base.gif"); break;
+     case 2:
+     case 3:
+     case 4:
+     default: break;
+   
+   }   
  }
- 
+ void display(float x, float y)
+ {
+   
+ }
 }
 
-class Obstacle{
+class Obstacle extends GameObject{
   
-  Obstacle()
+  Obstacle(float xpos, float ypos)
   {
+    super(xpos, ypos);
   }
 }

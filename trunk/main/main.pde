@@ -2,8 +2,11 @@ import processing.opengl.*;
 
 static final int WIDTH = 800;
 static final int HEIGHT = 600;
+Terrain terrain;
+ArrayList obstacles;
+
+
 float pulse;
-ArrayList objects;
 boolean gameEnable;
 ImageButtons button;
 PImage startBackground;
@@ -13,7 +16,10 @@ void setup() {
   fill(0, 150);
   frameRate(30);
   noStroke();
-  objects = new ArrayList();
+  terrain = new Terrain();
+  obstacles = terrain.getObstacles();
+  
+  
   
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
@@ -31,10 +37,10 @@ void setup() {
 }
 
 void draw() {
-  if(gameEnable) 
+  if(true) 
   {//Display game
-      background(200);
       displayMap();
+      displayUnits();
   }
   else//Show startup screen
   {
@@ -53,10 +59,28 @@ void mouseClicked()
 }
 void displayMap()
 {
+  
+  background(200);
   translate(width/2, height/2);
-  rotateX(-200);
+  //rotateX(-200);
+  //fill(100, 50, 0);
   rect(-200, -200, 400, 400);
+  
 }
+//Displays units (represented as boxes)
+void displayUnits()
+{
+   for(int i = 0; i < obstacles.size(); i++)
+   {
+     Obstacle temp = ((Obstacle) obstacles.get(i));
+     translate(temp.getX() , temp.getY());
+     //tint(255, 153);
+     //rotateY(.5);
+     //fill(200, 150, 0);
+     rect(-25, -25, 50, 50);
+   }
+}
+
 /**
  * Brightness
  * by Daniel Shiffman. 
