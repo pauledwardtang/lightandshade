@@ -31,12 +31,12 @@ void setup() {
 }
 
 void draw() {
-  if(gameEnable)
-  {
+  if(gameEnable) 
+  {//Display game
       background(200);
       displayMap();
   }
-  else
+  else//Show startup screen
   {
     image(startBackground,0,0);
     drawSpotLight();
@@ -53,7 +53,7 @@ void mouseClicked()
 }
 void displayMap()
 {
-  //translate(width/2, height/2);
+  translate(width/2, height/2);
   rotateX(-200);
   rect(-200, -200, 400, 400);
 }
@@ -77,7 +77,7 @@ void drawSpotLight() {
       g = green (startBackground.pixels[loc]);
       b = blue (startBackground.pixels[loc]);
       // Calculate an amount to change brightness based on proximity to the mouse
-      float maxdist = 175;//dist(0,0,width,height);
+      float maxdist = 150;//dist(0,0,width,height);
       float d = dist(x,y,mouseX,mouseY);
       float adjustbrightness = 255*(maxdist-d)/maxdist;
       r += adjustbrightness;
