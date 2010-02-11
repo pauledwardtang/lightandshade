@@ -19,3 +19,16 @@ class GameObject
 
 }
 
+class Unit {
+ 
+ Unit() {
+ }
+ 
+}
+
+class Obstacle{
+  
+  Obstacle()
+  {
+  }
+}
