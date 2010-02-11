@@ -17,16 +17,16 @@ class Terrain{
   private ArrayList units = new ArrayList();
   private ArrayList obstacles = new ArrayList();
   
-   Terrain()
+   Terrain(int width, int height)
   {
     randomizeObstacles();
   } 
   
   void randomizeObstacles()
   {
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 15; i++)
     {
-      obstacles.add(new Obstacle(random(800), random(600)));
+      obstacles.add(new Obstacle(random(width-50), random(height-50)));
     }
   }
   ArrayList getObstacles()

@@ -1,6 +1,6 @@
 import processing.opengl.*;
 
-static final int WIDTH = 800;
+static final int WIDTH = 600;
 static final int HEIGHT = 600;
 Terrain terrain;
 ArrayList obstacles;
@@ -13,13 +13,13 @@ PImage startBackground;
 
 void setup() {
   size(WIDTH, HEIGHT, OPENGL);
-  fill(0, 150);
+  background(255);
   frameRate(30);
-  noStroke();
-  terrain = new Terrain();
+  terrain = new Terrain(WIDTH, HEIGHT);
   obstacles = terrain.getObstacles();
   
-  
+  //displayMap();
+  displayUnits();
   
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
@@ -36,11 +36,12 @@ void setup() {
   button = new ImageButtons(x, y, w, h, b, r, d);
 }
 
+
 void draw() {
   if(true) 
   {//Display game
-      displayMap();
-      displayUnits();
+      //displayMap();
+      
   }
   else//Show startup screen
   {
@@ -70,15 +71,22 @@ void displayMap()
 //Displays units (represented as boxes)
 void displayUnits()
 {
+  
+ // rect(100, 100, 50, 50);
+  // Obstacle temp = ((Obstacle) obstacles.get(0));
+  // translate(0 , 0);
+  // fill(200, 150, 0);
+  // rect(-25, -25, 50, 50);
+   
    for(int i = 0; i < obstacles.size(); i++)
    {
      Obstacle temp = ((Obstacle) obstacles.get(i));
-     translate(temp.getX() , temp.getY());
+     
      //tint(255, 153);
      //rotateY(.5);
-     //fill(200, 150, 0);
-     rect(-25, -25, 50, 50);
-   }
+     fill(0);
+     rect(temp.getX(), temp.getY(), 50, 50);
+   } 
 }
 
 /**
