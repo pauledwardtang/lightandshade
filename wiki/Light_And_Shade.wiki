@@ -10,13 +10,13 @@ There is a light player and a dark player. The light player has a light source, 
 
 ===Game Flow===
 A typical game of Light and Shade should look like this:
- * Enter game from [Menu main menu]
- * Game starts, pieces scattered
- * Light player rescues light units, captures dark units
- * Dark player gathers its units as the light player advances, captures light units
- * Dark player works to push into light player
- * Light player works to capture dark eyes
- * Game ends when all light units captured, or all dark eyes captured
+ # Enter game from [Menu main menu]
+ # Game starts, pieces scattered
+ # Light player rescues light units, captures dark units
+ # Dark player gathers its units as the light player advances, captures light units
+ # Dark player works to push into light player
+ # Light player works to capture dark eyes
+ # Game ends when all light units captured, or all dark eyes captured
 
 
 == Components ==
