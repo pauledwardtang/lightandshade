@@ -4,6 +4,20 @@
 
 Light and shade is a real-time strategy game involving two players.
 
+==Game Overview==
+Tentatively titles "Light and Shade" the game is a two-player, competative real-time strategy game. 
+There is a light player and a dark player. The light player has a light source, prisms, and sprites. The dark player has eyes and shades.
+
+===Game Flow===
+A typical game of Light and Shade should look like this:
+ * Enter game from [Menu main menu]
+ * Game starts, pieces scattered
+ * Light player rescues light units, captures dark units
+ * Dark player gathers its units as the light player advances, captures light units
+ * Dark player works to push into light player
+ * Light player works to capture dark eyes
+ * Game ends when all light units captured, or all dark eyes captured
+
 
 == Components ==
 
