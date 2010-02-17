@@ -1,1 +1,7 @@
 #Pushing and pulling of blinded units
+
+Manipulation is a central mechanic in this game. It is the pushing and pulling of other units.
+
+All units can be manipulated when [Blinding blind], though the [Light_Player light] Light Source cannot be blinded.
+
+Only two units can manipulate: Sprites and Shades. These units can manipulate any blind unit, friendly or not.
