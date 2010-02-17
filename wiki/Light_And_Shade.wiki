@@ -7,18 +7,23 @@ Light and shade is a real-time strategy game involving two players.
 
 == Components ==
 
- * AI-controlled player
-  * Dark player
- * Human-controlled player
-  * Light player
- * Level generator
- * Light system
+ * [AI AI-controlled player]
+  * [Dark_Player Dark player]
+ * [Human_Player Human-controlled player]
+  * [Light_Player Light player]
+ * [Level_Generator Level generator]
+ * Light_System Light system]
 
 ==Mechanics==
 
- * Light/dark Behavior
- * Push/pull (manipulation)
+ * [Light_Dark_Behavior Light/dark Behavior]
+ * [Manipulation Push/pull (manipulation)]
 
 ==General behaviors==
- * Pathfinding
- * Obstacle avoidance
+ * [Pathfinding Pathfinding]
+ * [Obstacle_Avoidance Obstacle avoidance]
+
+==Possible Extenstions==
+ * Multiplayer
+ * AI vs AI
+ * Reflection
