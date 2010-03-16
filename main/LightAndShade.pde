@@ -20,7 +20,7 @@ float pulse;
 boolean gameEnable;
 boolean debugEnable;
 
-ImageButtons startButton, debugButton, addObsButton;
+ImageButtons startButton, debugButton, addObsButton, addUnitsButton;
 PImage startBackground;
 
 void setup() {
@@ -28,22 +28,24 @@ void setup() {
   background(255);
   frameRate(30);
   
-    // Initialize box2d physics and create the world
+    // Initialize box2d physics and create the world ( no assumed gravity)
   box2d = new PBox2D(this);
   box2d.createWorld();
-
+  box2d.setGravity(0, 0);
 
   //Create obstacles
   
   //Create terrain
   terrain = new Terrain(WIDTH, HEIGHT);
-  obstacles = terrain.getObstacles();
+  //obstacles = terrain.getObstacles();
   
-  //displayMap();
     
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
-   
+  PImage debugButtonImg = loadImage("debug.gif");
+  PImage obsButtonImg = loadImage("obs.gif");
+  PImage unitsButtonImg = loadImage("units.gif");
+  
   // Define and create imageButton
   PImage b = loadImage("base.gif");
   PImage r = loadImage("roll.gif");
@@ -64,9 +66,14 @@ void setup() {
   int bottomRightX = width - b.width;
   int bottomRightY = height - b.height; 
 
+  //(X,Y) for addUnitsButton
+  int bottomLeftX = 0;
+  int bottomLeftY = height - b.height; 
+  
   startButton = new ImageButtons(x, y, w, h, b, r, d);  //Hidden at the top right
-  debugButton = new ImageButtons(topLeftX, topLeftY, w, h, b, r, d);  //Hidden at the top left
-  addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, b, r, d);  //Hidden at the bottom right
+  debugButton = new ImageButtons(topLeftX, topLeftY, w, h, debugButtonImg, r, d);  //Hidden at the top left
+  addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, obsButtonImg, r, d);  //Hidden at the bottom right
+  addUnitsButton= new ImageButtons(bottomLeftX, bottomLeftY, w, h, unitsButtonImg, r, d);  //Hidden at the bottom left
 
 }
 
@@ -75,29 +82,35 @@ void draw() {
   if(gameEnable) //Display Game, objects etc
   {
       background(255);
-      //terrain.setTerrainDisplayEnable(true);
       box2d.step();
-      terrain.displayObstacles();
+      terrain.draw();
   }
-  else if(debugEnable)
+  else if(debugEnable) //Debug mode
   {
      background(255);
+     //Update buttons
      addObsButton.update();
+     addUnitsButton.update();
+     
+     //Display add units button
      addObsButton.display();
+     addUnitsButton.display();
+     
      box2d.step();
-     terrain.displayObstacles();
+     terrain.draw();
   }
   else  //Show startup screen
   {
-    //image(startBackground,0,0);
+    background(255);
+    image(startBackground,0,0);
     
+    //Update buttons
     startButton.update();
     debugButton.update();
-    addObsButton.update();
     
+    //Display buttons
     startButton.display();
     debugButton.display();
-    addObsButton.display();
     //drawSpotLight();
   }
 }
@@ -117,6 +130,12 @@ void mouseClicked()
     {
       terrain.randomizeObstacles();
       println("Randomized obstacles");
+    }
+   if(addUnitsButton.isPressed() && debugEnable)
+    {
+      terrain.createUnits(50);
+      terrain.createParticles();
+      println("Added units");
     }
 }
 

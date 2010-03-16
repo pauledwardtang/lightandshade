@@ -1,18 +1,11 @@
-class Obstacle {
+class Obstacle extends GameObject {
   
-  // A boundary is a simple rectangle with x,y,width,and height
-  float x;
-  float y;
-  float w;
-  float h;
+  // An Obstacle is a simple rectangle with x,y,width,and height
   // But we also have to make a body for box2d to know about it
   Body b;
 
   Obstacle(float x_,float y_, float w_, float h_) {
-    x = x_;
-    y = y_;
-    w = w_;
-    h = h_;
+    super(x_, y_, w_, h_);
 
     // Figure out the box2d coordinates
     float box2dW = box2d.scaleScreenToWorld(w/2);
@@ -31,15 +24,6 @@ class Obstacle {
     b = box2d.createBody(bd);
     b.createShape(sd);
   }
-
-  // Draw the boundary, if it were at an angle we'd have to do something fancier
-  void display() {
-    fill(0);
-    stroke(0);
-    rectMode(CENTER);
-    rect(x,y,w,h);
-  }
-
 }
 
 

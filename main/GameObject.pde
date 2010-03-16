@@ -1,34 +1,75 @@
 
 class GameObject
 {
-   private PImage icon;
-   private PImage myImage; 
+   private PImage img, icon; 
    
-   private float x, y; // X-coordinate, y-coordinate
+   float x, y, w, h; // X-coordinate, y-coordinate
+         
+   GameObject()
+   {  
+   }
+   
+   //All dimensions given
+   GameObject (float xpos, float ypos, float w_, float h_)
+   {
+     x = xpos;
+     y = ypos;
+     w = w_;
+     h = h_;
+   }
+   
+   //Dimensions obtained from provided pImage
+   GameObject (float xpos, float ypos, PImage img)
+   {
+     x = xpos;
+     y = ypos;
+     this.img = img;
+     w = img.width;
+     h = img.height;
+   }
+
    GameObject (float xpos, float ypos)
    {
      x = xpos;
      y = ypos;
+     this.img = img;
+     w = img.width;
+     h = img.height;
    }
-   
-   float getX()
-   {
-     return x;
-   }
-   float getY()
-   {
-     return y;
-   }
-   //Display the image on the screen
+   //Display the image on the screen at specified X,Y
    void display(float x, float y)
    {
+     if(img == null)
+     {
+        fill(0);
+        stroke(0);
+        rectMode(CENTER);
+        rect(x,y,w,h);
+   
+     }
+     else
+       image(img, x, y);
    }
-
+   
+   //Display the image on the screen at local X,Y
+   void display()
+   {
+     if(img == null)
+     {
+        fill(0);
+        stroke(0);
+        rectMode(CENTER);
+        rect(x,y,w,h);
+   
+     }
+     else
+       image(img, x, y);
+   }
 }
 
 
-class Unit{
-  float x, y, light, radius;
+class Unit extends GameObject{
+  float light, radius;
   boolean lit = false;
   
   Unit(){
@@ -38,6 +79,12 @@ class Unit{
     light = 1;
   }
   
+  Unit(float x, float y)
+  {
+    super(x,y);
+    radius = 8;
+    light = 1;
+  }
   void update(){
     if (light > 0){
       moveToward(mouseX, mouseY);
