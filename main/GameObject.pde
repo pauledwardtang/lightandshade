@@ -26,35 +26,6 @@ class GameObject
 
 }
 
-/*
-class Unit extends GameObject{
- 
- Unit(float xpos, float ypos, int type) 
- {
-   super(xpos, ypos);
-   switch (type)
-   {
-     case 1:  //myImage = loadImage("base.gif"); break;
-     case 2:
-     case 3:
-     case 4:
-     default: break;
-   
-   }   
- }
- void display(float x, float y)
- {
-   
- }
-}
-*/
-class Obstacle extends GameObject{
-  
-  Obstacle(float xpos, float ypos)
-  {
-    super(xpos, ypos);
-  }
-}
 
 class Unit{
   float x, y, light, radius;

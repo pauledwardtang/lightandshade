@@ -1,92 +1,123 @@
+import pbox2d.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.joints.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.collision.shapes.Shape;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
 import processing.opengl.*;
 
-static final int WIDTH = 600;
+// A reference to our box2d world
+static PBox2D box2d;
+
+static final int WIDTH = 800;
 static final int HEIGHT = 600;
+
 Terrain terrain;
 ArrayList obstacles;
-
-
+  
 float pulse;
 boolean gameEnable;
-ImageButtons button;
+boolean debugEnable;
+
+ImageButtons startButton, debugButton, addObsButton;
 PImage startBackground;
 
 void setup() {
   size(WIDTH, HEIGHT, OPENGL);
   background(255);
   frameRate(30);
+  
+    // Initialize box2d physics and create the world
+  box2d = new PBox2D(this);
+  box2d.createWorld();
+
+
+  //Create obstacles
+  
+  //Create terrain
   terrain = new Terrain(WIDTH, HEIGHT);
   obstacles = terrain.getObstacles();
   
   //displayMap();
-  displayUnits();
-  
+    
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
    
-  // Define and create image button
+  // Define and create imageButton
   PImage b = loadImage("base.gif");
   PImage r = loadImage("roll.gif");
   PImage d = loadImage("down.gif");
-  int x = width - b.width;
-  //int y = height - b.height; 
-  int y = 0;
+  
   int w = b.width;
   int h = b.height;
-  button = new ImageButtons(x, y, w, h, b, r, d);
+  //(X,Y) for startButton
+  
+  int x = width - b.width;
+  int y = 0;
+  
+  //(X,Y) for debugButton
+  int topLeftX = 0;
+  int topLeftY = 0; 
+  
+  //(X,Y) for addObsButton
+  int bottomRightX = width - b.width;
+  int bottomRightY = height - b.height; 
+
+  startButton = new ImageButtons(x, y, w, h, b, r, d);  //Hidden at the top right
+  debugButton = new ImageButtons(topLeftX, topLeftY, w, h, b, r, d);  //Hidden at the top left
+  addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, b, r, d);  //Hidden at the bottom right
+
 }
 
 
 void draw() {
-  if(true) 
-  {//Display game
-      //displayMap();
-      
-  }
-  else//Show startup screen
+  if(gameEnable) //Display Game, objects etc
   {
-    image(startBackground,0,0);
-    drawSpotLight();
-    button.update();
-    button.display();
+      background(255);
+      //terrain.setTerrainDisplayEnable(true);
+      box2d.step();
+      terrain.displayObstacles();
+  }
+  else if(debugEnable)
+  {
+     background(255);
+     addObsButton.update();
+     addObsButton.display();
+     box2d.step();
+     terrain.displayObstacles();
+  }
+  else  //Show startup screen
+  {
+    //image(startBackground,0,0);
+    
+    startButton.update();
+    debugButton.update();
+    addObsButton.update();
+    
+    startButton.display();
+    debugButton.display();
+    addObsButton.display();
+    //drawSpotLight();
   }
 }
 void mouseClicked()
 {
-  if(button.isPressed())
+  if(startButton.isPressed())
     {
       gameEnable = true;
+      println("Game enabled");
     }
-}
-void displayMap()
-{
-  
-  background(200);
-  translate(width/2, height/2);
-  //rotateX(-200);
-  //fill(100, 50, 0);
-  rect(-200, -200, 400, 400);
-  
-}
-//Displays units (represented as boxes)
-void displayUnits()
-{
-  
- // rect(100, 100, 50, 50);
-  // Obstacle temp = ((Obstacle) obstacles.get(0));
-  // translate(0 , 0);
-  // fill(200, 150, 0);
-  // rect(-25, -25, 50, 50);
-   
-   for(int i = 0; i < obstacles.size(); i++)
-   {
-     Obstacle temp = ((Obstacle) obstacles.get(i));
-     
-     //tint(255, 153);
-     //rotateY(.5);
-     fill(0);
-     rect(temp.getX(), temp.getY(), 50, 50);
-   } 
+  if(debugButton.isPressed())
+    {
+      debugEnable = true;
+      println("Debug enabled");
+    }
+  if(addObsButton.isPressed() && debugEnable)
+    {
+      terrain.randomizeObstacles();
+      println("Randomized obstacles");
+    }
 }
 
 /**
