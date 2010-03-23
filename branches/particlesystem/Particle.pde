@@ -12,7 +12,6 @@ class Particle extends Unit{
   float r;
   
   color col;
-
   
   Particle(float r_) {
     super();
