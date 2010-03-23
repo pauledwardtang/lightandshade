@@ -8,4 +8,5 @@ UI
  * With certain player units that have the ability to manipulate enemy object(Grab it) can select and grab the selected enemy unit
  * Their will be obvious visual cues where the object is lit or not
  * If a unit is selected and a move order is issued(Right mouse click)(left click just selects unit) it moves to the selected target location and the unit remains selected
+ * Units are deselected when you left click the area that doesn't contain a unit or if you select another unit
  
