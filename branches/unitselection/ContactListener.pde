@@ -43,7 +43,7 @@ class CustomListener implements ContactListener {
 
   // Contacts continue to collide - i.e. resting on each other
   void persist(ContactPoint cp)  {
-    return;
+    //Move a unit around
   }
 
   // Objects stop touching each other

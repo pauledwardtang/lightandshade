@@ -10,6 +10,8 @@ class Particle extends Unit{
   // We need to keep track of a Body and a radius
   Body body;
   float r;
+  boolean isSelected;
+  boolean mouseLock = true;
   
   color col;
 
@@ -21,7 +23,7 @@ class Particle extends Unit{
     makeBody(x,y,r);
     body.setUserData(this);
     
-    col = color(175);
+    col = color(150);
   }
   
   Particle(float x, float y, float r_) {
@@ -31,7 +33,7 @@ class Particle extends Unit{
     makeBody(x,y,r);
     body.setUserData(this);
     
-    col = color(175);
+    col = color(150);
   }
 
   // This function removes the particle from the box2d world
@@ -40,10 +42,16 @@ class Particle extends Unit{
   }
   
   // Change color when hit
-  void change() {
-    col = color(255,0,0); 
+  void changeColor(int colVal) {
+    col = color(colVal,0,0); 
   }
-
+  
+  public void update(int x_, int y_) {
+   Vec2 mouseWorld = box2d.screenToWorld(x_,y_);
+   x = x_;
+   y = y_;
+   body.setXForm(mouseWorld, 0);
+  }
   // Is the particle ready for deletion?
   boolean done() {
     // Let's find the screen position of the particle
@@ -56,7 +64,13 @@ class Particle extends Unit{
     return false;
   }
 
-  // 
+  boolean contains(float x, float y) {
+    Vec2 worldPoint = box2d.screenToWorld(x, y);
+    Shape s = body.getShapeList();
+    boolean inside = s.testPoint(body.getMemberXForm(),worldPoint);
+    return inside;
+  }
+  
   void display() {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);

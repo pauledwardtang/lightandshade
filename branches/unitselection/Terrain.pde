@@ -20,8 +20,10 @@ class Terrain{
   //List of objects
   private ArrayList units = new ArrayList();
   private ArrayList particles = new ArrayList();
-  private ArrayList obstacles = new ArrayList();
   
+  ArrayList selectedParticles = new ArrayList();
+  private ArrayList obstacles = new ArrayList();
+
   Terrain(int width, int height)
   {
     randomizeObstacles();
@@ -77,7 +79,7 @@ class Terrain{
   }
   
   //Displays obstacles
-  public void displayObstacles()
+  public void updateObstacles()
   {
       for(int i = 0; i < obstacles.size(); i++)
      {
@@ -98,22 +100,58 @@ class Terrain{
   }
   
     //Displays particles
-  public void displayParticles()
+  public void updateParticles()
   {
+      //selectedParticles.clear();
       for(int i = 0; i < particles.size(); i++)
      {
         Particle temp = (Particle) particles.get(i);
+        
+        //A particle is selected
+        if(temp.contains(mouseX, mouseY) && mousePressed)
+        {
+          temp.changeColor(255);
+          temp.isSelected = true;
+          temp.mouseLock = true;
+          selectedParticles.add(temp);
+          println("Particle selected");
+          println("Mouse locked");
+        }
+        
+        //A particle is deselected
+        if(temp.contains(mouseX, mouseY) && mousePressed && !temp.mouseLock)
+        {
+          temp.changeColor(0);
+          temp.isSelected = false;
+          selectedParticles.remove(selectedParticles.indexOf(temp));
+          println("Particle deselected");
+        }
+        
+        //Move the selected particle to the mouse X,Y position
+        //if(temp.isSelected )
+        //  temp.update(mouseX, mouseY);
+        
         temp.update();
         temp.display();
+
      } 
   }
   
+  void mouseReleased()
+  {
+     for(int i = 0; i < selectedParticles.size(); i++)
+     {
+        Particle temp = (Particle) selectedParticles.get(i);
+        temp.mouseLock = false;
+        println("Mouselock unlocked");
+     }
+  }
   //Draw
   void draw()
   {
-      displayObstacles();
+      updateObstacles();
       //displayUnits();
-      displayParticles();
+      updateParticles();
   }
 
   
