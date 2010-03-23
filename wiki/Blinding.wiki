@@ -4,4 +4,8 @@ Blinding occurs when either a light unit is not lit, or a dark unit is lit. It i
 
 A blind unit can not move, but can be [Manipulation manipulated] by other units.
 
-Blinded units can be selected but they don't receive orders
+Blinded units can be selected but they don't execute orders. However it is possible to issue new orders to a blinded unit
+
+When a unit goes blind it will remember the last orders and will execute it if unblinded
+
+This includes move orders setting an angle and setting an direction. The new angle or the direction or new position will show up on the UI, but the unit will not change it states until it is unblinded
