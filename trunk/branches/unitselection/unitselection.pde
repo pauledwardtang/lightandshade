@@ -5,6 +5,7 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.contacts.*;
 import processing.opengl.*;
 
 // A reference to our box2d world
