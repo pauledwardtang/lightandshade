@@ -32,9 +32,6 @@ class GameObject
    {
      x = xpos;
      y = ypos;
-     this.img = img;
-     w = img.width;
-     h = img.height;
    }
    //Display the image on the screen at specified X,Y
    void display(float x, float y)
@@ -118,39 +115,8 @@ class Unit extends GameObject{
       y = y - light;      
     }
   }
-  
 }//end Unit
 
-class LightSource extends Unit{
-  float radius;
-  
-  LightSource(){
-  radius = 20;
-  radius = 120;
-  }
-  
-  void update(){}
-  
-  void draw(){
-    color cl;
-    
-    //Light Ring
-    cl = color(255,255,255,100);
-    fill(cl);
-    ellipse(x,y,radius*2,radius*2);
-    noStroke();
-    
-    //Bulb
-    cl = color(255, 255, 0);
-    fill(cl);
-    stroke(2);
-    ellipse(x, y, radius*2, radius*2);
-    noStroke();
-    
-    noFill();  
-  }
-
-}//end Light Source
 
 class Sprite extends Unit{
 }

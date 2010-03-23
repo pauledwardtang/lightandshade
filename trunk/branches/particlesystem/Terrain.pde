@@ -21,18 +21,21 @@ class Terrain{
   private ArrayList units = new ArrayList();
   private ArrayList particles = new ArrayList();
   private ArrayList obstacles = new ArrayList();
+  private ArrayList lightSources = new ArrayList();
   
   Terrain(int width, int height)
   {
     randomizeObstacles();
     createUnits();
     createParticles();
+    createLightSources();
   } 
   
   Terrain(int width, int height, int range)
   {
     randomizeObstacles();
     createUnits(range);
+    createLightSources();
   } 
   
   //Randomly initializes obstacles
@@ -62,6 +65,12 @@ class Terrain{
   {
     for(int i = 0; i < random(range); i++)
       units.add(new Unit());
+  }
+  
+  //Initialize light source
+  private void createLightSources()
+  {
+    lightSources.add(new LightSource());
   }
   
   //Returns a list of obstacles
@@ -105,7 +114,23 @@ class Terrain{
         Particle temp = (Particle) particles.get(i);
         temp.update();
         temp.display();
-     } 
+     }
+  }
+  
+  //displays light source
+  public void displayLightSources()
+  {
+    for(int i = 0; i < lightSources.size(); i++)
+    {
+      LightSource temp = (LightSource) lightSources.get(i);
+      temp.update();
+      temp.display();
+    }
+  }
+  
+  public ArrayList getLightSource()
+  {
+    return lightSources;
   }
   
   //Draw
@@ -114,8 +139,7 @@ class Terrain{
       displayObstacles();
       //displayUnits();
       displayParticles();
+      displayLightSources();
   }
-
-  
-  
+ 
 }
