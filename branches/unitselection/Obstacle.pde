@@ -24,6 +24,7 @@ class Obstacle extends GameObject {
     b = box2d.createBody(bd);
     b.createShape(sd);
   }
+  
 }
 
 

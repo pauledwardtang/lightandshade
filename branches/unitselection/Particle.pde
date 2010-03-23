@@ -11,8 +11,6 @@ class Particle extends Unit{
   Body body;
   float r;
   boolean isSelected;
-  boolean mouseLock = true;
-  
   color col;
 
   
@@ -46,12 +44,39 @@ class Particle extends Unit{
     col = color(colVal,0,0); 
   }
   
+  void changeColor(int r, int g, int b) {
+    col = color(r,g,b); 
+  }
+  
   public void update(int x_, int y_) {
    Vec2 mouseWorld = box2d.screenToWorld(x_,y_);
    x = x_;
    y = y_;
    body.setXForm(mouseWorld, 0);
+      
   }
+  
+    public void update() {
+    //A particle is selected
+    if(isSelected)
+    {
+      changeColor(255);
+      //println("Particle selected");
+    } 
+    else  //A particle is deselected
+    {       
+      changeColor(0,0,255);
+      //println("Particle deselected");
+    }
+         
+  }
+  boolean pressed()
+  {
+   
+    return (contains(mouseX, mouseY) && mousePressed);
+
+  }
+
   // Is the particle ready for deletion?
   boolean done() {
     // Let's find the screen position of the particle
@@ -63,6 +88,7 @@ class Particle extends Unit{
     }
     return false;
   }
+  
 
   boolean contains(float x, float y) {
     Vec2 worldPoint = box2d.screenToWorld(x, y);
@@ -108,8 +134,8 @@ class Particle extends Unit{
     body.setMassFromShapes();
 
     // Give it a random initial velocity (and angular velocity)
-    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
-    //body.setAngularVelocity(random(-10,10));
+    body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
+    body.setAngularVelocity(random(-10,10));
   }
 
 

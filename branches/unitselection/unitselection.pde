@@ -115,14 +115,16 @@ void draw() {
     //drawSpotLight();
   }
 }
+
+//Handles all actions when the mouse is clicked.
 void mouseClicked()
 {
-  if(startButton.isPressed())
+  if(startButton.isPressed() && !gameEnable)
     {
       gameEnable = true;
       println("Game enabled");
     }
-  if(debugButton.isPressed())
+  if(debugButton.isPressed() && !debugEnable)
     {
       debugEnable = true;
       println("Debug enabled");
@@ -138,8 +140,42 @@ void mouseClicked()
       terrain.createParticles();
       println("Added units");
     }
+    println("Mouse clicked");
+    //Update particle selection if the mouse is clicked
+    for(int i = 0; i < terrain.particles.size(); i++)
+     {
+        Particle temp = (Particle) terrain.particles.get(i);
+        
+        if(temp.contains(mouseX, mouseY))
+        {
+           if(temp.isSelected)
+             temp.isSelected = false;
+           else
+             temp.isSelected = true;
+        }
+
+        println("particle[" + i + "] selected: "+ temp.isSelected);
+     }
 }
 
+//Handles all actions when a mouse is released
+  void mouseReleased()
+  {
+
+  }
+  
+//  //Handles all actions when a mouse is dragged.
+//  void mouseDragged()
+//  {
+//    //Update selectedParticles if the mouse is dragged
+//    for(int i = 0; i < terrain.selectedParticles.size(); i++)
+//     {
+//        Particle temp = (Particle) terrain.selectedParticles.get(i);
+//        if(temp.isSelected && temp.contains(mouseX,mouseY))
+//          temp.update(mouseX,mouseY);
+//        println("Mouse dragged, updating particle");
+//     }
+//  }
 /**
  * Brightness
  * by Daniel Shiffman. 
