@@ -6,6 +6,6 @@ UI
 * Certain kinds of units have light projection angle and when a unit is selected the player can manipulate the angle with the wheel mouse
 * When a unit or a light source is selected you can order it to move and select the direction of beam
 * With certain player units that have the ability to manipulate enemy object(Grab it) can select and grab the selected enemy unit
-*Their will be obvious visual cues where the object is lit or not
+* Their will be obvious visual cues where the object is lit or not
 * If a unit is selected and a move order is issued(Right mouse click)(left click just selects unit) it moves to the selected target location and the unit remains selected
  
