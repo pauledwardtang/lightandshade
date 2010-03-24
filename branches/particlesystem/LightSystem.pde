@@ -5,6 +5,7 @@ class LightSource extends Unit{
   float spawnAngle;
   float radius;
   float x, y;
+  ArrayList particles = new ArrayList();
   
   LightSource()
   {
@@ -16,10 +17,9 @@ class LightSource extends Unit{
     body.setUserData(this);
   }
   
+  //adds k new particles to the particle list.
   ArrayList spawn(int k)
   {
-    ArrayList returnParticles = new ArrayList();
-    
     float dir = random(radians(-spawnAngle/2), radians(spawnAngle/2));
     float xin, yin;
     
@@ -28,10 +28,10 @@ class LightSource extends Unit{
        //must be inside the LightSource
         xin = random(x-radius, x+radius);
         yin = random(y-radius, y+radius);
-        returnParticles.add(new LightParticle(xin, yin, dir)); 
+        particles.add(new LightParticle(xin, yin, dir)); 
         println("Particle spawned");
      }
-     return returnParticles;
+     return particles;
   } 
   
   void display()
@@ -53,15 +53,26 @@ class LightSource extends Unit{
     
     noFill();
   }
+  
+  //puts all particles in list on screen. Should be called after every spawn().
+  void displayParticles()
+  {
+    for(int i = 0; i < particles.size(); i++)
+    {
+      LightParticle temp = (LightParticle) particles.get(i);
+      if(temp.isAlive() == true)
+      {
+        temp.update();
+        temp.display();
+      }
+      else
+      {
+        particles.remove(i);
+      }
+    }
+  }
   void update()
   {
-//    ArrayList particleList = spawn(1);
-//    for(int i = 0; i < particleList.size(); i++)
-//    {
-//      LightParticle temp = (LightParticle) particleList.get(i);
-//      temp.update();
-//      temp.display();
-//    }
   }
   
   void makeBody(float x, float y, float r) {
