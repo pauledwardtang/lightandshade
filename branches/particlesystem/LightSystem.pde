@@ -110,11 +110,14 @@ class LightParticle extends Particle{
     body.setUserData(this);
   }
   
-  void update(){
+  boolean update(){ //can pass an is-dead flag to the updating class, at which point it will be removed from its arrayList
     if(x > width+radius || x < 0-radius || 
        y > height+radius || y < 0-radius){//exits bounds
-        killBody();
+        done();
+        return false;
     }//end if
+    else
+      return true;
   }//end update()
   
   void display()
