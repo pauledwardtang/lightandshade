@@ -21,13 +21,13 @@ class LightSource extends Unit{
     ArrayList returnParticles = new ArrayList();
     
     float dir = random(radians(-spawnAngle/2), radians(spawnAngle/2));
-    
-    //must be inside the LightSource
-    float xin = random(x-radius, x+radius);
-    float yin = random(y-radius, y+radius);
+    float xin, yin;
     
     for(int i = 0; i < k; i++)
      {
+       //must be inside the LightSource
+        xin = random(x-radius, x+radius);
+        yin = random(y-radius, y+radius);
         returnParticles.add(new LightParticle(xin, yin, dir)); 
         println("Particle spawned");
      }
@@ -100,60 +100,62 @@ class LightSource extends Unit{
 class LightParticle extends Particle{
   
   float dir;
+  boolean alive;
   
   LightParticle(float xin, float yin, float dirIn){
     super(xin, yin, 2);
     dir = dirIn;//direction
+    alive = true;
    // speed = 2;//this is the speed of light!
-
     makeBody(x, y, radius);
     body.setUserData(this);
   }
   
-  boolean update(){ //can pass an is-dead flag to the updating class, at which point it will be removed from its arrayList
+  boolean isAlive()
+  {
+    return alive;
+  }
+  
+  void update(){
     if(x > width+radius || x < 0-radius || 
        y > height+radius || y < 0-radius){//exits bounds
-        done();
-        return false;
+        killBody();
+        alive = false;
     }//end if
     else
-      return true;
+      alive = true;    
   }//end update()
   
   void display()
   {
-    color cl = color(255, 255, 0);
-    fill(cl);
-    stroke(2);
-    ellipse(x, y, radius*2, radius*2);
-    noStroke();
-    noFill();
+    Vec2 pos = box2d.getScreenPos(body);
+    pushMatrix();
+    translate(pos.x,pos.y);
+    col = color(255, 255, 0);
+    fill(col);
+    stroke(0);
+    strokeWeight(1);
+    ellipse(0,0,r*2,r*2);
+    popMatrix();
   }
   
   void collide()
   {
+    
   }//checks for collisions
   
-   void makeBody(float x, float y, float r) {
-    // Define a body
-    BodyDef bd = new BodyDef();
-    // Set its position
-    bd.position = box2d.screenToWorld(x,y);
-    body = box2d.world.createBody(bd);
-
-    // Make the body's shape a circle
+   void makeBody(float x, float y, float r) 
+   {
+     super.makeBody(x, y, r);
+    
     CircleDef cd = new CircleDef();
-    cd.radius = box2d.scaleScreenToWorld(r);
-    cd.density = 1.0f;
-    cd.friction = 0.01f;
-    cd.restitution = 0.3f; // Restitution is bounciness
+    cd.density = 0.0f;
+    cd.friction = 0.0f;
+    cd.restitution = 1.0f; // Restitution is bounciness
     body.createShape(cd);
-
-    // Always do this at the end
-    body.setMassFromShapes();
-
+     
     // Give it a random initial velocity (and angular velocity)
-    body.setLinearVelocity(new Vec2(1, 1));
+    body.setLinearVelocity(new Vec2(8, 8));
     //body.setAngularVelocity(random(-10,10));
   }
 }
