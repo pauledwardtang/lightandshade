@@ -48,7 +48,7 @@ class Particle extends Unit{
     // Let's find the screen position of the particle
     Vec2 pos = box2d.getScreenPos(body);
     // Is it off the bottom of the screen?
-    if (pos.y > height+r*2) {
+    if (pos.y > height+r*2 || pos.x > width+r*2){
       killBody();
       return true;
     }
@@ -96,10 +96,4 @@ class Particle extends Unit{
     //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
     //body.setAngularVelocity(random(-10,10));
   }
-
-
-
-
-
-
 }
