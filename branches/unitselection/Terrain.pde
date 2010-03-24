@@ -106,9 +106,10 @@ class Terrain{
       for(int i = 0; i < particles.size(); i++)
      {
         Particle temp = (Particle) particles.get(i);
+        
         //Move the selected particle to the mouse X,Y position
-        //if(temp.isSelected && mouseDragged )
-        //  temp.update(mouseX, mouseY);
+//        if(temp.isSelected && mousePressed)
+//          temp.update(mouseX, mouseY);
         
         if(temp.isSelected)
           selectedParticles.add(temp);

@@ -13,6 +13,10 @@ class Particle extends Unit{
   boolean isSelected;
   color col;
 
+  Particle()
+  {
+    body = null;
+  }
   
   Particle(float r_) {
     super();
@@ -61,6 +65,7 @@ class Particle extends Unit{
     if(isSelected)
     {
       changeColor(255);
+      //moveToward(mouseX, mouseY);
       //println("Particle selected");
     } 
     else  //A particle is deselected
@@ -70,13 +75,28 @@ class Particle extends Unit{
     }
          
   }
+  
+  //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...
   boolean pressed()
   {
-   
     return (contains(mouseX, mouseY) && mousePressed);
-
   }
-
+  
+  //James's move towards method, but modified for particles
+  void moveToward(int xin, int yin){
+    if(contains(xin,yin))
+    {
+        if(mouseX - x > 1)
+          x = x + light;
+        else if (mouseX-x<-1)
+          x = x - light;     
+          
+        if(mouseY-y>1)
+          y = y + light;
+          else if (mouseY-y<-1)
+          y = y - light;      
+    }
+  }
   // Is the particle ready for deletion?
   boolean done() {
     // Let's find the screen position of the particle

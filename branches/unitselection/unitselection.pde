@@ -11,6 +11,10 @@ import processing.opengl.*;
 // A reference to our box2d world
 static PBox2D box2d;
 
+// The Spring that will attach to the box from the mouse
+Spring spring;
+Particle attachedParticle;
+
 static final int WIDTH = 800;
 static final int HEIGHT = 600;
 
@@ -34,13 +38,16 @@ void setup() {
   box2d.createWorld();
   box2d.setGravity(0, 0);
 
-  //Create obstacles
-  
-  //Create terrain
+  //Create terrain & obstacles
   terrain = new Terrain(WIDTH, HEIGHT);
   //obstacles = terrain.getObstacles();
   
-    
+  // Make the spring (it doesn't really get initialized until the mouse is clicked)
+  spring = new Spring();
+  attachedParticle = new Particle(10);
+  //spring.bind(width/2,height/2,box);
+  
+  
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
   PImage debugButtonImg = loadImage("debug.gif");
@@ -84,6 +91,10 @@ void draw() {
   {
       background(255);
       box2d.step();
+      
+      spring.update(mouseX,mouseY);
+      spring.display();
+      
       terrain.draw();
   }
   else if(debugEnable) //Debug mode
@@ -98,6 +109,11 @@ void draw() {
      addUnitsButton.display();
      
      box2d.step();
+     
+       // Always alert the spring to the new mouse location
+     spring.update(mouseX,mouseY);
+     spring.display();
+     
      terrain.draw();
   }
   else  //Show startup screen
@@ -140,8 +156,9 @@ void mouseClicked()
       terrain.createParticles();
       println("Added units");
     }
-    println("Mouse clicked");
-    //Update particle selection if the mouse is clicked
+    //println("Mouse clicked");
+    
+    //Update particle selection if the mouse is clicked. Doesn't select when dragged...
     for(int i = 0; i < terrain.particles.size(); i++)
      {
         Particle temp = (Particle) terrain.particles.get(i);
@@ -151,31 +168,44 @@ void mouseClicked()
            if(temp.isSelected)
              temp.isSelected = false;
            else
-             temp.isSelected = true;
+           {
+             temp.isSelected = true;             
+           }
         }
 
-        println("particle[" + i + "] selected: "+ temp.isSelected);
+        //println("particle[" + i + "] selected: "+ temp.isSelected);
      }
 }
 
+// When the mouse is pressed we. . .
+void mousePressed() 
+{
+
+    //Update particle selection if the mouse is pressed
+    for(int i = 0; i < terrain.selectedParticles.size(); i++)
+     {
+        Particle temp = (Particle) terrain.selectedParticles.get(i);
+        if(temp.contains(mouseX, mouseY))
+        {
+           spring.bind(mouseX,mouseY,temp);
+           attachedParticle = temp;
+        }      
+     }
+  }
+
+
+void mouseDragged()
+{
+
+  
+}
 //Handles all actions when a mouse is released
   void mouseReleased()
   {
-
+      attachedParticle.body.setLinearVelocity(new Vec2(0,0));
+      spring.destroy();
   }
-  
-//  //Handles all actions when a mouse is dragged.
-//  void mouseDragged()
-//  {
-//    //Update selectedParticles if the mouse is dragged
-//    for(int i = 0; i < terrain.selectedParticles.size(); i++)
-//     {
-//        Particle temp = (Particle) terrain.selectedParticles.get(i);
-//        if(temp.isSelected && temp.contains(mouseX,mouseY))
-//          temp.update(mouseX,mouseY);
-//        println("Mouse dragged, updating particle");
-//     }
-//  }
+
 /**
  * Brightness
  * by Daniel Shiffman. 
