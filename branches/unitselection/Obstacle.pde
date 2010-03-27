@@ -14,6 +14,7 @@ class Obstacle extends GameObject {
 
     // Define the polygon
     PolygonDef sd = new PolygonDef();
+    sd.filter.groupIndex = 2;
     sd.setAsBox(box2dW, box2dH);
     sd.density = 0;    // No density means it won't move!
     sd.friction = 0.3f;
@@ -23,6 +24,8 @@ class Obstacle extends GameObject {
     bd.position.set(box2d.screenToWorld(center));
     b = box2d.createBody(bd);
     b.createShape(sd);
+    
+    b.setUserData(this);
   }
   
 }

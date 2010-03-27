@@ -26,7 +26,7 @@ class Terrain{
 
   Terrain(int width, int height)
   {
-    //randomizeObstacles();
+    randomizeObstacles();
     createUnits();
     createParticles();
   } 
