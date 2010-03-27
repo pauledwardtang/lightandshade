@@ -18,15 +18,15 @@ Particle attachedParticle;
 static final int WIDTH = 800;
 static final int HEIGHT = 600;
 
-Terrain terrain;
+GameState gameState;
 ArrayList obstacles;
   
 float pulse;
 boolean gameEnable;
 boolean debugEnable;
 
-ImageButtons startButton, debugButton, addObsButton, addUnitsButton;
-PImage startBackground;
+ImageButtons startButton, debugButton, addObsButton, addUnitsButton, clearButton;
+PImage startBackground, gameBackground;
 
 void setup() {
   size(WIDTH, HEIGHT, OPENGL);
@@ -41,9 +41,9 @@ void setup() {
   // Add a listener to listen for collisions!
   box2d.world.setContactListener(new CustomListener());
 
-  //Create terrain & obstacles
-  terrain = new Terrain(WIDTH, HEIGHT);
-  //obstacles = terrain.getObstacles();
+  //Create gameState & obstacles
+  gameState = new GameState(WIDTH, HEIGHT);
+  //obstacles = gameState.getObstacles();
   
   // Make the spring (it doesn't really get initialized until the mouse is clicked)
   spring = new Spring();
@@ -53,9 +53,11 @@ void setup() {
   
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
+  gameBackground  = loadImage("background.jpg");
   PImage debugButtonImg = loadImage("debug.gif");
   PImage obsButtonImg = loadImage("obs.gif");
   PImage unitsButtonImg = loadImage("units.gif");
+  PImage clearButtonImg = loadImage("clear.gif");
   
   // Define and create imageButton
   PImage b = loadImage("base.gif");
@@ -81,10 +83,15 @@ void setup() {
   int bottomLeftX = 0;
   int bottomLeftY = height - b.height; 
   
+  //(X,Y) for clearButton
+  int leftOfAddObsButtonX = bottomRightX - b.width;
+  int leftOfAddObsButtonY = bottomRightY; 
+  
   startButton = new ImageButtons(x, y, w, h, b, r, d);  //Hidden at the top right
   debugButton = new ImageButtons(topLeftX, topLeftY, w, h, debugButtonImg, r, d);  //Hidden at the top left
   addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, obsButtonImg, r, d);  //Hidden at the bottom right
   addUnitsButton= new ImageButtons(bottomLeftX, bottomLeftY, w, h, unitsButtonImg, r, d);  //Hidden at the bottom left
+  clearButton= new ImageButtons(leftOfAddObsButtonX, leftOfAddObsButtonY, w, h, clearButtonImg, r, d);  //Hidden at the bottom left
 
 }
 
@@ -92,24 +99,33 @@ void setup() {
 void draw() {
   if(gameEnable) //Display Game, objects etc
   {
+      //Background display
       background(255);
+      image(gameBackground, 0, 0);
+      
+      //Have Box2D step through its physics engine
       box2d.step();
       
+      //Update the mouse joint
       spring.update(mouseX,mouseY);
       spring.display();
       
-      terrain.draw();
+      //Draw the game's objects
+      gameState.draw();
   }
   else if(debugEnable) //Debug mode
   {
      background(255);
+     
      //Update buttons
      addObsButton.update();
      addUnitsButton.update();
+     clearButton.update();
      
      //Display add units button
      addObsButton.display();
      addUnitsButton.display();
+     clearButton.display();
      
      box2d.step();
      
@@ -117,7 +133,7 @@ void draw() {
      spring.update(mouseX,mouseY);
      spring.display();
      
-     terrain.draw();
+     gameState.draw();
   }
   else  //Show startup screen
   {
@@ -150,21 +166,27 @@ void mouseClicked()
     }
   if(addObsButton.isPressed() && debugEnable)
     {
-      terrain.randomizeObstacles();
+      gameState.randomizeObstacles();
       println("Randomized obstacles");
     }
    if(addUnitsButton.isPressed() && debugEnable)
     {
-      terrain.createUnits(50);
-      terrain.createParticles();
+      gameState.createUnits(50);
+      gameState.createParticles();
       println("Added units");
+    }
+    
+    if(clearButton.isPressed() && debugEnable)
+    {
+       gameState.removeParticles();
+       gameState.removeObstacles();
     }
     //println("Mouse clicked");
     
     //Update particle selection if the mouse is clicked. Doesn't select when dragged...
-    for(int i = 0; i < terrain.particles.size(); i++)
+    for(int i = 0; i < gameState.particles.size(); i++)
      {
-        Particle temp = (Particle) terrain.particles.get(i);
+        Particle temp = (Particle) gameState.particles.get(i);
         
         if(temp.contains(mouseX, mouseY))
         {
@@ -185,9 +207,9 @@ void mousePressed()
 {
 
     //Update particle selection if the mouse is pressed
-    for(int i = 0; i < terrain.selectedParticles.size(); i++)
+    for(int i = 0; i < gameState.selectedParticles.size(); i++)
      {
-        Particle temp = (Particle) terrain.selectedParticles.get(i);
+        Particle temp = (Particle) gameState.selectedParticles.get(i);
         if(temp.contains(mouseX, mouseY))
         {
            spring.bind(mouseX,mouseY,temp);

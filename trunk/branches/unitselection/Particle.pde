@@ -70,7 +70,7 @@ class Particle extends Unit{
     } 
     else  //A particle is deselected
     {       
-      changeColor(0,0,255);
+      //changeColor(0,0,255);
       //println("Particle deselected");
     }
          

@@ -1,7 +1,7 @@
 
 class GameObject
 {
-   private PImage img, icon; 
+   public PImage img, icon; 
    
    float x, y, w, h; // X-coordinate, y-coordinate
          
