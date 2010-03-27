@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 /*
-Terrain (2D) Should have:
+GameState (2D) Should have:
 -Coordinates
 -List of objects (units, obstacles)
 -random generator for placing units
 -load preset maps randomly
 -texture
 */
-class Terrain{
+class GameState{
   
   //Coordinates
   private int WIDTH;
@@ -24,14 +24,15 @@ class Terrain{
   ArrayList selectedParticles = new ArrayList();
   private ArrayList obstacles = new ArrayList();
 
-  Terrain(int width, int height)
+  
+  GameState(int width, int height)
   {
     randomizeObstacles();
     createUnits();
     createParticles();
   } 
   
-  Terrain(int width, int height, int range)
+  GameState(int width, int height, int range)
   {
     randomizeObstacles();
     createUnits(range);
@@ -40,22 +41,22 @@ class Terrain{
   //Randomly initializes obstacles
   private void randomizeObstacles()
   {
-    for(int i = 0; i < random(10); i++)
+    for(int i = 0; i < random(10) + 1 ; i++)
       obstacles.add(new Obstacle(random(width-50), random(height-50), OBS_WIDTH, OBS_HEIGHT));
 
   }
   
-    //Initializes particles (random number from 0 to 10)
+    //Initializes particles (random number from 1 to 10)
   private void createParticles()
   {
     for(int i = 0; i < 10; i++)
       particles.add(new Particle(10));
   }
   
-  //Initializes units (random number from 0 to 10)
+  //Initializes units (random number from 1 to 10)
   private void createUnits()
   {
-    for(int i = 0; i < random(10); i++)
+    for(int i = 0; i < random(10) + 1; i++)
       units.add(new Unit());
   }
   
@@ -120,7 +121,29 @@ class Terrain{
      } 
   }
   
-
+  //Kills all particle bodies
+  void removeParticles()
+  {
+     for(int i = 0; i < particles.size(); i++)
+     {
+        Particle temp = (Particle) particles.get(i);
+        temp.killBody();
+     } 
+     particles.clear();
+     selectedParticles.clear();
+  }
+  
+  //Kills all obstacle bodies
+  void removeObstacles()
+  {
+         for(int i = 0; i < obstacles.size(); i++)
+     {
+        Obstacle temp = (Obstacle) obstacles.get(i);
+        temp.killBody();
+     } 
+     obstacles.clear();
+  }
+  
   //Draw
   void draw()
   {

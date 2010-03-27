@@ -28,6 +28,10 @@ class Obstacle extends GameObject {
     b.setUserData(this);
   }
   
+  // This function removes the particle from the box2d world
+  void killBody() {
+    box2d.destroyBody(b);
+  }
 }
 
 
