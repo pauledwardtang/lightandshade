@@ -74,6 +74,8 @@ class LightSource extends Unit{
   }
   void update()
   {
+//    spawn(5);
+//    displayParticles();
   }
   
   void makeBody(float x, float y, float r) {
