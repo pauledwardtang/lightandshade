@@ -6,6 +6,7 @@ import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import processing.opengl.*;
+import org.jbox2d.dynamics.contacts.*;
 
 // A reference to our box2d world
 static PBox2D box2d;
@@ -15,12 +16,15 @@ static final int HEIGHT = 600;
 
 Terrain terrain;
 ArrayList obstacles;
-  
+
 float pulse;
 boolean gameEnable;
 boolean debugEnable;
 
-ImageButtons startButton, debugButton, addObsButton, addUnitsButton;
+LightSource source;
+ArrayList particles;
+
+ImageButtons startButton, debugButton, addObsButton, addUnitsButton, addParticles;
 PImage startBackground;
 
 void setup() {
@@ -38,8 +42,13 @@ void setup() {
   //Create terrain
   terrain = new Terrain(WIDTH, HEIGHT);
   //obstacles = terrain.getObstacles();
-  
-    
+ 
+ 
+  ArrayList lightSource = terrain.getLightSource();
+  source = (LightSource) lightSource.get(0);
+  particles = source.spawn(18);
+
+ 
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
   PImage debugButtonImg = loadImage("debug.gif");
@@ -74,6 +83,7 @@ void setup() {
   debugButton = new ImageButtons(topLeftX, topLeftY, w, h, debugButtonImg, r, d);  //Hidden at the top left
   addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, obsButtonImg, r, d);  //Hidden at the bottom right
   addUnitsButton= new ImageButtons(bottomLeftX, bottomLeftY, w, h, unitsButtonImg, r, d);  //Hidden at the bottom left
+  addParticles = new ImageButtons(topLeftX, topLeftY, w, h, obsButtonImg, r, d);
 
 }
 
@@ -88,16 +98,21 @@ void draw() {
   else if(debugEnable) //Debug mode
   {
      background(255);
+     
      //Update buttons
      addObsButton.update();
      addUnitsButton.update();
+     addParticles.update();
      
      //Display add units button
      addObsButton.display();
      addUnitsButton.display();
+     addParticles.display();
      
      box2d.step();
      terrain.draw();
+     
+     source.displayParticles();
   }
   else  //Show startup screen
   {
@@ -136,6 +151,11 @@ void mouseClicked()
       terrain.createUnits(50);
       terrain.createParticles();
       println("Added units");
+    }
+    if(addParticles.isPressed() && debugEnable)
+    {
+      source.spawn(20);
+      source.displayParticles();
     }
 }
 
