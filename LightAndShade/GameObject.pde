@@ -35,6 +35,8 @@ class GameObject
      this.img = img;
      w = img.width;
      h = img.height;
+//     w = 1024;
+//     h = 780;
    }
    //Display the image on the screen at specified X,Y
    void display(float x, float y)

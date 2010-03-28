@@ -25,7 +25,6 @@ class GameState{
   private ArrayList obstacles = new ArrayList();
   private ArrayList lightSources = new ArrayList();
 
-  
   GameState(int width, int height)
   {
     randomizeObstacles();
