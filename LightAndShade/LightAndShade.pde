@@ -25,7 +25,10 @@ float pulse;
 boolean gameEnable;
 boolean debugEnable;
 
-ImageButtons startButton, debugButton, addObsButton, addUnitsButton, clearButton;
+LightSource source;
+ArrayList particles;
+
+ImageButtons startButton, debugButton, addObsButton, addUnitsButton, addParticles,clearButton;
 PImage startBackground, gameBackground;
 
 void setup() {
@@ -44,6 +47,10 @@ void setup() {
   //Create gameState & obstacles
   gameState = new GameState(WIDTH, HEIGHT);
   //obstacles = gameState.getObstacles();
+  
+  ArrayList lightSource = gameState.getLightSource();
+  source = (LightSource) lightSource.get(0);
+  particles = source.spawn(18);
   
   // Make the spring (it doesn't really get initialized until the mouse is clicked)
   spring = new Spring();
@@ -92,7 +99,7 @@ void setup() {
   addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, obsButtonImg, r, d);  //Hidden at the bottom right
   addUnitsButton= new ImageButtons(bottomLeftX, bottomLeftY, w, h, unitsButtonImg, r, d);  //Hidden at the bottom left
   clearButton= new ImageButtons(leftOfAddObsButtonX, leftOfAddObsButtonY, w, h, clearButtonImg, r, d);  //Hidden at the bottom left
-
+  addParticles = new ImageButtons(topLeftX, topLeftY, w, h, obsButtonImg, r, d);
 }
 
 
@@ -120,11 +127,13 @@ void draw() {
      //Update buttons
      addObsButton.update();
      addUnitsButton.update();
+     addParticles.update();
      clearButton.update();
      
      //Display add units button
      addObsButton.display();
      addUnitsButton.display();
+     addParticles.display();
      clearButton.display();
      
      box2d.step();
@@ -134,6 +143,7 @@ void draw() {
      spring.display();
      
      gameState.draw();
+     source.displayParticles();
   }
   else  //Show startup screen
   {
@@ -174,6 +184,12 @@ void mouseClicked()
       gameState.createUnits(50);
       gameState.createParticles();
       println("Added units");
+    }
+    
+    if(addParticles.isPressed() && debugEnable)
+    {
+      source.spawn(20);
+      source.displayParticles();
     }
     
     if(clearButton.isPressed() && debugEnable)
