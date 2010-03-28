@@ -60,11 +60,11 @@ void setup() {
   
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
-  gameBackground  = loadImage("obs.gif"); //background.jpg");
+  gameBackground  = loadImage("background.jpg");
   PImage debugButtonImg = loadImage("debug.gif");
   PImage obsButtonImg = loadImage("obs.gif");
   PImage unitsButtonImg = loadImage("units.gif");
-  PImage clearButtonImg = loadImage("obs.gif");//clear.gif");
+  PImage clearButtonImg = loadImage("clear.gif");
   
   // Define and create imageButton
   PImage b = loadImage("base.gif");

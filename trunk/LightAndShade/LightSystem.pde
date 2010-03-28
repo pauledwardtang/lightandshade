@@ -37,22 +37,37 @@ class LightSource extends Unit{
   
   void display()
   {
-    color cl;
-    
-    //light ring
-    cl = color(255, 0, 0, 100);
-    fill(cl);
-    ellipse(x,y,radius*2,radius*2);
-    noStroke();
-    
-    //Bulb
-    cl = color(255, 255, 0);
-    fill(cl);
-    stroke(2);
-    ellipse(x, y, radius*2, radius*2);
-    noStroke();
-    
-    noFill();
+//    color cl;
+//    
+//    //light ring
+//    cl = color(255, 0, 0, 100);
+//    fill(cl);
+//    ellipse(x,y,radius*2,radius*2);
+//    noStroke();
+//    
+//    //Bulb
+//    cl = color(255, 255, 0);
+//    fill(cl);
+//    stroke(2);
+//    ellipse(x, y, radius*2, radius*2);
+//    noStroke();
+//    
+//    noFill();
+    // We look at each body and get its screen position
+    Vec2 pos = box2d.getScreenPos(body);
+    // Get its angle of rotation
+    float a = body.getAngle();
+    pushMatrix();
+    translate(pos.x,pos.y);
+    rotate(a);
+    fill(color(255, 0, 0, 100));
+    stroke(0);
+    strokeWeight(1);
+    ellipse(0,0,radius*2,radius*2);
+    // Let's add a line so we can see the rotation
+    line(0,0,radius,0);
+    popMatrix();
+  
   }
   
   //puts all particles in list on screen. Should be called after every spawn().
@@ -74,8 +89,8 @@ class LightSource extends Unit{
   }
   void update()
   {
-//    spawn(5);
-//    displayParticles();
+    //spawn(5);
+    displayParticles();
   }
   
   void makeBody(float x, float y, float r) {
@@ -95,6 +110,8 @@ class LightSource extends Unit{
 
     // Always do this at the end
     body.setMassFromShapes();
+    
+    body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
   }
   
   void draw(){
