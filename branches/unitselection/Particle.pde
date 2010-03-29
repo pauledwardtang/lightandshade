@@ -58,7 +58,7 @@ class Particle extends GameObject{
     if(isSelected)
     {
       changeColor(255);
-      //moveToward(mouseX, mouseY);
+      moveToward(mouseX, mouseY);
       //println("Particle selected");
     } 
     else  //A particle is deselected

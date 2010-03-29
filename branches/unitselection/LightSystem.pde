@@ -2,18 +2,17 @@
 //light source spawns light particles headed in a direction determined by its angle
 //light source can be moved, and have its angle changed
 class LightSource extends Particle{
-  Body body;
   float spawnAngle;
   ArrayList particles = new ArrayList();
   
   LightSource(int x, int y, int id)
   {
-    super(x, y, 40, id, "player");
+    super(x, y, 40, id, "lightsource");
     spawnAngle = radians(75);
-    makeBody(x, y, radius);
-    body.setUserData(this);
+    //makeBody(x, y, radius);
+    //body.setUserData(this);
   }
-  
+
   //adds k new particles to the particle list.
   ArrayList spawn(int k)
   {
@@ -22,10 +21,12 @@ class LightSource extends Particle{
     
     for(int i = 0; i < k; i++)
      {
+       Vec2 pos = box2d.getScreenPos(body);
        //must be inside the LightSource
-        xin = random(x-radius, x+radius);
-        yin = random(y-radius, y+radius);
-        particles.add(new LightParticle(xin, yin, dir)); 
+        xin = random(pos.x-radius, pos.x+radius);
+        yin = random(pos.y-radius, pos.y+radius);
+        particles.add(new LightParticle(xin, yin, dir));
+        println("Adding particle at " + xin + ", " + yin);
         println("Particle spawned");
      }
      return particles;
@@ -85,7 +86,7 @@ class LightSource extends Particle{
   }
   void update()
   {
-    //spawn(5);
+    spawn(1);
     displayParticles();
   }
   
@@ -131,12 +132,10 @@ class LightParticle extends Particle{
   boolean alive;
   
   LightParticle(float xin, float yin, float dirIn){
-    super(xin, yin, 0, 2, "neutral");
+    super(xin, yin, 5, 2, "neutral");
     dir = dirIn;//direction
     alive = true;
    // speed = 2;//this is the speed of light!
-    makeBody(x, y, radius);
-    body.setUserData(this);
   }
   
   boolean isAlive()
