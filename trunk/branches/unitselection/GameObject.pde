@@ -66,6 +66,60 @@ class GameObject
 }
 
 
+class Unit extends GameObject{
+  float light, radius;
+  boolean lit = false;
+  
+  Unit(){
+    radius = 8;
+    x = random(0+radius,width-radius);//spawn it somewhere on the screen
+    y = random(0+radius,height-radius);
+    light = 1;
+  }
+  
+  Unit(float x, float y)
+  {
+    super(x,y);
+    radius = 8;
+    light = 1;
+  }
+  void update(){
+    if (light > 0){
+      moveToward(mouseX, mouseY);
+      
+     // light = light*.98;//reduces light over time
+     light = 1;//this line for test purposes
+    }  
+  }//end unit.update
+  
+  void draw(){
+    color cl = color(105, 105+75*light, 0);
+    fill(cl);
+    stroke(2);
+    ellipse(x, y, radius, radius);
+    noFill();
+    noStroke();
+  }//end unit.draw
+  
+  
+  //this is garbage, make it circular
+  void moveToward(float xin, float yin){
+    if(dist(xin,yin,x,y)>1){
+    
+    if(mouseX-x>1)
+      x = x + light;
+      else if (mouseX-x<-1)
+      x = x - light;     
+      
+    if(mouseY-y>1)
+      y = y + light;
+      else if (mouseY-y<-1)
+      y = y - light;      
+    }
+  }
+  
+}//end Unit
+
 class DarkUnit extends Unit{
 
   String owner;
