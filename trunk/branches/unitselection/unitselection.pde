@@ -48,13 +48,13 @@ void setup() {
   gameState = new GameState(WIDTH, HEIGHT);
   //obstacles = gameState.getObstacles();
   
-  ArrayList lightSource = gameState.getLightSource();
-  source = (LightSource) lightSource.get(0);
-  particles = source.spawn(18);
+//  ArrayList lightSource = gameState.getLightSource();
+//  source = (LightSource) lightSource.get(0);
+//  particles = source.spawn(18);
   
   // Make the spring (it doesn't really get initialized until the mouse is clicked)
   spring = new Spring();
-  attachedParticle = new Particle(10);
+  attachedParticle = new Particle(0,0,0, 0, "player");
   //spring.bind(width/2,height/2,box);
   
   
@@ -143,7 +143,7 @@ void draw() {
      spring.display();
      
      gameState.draw();
-     source.displayParticles();
+     //source.displayParticles();
   }
   else  //Show startup screen
   {
@@ -181,8 +181,8 @@ void mouseClicked()
     }
    if(addUnitsButton.isPressed() && debugEnable)
     {
-      gameState.createUnits(50);
-      gameState.createParticles();
+      gameState.createUnits();
+      //gameState.createParticles();
       println("Added units");
     }
     

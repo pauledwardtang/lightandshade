@@ -1,19 +1,15 @@
 
 //light source spawns light particles headed in a direction determined by its angle
 //light source can be moved, and have its angle changed
-class LightSource extends Unit{
+class LightSource extends Particle{
   Body body;
   float spawnAngle;
-  float radius;
-  float x, y;
   ArrayList particles = new ArrayList();
   
-  LightSource()
+  LightSource(int x, int y, int id)
   {
+    super(x, y, 40, id, "player");
     spawnAngle = radians(75);
-    radius = 30;
-    x = random(0, WIDTH);
-    y = random(0, HEIGHT);
     makeBody(x, y, radius);
     body.setUserData(this);
   }
@@ -135,7 +131,7 @@ class LightParticle extends Particle{
   boolean alive;
   
   LightParticle(float xin, float yin, float dirIn){
-    super(xin, yin, 2);
+    super(xin, yin, 0, 2, "neutral");
     dir = dirIn;//direction
     alive = true;
    // speed = 2;//this is the speed of light!
@@ -167,7 +163,7 @@ class LightParticle extends Particle{
     fill(col);
     stroke(0);
     strokeWeight(1);
-    ellipse(0,0,r*2,r*2);
+    ellipse(0,0,radius*2,radius*2);
     popMatrix();
   }
   
@@ -187,7 +183,7 @@ class LightParticle extends Particle{
     body.createShape(cd);
      
     // Give it a random initial velocity (and angular velocity)
-    body.setLinearVelocity(new Vec2(8, 8));
+    //body.setLinearVelocity(new Vec2(8, 8));
     //body.setAngularVelocity(random(-10,10));
   }
 }

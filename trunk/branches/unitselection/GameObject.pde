@@ -120,67 +120,37 @@ class Unit extends GameObject{
   
 }//end Unit
 
-class DarkUnit extends Unit{
-
-  String owner;
-  
-  DarkUnit(){
-    super();
-    owner = "enemy";
-  }
-  
-  DarkUnit(float x, float y)
-  {
-    super(x,y);
-    owner = "enemy";
-  }
-  
-  DarkUnit(float x, float y, String owner)
-  {
-    super(x,y);
-    this.owner = owner;
-  }
- 
-}//end EnemyUnit
-
-
-class LightUnit extends Unit{
-
-  String owner;
-  
-  LightUnit(){
-    super();
-    owner = "light";
-  }
-  
-  LightUnit(float x, float y)
-  {
-    super(x,y);
-    owner = "light";
-  }
-  
-  LightUnit(float x, float y, String owner)
-  {
-    super(x,y);
-    this.owner = owner;
-  }
- 
-}//end LightUnit
-
 //small unit, can manipulate blinded units
-class Sprite extends LightUnit{
+class Sprite extends Particle{
+    Sprite(float x, float y, int id)
+  {
+    super(x, y, 10, id, "player");
+  }
 }
 
 //Redirects light particles
-class Prism extends LightUnit{
+class Prism extends Particle{
+    Prism(float x, float y, int id)
+  {
+      super(x, y, 20, id, "player");
+  }
 }
 
 //small unit, can manipulate blinded units
-class Shade extends DarkUnit{
+class Shade extends Particle{
+    Shade(float x, float y, int id)
+  {
+      super(x, y, 10, id, "enemy");
+  }
 }
 
 //They're just there to be blinded. They each control their own troops
-class Eye extends DarkUnit{
+class Eye extends Particle{
+  
+  Eye(float x, float y, int id)
+  {
+      super(x, y, 30, id, "enemy");
+  }
 }
 
 
