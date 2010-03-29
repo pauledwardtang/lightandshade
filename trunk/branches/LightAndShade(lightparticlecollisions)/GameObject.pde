@@ -66,72 +66,67 @@ class GameObject
 }
 
 
-class Unit extends GameObject{
-  float light, radius;
-  boolean lit = false;
+class DarkUnit extends Unit{
+
+  String owner;
   
-  Unit(){
-    radius = 8;
-    x = random(0+radius,width-radius);//spawn it somewhere on the screen
-    y = random(0+radius,height-radius);
-    light = 1;
+  DarkUnit(){
+    super();
+    owner = "enemy";
   }
   
-  Unit(float x, float y)
+  DarkUnit(float x, float y)
   {
     super(x,y);
-    radius = 8;
-    light = 1;
-  }
-  void update(){
-    if (light > 0){
-      moveToward(mouseX, mouseY);
-      
-     // light = light*.98;//reduces light over time
-     light = 1;//this line for test purposes
-    }  
-  }//end unit.update
-  
-  void draw(){
-    color cl = color(105, 105+75*light, 0);
-    fill(cl);
-    stroke(2);
-    ellipse(x, y, radius, radius);
-    noFill();
-    noStroke();
-  }//end unit.draw
-  
-  
-  //this is garbage, make it circular
-  void moveToward(float xin, float yin){
-    if(dist(xin,yin,x,y)>1){
-    
-    if(mouseX-x>1)
-      x = x + light;
-      else if (mouseX-x<-1)
-      x = x - light;     
-      
-    if(mouseY-y>1)
-      y = y + light;
-      else if (mouseY-y<-1)
-      y = y - light;      
-    }
+    owner = "enemy";
   }
   
-}//end Unit
+  DarkUnit(float x, float y, String owner)
+  {
+    super(x,y);
+    this.owner = owner;
+  }
+ 
+}//end EnemyUnit
 
 
-class Sprite extends Unit{
+class LightUnit extends Unit{
+
+  String owner;
+  
+  LightUnit(){
+    super();
+    owner = "light";
+  }
+  
+  LightUnit(float x, float y)
+  {
+    super(x,y);
+    owner = "light";
+  }
+  
+  LightUnit(float x, float y, String owner)
+  {
+    super(x,y);
+    this.owner = owner;
+  }
+ 
+}//end LightUnit
+
+//small unit, can manipulate blinded units
+class Sprite extends LightUnit{
 }
 
-class Prism extends Unit{
+//Redirects light particles
+class Prism extends LightUnit{
 }
 
-
-class Shade extends Unit{
+//small unit, can manipulate blinded units
+class Shade extends DarkUnit{
 }
 
-class Eye extends Unit{
+//They're just there to be blinded. They each control their own troops
+class Eye extends DarkUnit{
 }
 
 
