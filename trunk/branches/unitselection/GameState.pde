@@ -65,6 +65,11 @@ class GameState{
           particles.add(new Eye(200, 200, i));
     
     //Light Units
+    
+        //LightSource
+        createLightSources();
+        
+        //createLightSourceDebug();
         //Sprites
         for(int i = 0; i < 1; i++)
           particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
@@ -85,7 +90,18 @@ class GameState{
   //Initialize light source
   private void createLightSources()
   {
-    lightSources.add(new LightSource(WIDTH/2, HEIGHT/2, 0));
+    LightSource temp = new LightSource(WIDTH/2, HEIGHT/2, 0);
+    temp.spawn(5);
+    particles.add(temp);
+    
+  }
+  
+    private void createLightSourceDebug()
+  {
+    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
+    temp.spawn(5);
+    particles.add(temp);
+    
   }
   
   //Returns a list of obstacles
