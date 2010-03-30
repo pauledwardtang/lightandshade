@@ -1,74 +1,56 @@
 
 //light source spawns light particles headed in a direction determined by its angle
 //light source can be moved, and have its angle changed
-class LightSource extends Unit{
-  Body body;
+class LightSource extends Particle{
   float spawnAngle;
-  float radius;
-  float x, y;
   ArrayList particles = new ArrayList();
   
-  LightSource()
+  LightSource(int x, int y, int id)
   {
-    spawnAngle = radians(75);
-    radius = 30;
-    x = random(0, WIDTH);
-    y = random(0, HEIGHT);
-    makeBody(x, y, radius);
-    body.setUserData(this);
+    super(x, y, 40, id, "lightsource", -1);
+    changeColor(color(255, 0, 0, 100));
+    spawnAngle = radians(180);
+//    makeBody(x, y, radius, groupID);
+//    body.setUserData(this);
   }
-  
+
   //adds k new particles to the particle list.
   ArrayList spawn(int k)
   {
-    float dir = random(radians(-spawnAngle/2), radians(spawnAngle/2));
+    float dir = random(-spawnAngle/2, spawnAngle/2);
     float xin, yin;
     
     for(int i = 0; i < k; i++)
      {
+       Vec2 pos = box2d.getScreenPos(body);
        //must be inside the LightSource
-        xin = random(x-radius, x+radius);
-        yin = random(y-radius, y+radius);
-        particles.add(new LightParticle(xin, yin, dir)); 
+        xin = random(pos.x-radius, pos.x+radius);
+        yin = random(pos.y-radius, pos.y+radius);
+        particles.add(new LightParticle(xin, yin, dir, groupID));
+        println("Adding particle at " + xin + ", " + yin);
         println("Particle spawned");
      }
      return particles;
   } 
   
-  void display()
-  {
-//    color cl;
-//    
-//    //light ring
-//    cl = color(255, 0, 0, 100);
-//    fill(cl);
-//    ellipse(x,y,radius*2,radius*2);
-//    noStroke();
-//    
-//    //Bulb
-//    cl = color(255, 255, 0);
-//    fill(cl);
-//    stroke(2);
-//    ellipse(x, y, radius*2, radius*2);
-//    noStroke();
-//    
-//    noFill();
-    // We look at each body and get its screen position
-    Vec2 pos = box2d.getScreenPos(body);
-    // Get its angle of rotation
-    float a = body.getAngle();
-    pushMatrix();
-    translate(pos.x,pos.y);
-    rotate(a);
-    fill(color(255, 0, 0, 100));
-    stroke(0);
-    strokeWeight(1);
-    ellipse(0,0,radius*2,radius*2);
-    // Let's add a line so we can see the rotation
-    line(0,0,radius,0);
-    popMatrix();
-  
-  }
+//  void display()
+//  {
+//    // We look at each body and get its screen position
+//    Vec2 pos = box2d.getScreenPos(body);
+//    // Get its angle of rotation
+//    float a = body.getAngle();
+//    pushMatrix();
+//    translate(pos.x,pos.y);
+//    rotate(a);
+//    fill(color(255, 0, 0, 100));
+//    stroke(0);
+//    strokeWeight(1);
+//    ellipse(0,0,radius*2,radius*2);
+//    // Let's add a line so we can see the rotation
+//    line(0,0,radius,0);
+//    popMatrix();
+//  
+//  }
   
   //puts all particles in list on screen. Should be called after every spawn().
   void displayParticles()
@@ -89,41 +71,26 @@ class LightSource extends Unit{
   }
   void update()
   {
-    //spawn(5);
+    spawn(1);
     displayParticles();
   }
+//  
+//  void makeBody(float x, float y, float r, int gID) {
+//    super.makeBody(x, y, r, groupID);
+//    body.setLinearVelocity(new Vec2(0, 0));
+//    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
+//  }
   
-  void makeBody(float x, float y, float r) {
-    // Define a body
-    BodyDef bd = new BodyDef();
-    // Set its position
-    bd.position = box2d.screenToWorld(x,y);
-    body = box2d.world.createBody(bd);
-
-    // Make the body's shape a circle
-    CircleDef cd = new CircleDef();
-    cd.radius = box2d.scaleScreenToWorld(r);
-    cd.density = 1.0f;
-    cd.friction = 0.01f;
-    cd.restitution = 0.3f; // Restitution is bounciness
-    body.createShape(cd);
-
-    // Always do this at the end
-    body.setMassFromShapes();
-    
-    body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
-  }
-  
-  void draw(){
-    color cl = color(255, 0, 0);
-    fill(cl);
-    stroke(2);
-    ellipse(x, y, radius, radius);
-    noFill();
-    noStroke();
-    
-    
-  }//end draw
+//  void draw(){
+//    color cl = color(255, 0, 0);
+//    fill(cl);
+//    stroke(2);
+//    ellipse(x, y, radius, radius);
+//    noFill();
+//    noStroke();
+//    
+//    
+//  }//end draw
 }
 
 
@@ -133,14 +100,23 @@ class LightParticle extends Particle{
   
   float dir;
   boolean alive;
+  float speed;
   
-  LightParticle(float xin, float yin, float dirIn){
-    super(xin, yin, 2);
+  LightParticle(float xin, float yin, float dirIn, int gID){
+    super(xin, yin, 5, 2, "neutral", gID);
+    changeColor(color(255, 255, 0));
     dir = dirIn;//direction
     alive = true;
-   // speed = 2;//this is the speed of light!
-    makeBody(x, y, radius);
-    body.setUserData(this);
+    speed = 8; //this is the speed of light!
+//    makeBody(x, y, radius, groupID);
+//    body.setUserData(this);
+    body.setLinearVelocity(velocity());
+  }
+  
+  Vec2 velocity()
+  {
+    Vec2 aVector = new Vec2(speed*cos(dir), speed*sin(dir));
+    return aVector;
   }
   
   boolean isAlive()
@@ -160,15 +136,7 @@ class LightParticle extends Particle{
   
   void display()
   {
-    Vec2 pos = box2d.getScreenPos(body);
-    pushMatrix();
-    translate(pos.x,pos.y);
-    col = color(255, 255, 0);
-    fill(col);
-    stroke(0);
-    strokeWeight(1);
-    ellipse(0,0,r*2,r*2);
-    popMatrix();
+    super.display();
   }
   
   void collide()
@@ -176,20 +144,11 @@ class LightParticle extends Particle{
     
   }//checks for collisions
   
-   void makeBody(float x, float y, float r) 
-   {
-     super.makeBody(x, y, r);
-    
-    CircleDef cd = new CircleDef();
-    cd.density = 0.0f;
-    cd.friction = 0.0f;
-    cd.restitution = 1.0f; // Restitution is bounciness
-    body.createShape(cd);
-     
-    // Give it a random initial velocity (and angular velocity)
-    body.setLinearVelocity(new Vec2(8, 8));
-    //body.setAngularVelocity(random(-10,10));
-  }
+//   void makeBody(float x, float y, float r) 
+//   {
+//     super.makeBody(x, y, r, groupID);
+//     body.setLinearVelocity(new Vec2(8,8));
+//  }
 }
 
 ////manages all light particles
