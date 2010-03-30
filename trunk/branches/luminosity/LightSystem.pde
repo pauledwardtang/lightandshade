@@ -1,23 +1,18 @@
 
 //light source spawns light particles headed in a direction determined by its angle
 //light source can be moved, and have its angle changed
-class LightSource extends Unit{
-  Body body;
+class LightSource extends Particle{
   float spawnAngle;
-  float radius;
-  float x, y;
   ArrayList particles = new ArrayList();
   
-  LightSource()
+  LightSource(int x, int y, int id)
   {
+    super(x, y, 40, id, "lightsource");
     spawnAngle = radians(75);
-    radius = 30;
-    x = random(0, WIDTH);
-    y = random(0, HEIGHT);
-    makeBody(x, y, radius);
-    body.setUserData(this);
+    //makeBody(x, y, radius);
+    //body.setUserData(this);
   }
-  
+
   //adds k new particles to the particle list.
   ArrayList spawn(int k)
   {
@@ -26,10 +21,12 @@ class LightSource extends Unit{
     
     for(int i = 0; i < k; i++)
      {
+       Vec2 pos = box2d.getScreenPos(body);
        //must be inside the LightSource
-        xin = random(x-radius, x+radius);
-        yin = random(y-radius, y+radius);
-        particles.add(new LightParticle(xin, yin, dir)); 
+        xin = random(pos.x-radius, pos.x+radius);
+        yin = random(pos.y-radius, pos.y+radius);
+        particles.add(new LightParticle(xin, yin, dir));
+        println("Adding particle at " + xin + ", " + yin);
         println("Particle spawned");
      }
      return particles;
@@ -89,7 +86,7 @@ class LightSource extends Unit{
   }
   void update()
   {
-    //spawn(5);
+    spawn(1);
     displayParticles();
   }
   
@@ -135,12 +132,10 @@ class LightParticle extends Particle{
   boolean alive;
   
   LightParticle(float xin, float yin, float dirIn){
-    super(xin, yin, 2);
+    super(xin, yin, 5, 2, "neutral");
     dir = dirIn;//direction
     alive = true;
    // speed = 2;//this is the speed of light!
-    makeBody(x, y, radius);
-    body.setUserData(this);
   }
   
   boolean isAlive()
@@ -167,7 +162,7 @@ class LightParticle extends Particle{
     fill(col);
     stroke(0);
     strokeWeight(1);
-    ellipse(0,0,r*2,r*2);
+    ellipse(0,0,radius*2,radius*2);
     popMatrix();
   }
   
@@ -187,7 +182,7 @@ class LightParticle extends Particle{
     body.createShape(cd);
      
     // Give it a random initial velocity (and angular velocity)
-    body.setLinearVelocity(new Vec2(8, 8));
+    //body.setLinearVelocity(new Vec2(8, 8));
     //body.setAngularVelocity(random(-10,10));
   }
 }
