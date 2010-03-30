@@ -5,35 +5,42 @@
 
 // A circular particle
 
-class Particle extends Unit{
+class Particle extends GameObject{
 
   // We need to keep track of a Body and a radius
   Body body;
-  float r;
   boolean isSelected;
   color col;
+  float light, radius;
+  boolean lit = false;
+  String owner;
+  int id;
+  int groupID;
 
-  Particle()
-  {
-    body = null;
-  }
-  
-  Particle(float r_) {
-    super();
-    r = r_;
+  Particle(float x, float y, float radius_, int id, String owner) {
+    //super(x, y);
+    radius = radius_;
+    this.owner = owner;
+    this.id = id;
+    light = 1;
+    
     // This function puts the particle in the Box2d world
-    makeBody(x,y,r);
+    makeBody(x,y,radius);
     body.setUserData(this);
     
     col = color(150);
-    //col = color(175);
   }
   
-  Particle(float x, float y, float r_) {
-    super(x, y);
-    r = r_;
+  Particle(float x, float y, float radius_, int id, String owner, int gID) {
+    //super(x, y);
+    radius = radius_;
+    this.owner = owner;
+    this.id = id;
+    light = 1;
+    groupID = gID;
+    
     // This function puts the particle in the Box2d world
-    makeBody(x,y,r);
+    makeBody(x,y,radius,gID);
     body.setUserData(this);
     
     col = color(150);
@@ -60,13 +67,14 @@ class Particle extends Unit{
    body.setXForm(mouseWorld, 0);
       
   }
-  
+ 
+ //THIS NEEDS TO BE CHANGED(for color anyways)
     public void update() {
     //A particle is selected
     if(isSelected)
     {
       changeColor(255);
-      //moveToward(mouseX, mouseY);
+      moveToward(mouseX, mouseY);
       //println("Particle selected");
     } 
     else  //A particle is deselected
@@ -77,13 +85,14 @@ class Particle extends Unit{
          
   }
   
-  //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...
+  //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
   boolean pressed()
   {
     return (contains(mouseX, mouseY) && mousePressed);
   }
   
   //James's move towards method, but modified for particles
+  //Change so it moves towards a location
   void moveToward(int xin, int yin){
     if(contains(xin,yin))
     {
@@ -103,7 +112,7 @@ class Particle extends Unit{
     // Let's find the screen position of the particle
     Vec2 pos = box2d.getScreenPos(body);
     // Is it off the bottom of the screen?
-    if (pos.y > height+r*2) {
+    if (pos.y > height+radius*2) {
       killBody();
       return true;
     }
@@ -129,14 +138,14 @@ class Particle extends Unit{
     fill(col);
     stroke(0);
     strokeWeight(1);
-    ellipse(0,0,r*2,r*2);
+    ellipse(0,0,radius*2,radius*2);
     // Let's add a line so we can see the rotation
-    line(0,0,r,0);
+    line(0,0,radius,0);
     popMatrix();
   }
-
+  
   // Here's our function that adds the particle to the Box2D world
-  void makeBody(float x, float y, float r) {
+  void makeBody(float x, float y, float radius_) {
     // Define a body
     BodyDef bd = new BodyDef();
     // Set its position
@@ -145,7 +154,7 @@ class Particle extends Unit{
 
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
-    cd.radius = box2d.scaleScreenToWorld(r);
+    cd.radius = box2d.scaleScreenToWorld(radius_);
     cd.density = 1.0f;
     cd.friction = 0.01f;
     cd.restitution = 0.3f; // Restitution is bounciness
@@ -155,13 +164,37 @@ class Particle extends Unit{
     body.setMassFromShapes();
 
     // Give it a random initial velocity (and angular velocity)
-    body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
-    body.setAngularVelocity(random(-10,10));
+    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
+    //body.setAngularVelocity(random(-10,10));
   }
+  
+  //For particles that need to have a groupIndex set
+  void makeBody(float x, float y, float radius_, int groupID) {
+    // Define a body
+    BodyDef bd = new BodyDef();
+    // Set its position
+    bd.position = box2d.screenToWorld(x,y);
+    body = box2d.world.createBody(bd);
 
+    // Make the body's shape a circle
+    CircleDef cd = new CircleDef();
+    cd.radius = box2d.scaleScreenToWorld(radius_);
+    cd.density = 1.0f;
+    cd.friction = 0.01f;
+    cd.restitution = 0.3f; // Restitution is bounciness
+    cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
+    body.createShape(cd);
 
+    // Always do this at the end
+    body.setMassFromShapes();
 
-
-
-
+    // Give it a random initial velocity (and angular velocity)
+    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
+    //body.setAngularVelocity(random(-10,10));
+  }
+  
+  Body getBody()
+  {
+    return body;
+  }
 }

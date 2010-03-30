@@ -9,10 +9,6 @@ GameState (2D) Should have:
 */
 class GameState{
   
-  //Coordinates
-  private int WIDTH;
-  private int HEIGHT;
-  
   //Obstacle size (rectangles)
   static final int OBS_WIDTH = 150;
   static final int OBS_HEIGHT = 150;
@@ -29,8 +25,8 @@ class GameState{
   {
     randomizeObstacles();
     createUnits();
-    createParticles();
-    createLightSources();
+    //createParticles();
+    //createLightSources();
   } 
   
   GameState(int width, int height, int range)
@@ -48,20 +44,42 @@ class GameState{
 
   }
   
-    //Initializes particles (random number from 1 to 10)
-  private void createParticles()
-  {
-    for(int i = 0; i < 10; i++)
-      particles.add(new Particle(10));
-  }
+//    //Initializes particles (random number from 1 to 10)
+//  private void createParticles()
+//  {
+//    for(int i = 0; i < 10; i++)
+//      particles.add(new Particle(10));
+//  }
   
   //Initializes units (random number from 1 to 10)
   private void createUnits()
   {
-    for(int i = 0; i < random(10) + 1; i++)
-      units.add(new Unit());
+    //Dark Units
+    
+        //Shades
+        for(int i = 0; i < 1; i++)
+          particles.add(new Shade( 200 ,50, i));
+          
+        //Eyes
+            for(int i = 0; i < 1; i++)
+          particles.add(new Eye(200, 200, i));
+    
+    //Light Units
+    
+        //LightSource
+        createLightSources();
+        
+        //createLightSourceDebug();
+        //Sprites
+        for(int i = 0; i < 1; i++)
+          particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
+          
+        //Prisms
+            for(int i = 0; i < 1; i++)
+          particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
   }
   
+  //FOR DEBUGGING PURPOSES
   //Initializes units (random number from a specified range)
   private void createUnits(int range)
   {
@@ -72,8 +90,18 @@ class GameState{
   //Initialize light source
   private void createLightSources()
   {
-    lightSources.add(new LightSource());
+    LightSource temp = new LightSource(WIDTH/2, HEIGHT/2, 0);
+    temp.spawn(5);
+    particles.add(temp);    
   }
+  
+//    private void createLightSourceDebug()
+//  {
+//    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
+//    temp.spawn(5);
+//    particles.add(temp);
+//    
+//  }
   
   //Returns a list of obstacles
   public ArrayList getObstacles()
