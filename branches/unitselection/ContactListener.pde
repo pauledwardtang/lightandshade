@@ -28,15 +28,19 @@ class CustomListener implements ContactListener {
     
     // If object 1 is a Box, then object 2 must be a particle
     // Note we are ignoring particle on particle collisions
-    if (c1.contains("Particle")) {
+    if(c1.contains("lightParticle") || c2.contains("lightParticle"))
+    {
+      //println("LIGHT COLLISION");
+    }
+    else if (c1.contains("Particle")) {
       Particle p = (Particle) o1;
       //p.changeColor(0,255,0); 
     } 
     // If object 2 is a Box, then object 1 must be a particle
-    if (c2.contains("Particle")) {
+    else if (c2.contains("Particle")) {
       Particle p = (Particle) o2;
       p.changeColor(0,255,0);  
-      println("PARTICLE COLLISION");
+      //println("PARTICLE COLLISION");
       //CHANGE LIGHT VALUE
     }
   }
@@ -74,7 +78,7 @@ class CustomListener implements ContactListener {
     if (c2.contains("Particle")) {
       Particle p = (Particle) o2;
       p.changeColor(0,0,255);  
-      println("PARTICLE REMOVED");
+      //println("PARTICLE REMOVED");
       //CHANGE LIGHT VALUE
     }
   }

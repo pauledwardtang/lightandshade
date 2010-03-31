@@ -92,17 +92,16 @@ class GameState{
   {
     LightSource temp = new LightSource(WIDTH/2, HEIGHT/2, 0);
     temp.spawn(5);
-    particles.add(temp);
-    
+    particles.add(temp);    
   }
   
-    private void createLightSourceDebug()
-  {
-    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
-    temp.spawn(5);
-    particles.add(temp);
-    
-  }
+//    private void createLightSourceDebug()
+//  {
+//    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
+//    temp.spawn(5);
+//    particles.add(temp);
+//    
+//  }
   
   //Returns a list of obstacles
   public ArrayList getObstacles()
