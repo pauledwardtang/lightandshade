@@ -16,9 +16,18 @@ class Particle extends GameObject{
   String owner;
   int id;
   int groupID;
+  
+  //for particles with their own makeBody method
+  Particle(int rad, String own, int idNum, color aCol)
+  {
+    radius = rad;
+    owner = own;
+    id = idNum;
+    col = aCol;
+    light = 1;
+  }
 
   Particle(float x, float y, float radius_, int id, String owner) {
-    //super(x, y);
     radius = radius_;
     this.owner = owner;
     this.id = id;
@@ -26,21 +35,6 @@ class Particle extends GameObject{
     
     // This function puts the particle in the Box2d world
     makeBody(x,y,radius);
-    body.setUserData(this);
-    
-    col = color(150);
-  }
-  
-  Particle(float x, float y, float radius_, int id, String owner, int gID) {
-    //super(x, y);
-    radius = radius_;
-    this.owner = owner;
-    this.id = id;
-    light = 1;
-    groupID = gID;
-    
-    // This function puts the particle in the Box2d world
-    makeBody(x,y,radius,gID);
     body.setUserData(this);
     
     col = color(150);
@@ -158,31 +152,6 @@ class Particle extends GameObject{
     cd.density = 1.0f;
     cd.friction = 0.01f;
     cd.restitution = 0.3f; // Restitution is bounciness
-    body.createShape(cd);
-
-    // Always do this at the end
-    body.setMassFromShapes();
-
-    // Give it a random initial velocity (and angular velocity)
-    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
-    //body.setAngularVelocity(random(-10,10));
-  }
-  
-  //For particles that need to have a groupIndex set
-  void makeBody(float x, float y, float radius_, int groupID) {
-    // Define a body
-    BodyDef bd = new BodyDef();
-    // Set its position
-    bd.position = box2d.screenToWorld(x,y);
-    body = box2d.world.createBody(bd);
-
-    // Make the body's shape a circle
-    CircleDef cd = new CircleDef();
-    cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 1.0f;
-    cd.friction = 0.01f;
-    cd.restitution = 0.3f; // Restitution is bounciness
-    cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
     body.createShape(cd);
 
     // Always do this at the end

@@ -188,8 +188,8 @@ void mouseClicked()
     
     if(addParticles.isPressed() && debugEnable)
     {
-      source.spawn(20);
-      source.displayParticles();
+      gameState.createLightParticles();
+      //source.displayParticles(lightParticles);
     }
     
     if(clearButton.isPressed() && debugEnable)
