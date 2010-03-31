@@ -6,7 +6,7 @@ class GameObject
    float x, y, w, h; // X-coordinate, y-coordinate
          
    GameObject()
-   {  
+   {
    }
    
    //All dimensions given
