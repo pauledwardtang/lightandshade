@@ -9,22 +9,50 @@ class Particle extends GameObject{
 
   // We need to keep track of a Body and a radius
   Body body;
+  
+  //Status variables
   boolean isSelected;
   color col;
   float light, radius;
   boolean lit = false;
   String owner;
   int id;
-
+  int groupID;
+  boolean MOVE_MODE = false;
+  
+  //Movement variables
+  Target target;
+  float speed, naturalSpeed;
+  
+  
   Particle(float x, float y, float radius_, int id, String owner) {
     //super(x, y);
     radius = radius_;
     this.owner = owner;
     this.id = id;
     light = 1;
+    speed = 1;
+    target = new Target(x,y);
     
     // This function puts the particle in the Box2d world
     makeBody(x,y,radius);
+    body.setUserData(this);
+    
+    col = color(150);
+  }
+  
+  Particle(float x, float y, float radius_, int id, String owner, int gID) {
+    //super(x, y);
+    radius = radius_;
+    this.owner = owner;
+    this.id = id;
+    light = 1;
+    speed = 1;
+    groupID = gID;
+    target = new Target(x,y);
+    
+    // This function puts the particle in the Box2d world
+    makeBody(x,y,radius,gID);
     body.setUserData(this);
     
     col = color(150);
@@ -54,6 +82,7 @@ class Particle extends GameObject{
  
  //THIS NEEDS TO BE CHANGED(for color anyways)
     public void update() {
+    Vec2 pos = box2d.getScreenPos(body);
     //A particle is selected
     if(isSelected)
     {
@@ -66,10 +95,17 @@ class Particle extends GameObject{
       //changeColor(0,0,255);
       //println("Particle deselected");
     }
-         
+    
+    //****Update target****    
+    if(target.Dist((int) pos.x, (int) pos.y) >= 1)
+    {
+      MOVE_MODE = true;
+      move();
+    }  
+    done();
   }
   
-  //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...
+  //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
   boolean pressed()
   {
     return (contains(mouseX, mouseY) && mousePressed);
@@ -127,7 +163,7 @@ class Particle extends GameObject{
     line(0,0,radius,0);
     popMatrix();
   }
-
+  
   // Here's our function that adds the particle to the Box2D world
   void makeBody(float x, float y, float radius_) {
     // Define a body
@@ -151,4 +187,73 @@ class Particle extends GameObject{
     //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
     //body.setAngularVelocity(random(-10,10));
   }
+  
+  //For particles that need to have a groupIndex set
+  void makeBody(float x, float y, float radius_, int groupID) {
+    // Define a body
+    BodyDef bd = new BodyDef();
+    // Set its position
+    bd.position = box2d.screenToWorld(x,y);
+    body = box2d.world.createBody(bd);
+
+    // Make the body's shape a circle
+    CircleDef cd = new CircleDef();
+    cd.radius = box2d.scaleScreenToWorld(radius_);
+    cd.density = 1.0f;
+    cd.friction = 0.01f;
+    cd.restitution = 0.3f; // Restitution is bounciness
+    cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
+    body.createShape(cd);
+
+    // Always do this at the end
+    body.setMassFromShapes();
+
+    // Give it a random initial velocity (and angular velocity)
+    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
+    //body.setAngularVelocity(random(-10,10));
+  }
+  
+  Body getBody()
+  {
+    return body;
+  }
+  
+  //*****************Movement functions*******************
+    //Moves the MovePiece towards the target at the movePiece's speed.
+  void move()
+  {
+    Vec2 pos = box2d.getScreenPos(body);
+    int xPos = (int) pos.x;
+    int yPos = (int) pos.y;
+    if (MOVE_MODE == true && target.Dist(xPos, yPos) >= speed)//If the MovePiece is at least one -speed- from the Target, move.
+      {
+        yPos += speed/target.Dist(xPos, yPos)*target.yDist(yPos);//y-velocity
+        xPos += speed/target.Dist(xPos, yPos)*target.xDist(xPos);//x-velocity
+      }
+    
+    if (target.Dist(xPos, yPos) < speed)//If the MovePiece is within one -speed- of the Target, move to the target and stop.
+    {
+        yPos += target.yDist(yPos);
+        xPos += target.xDist(xPos);
+        MOVE_MODE= false;    
+    }   
+  }
+  
+  
+  //*****************Target functions********************
+  
+    //called from mouseReleased(), sets the destination point of the MovePiece.
+  void setTarget()
+  {
+    target.X = mouseX;
+    target.Y = mouseY;
+  }
+  
+  //called from mouseReleased, sets the destination point to a given coordinates.
+  void setTarget(float x,float y)
+  {
+    target.X = x;
+    target.Y = y;    
+  }
+  
 }
