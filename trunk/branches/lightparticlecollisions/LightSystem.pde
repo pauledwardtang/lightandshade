@@ -29,7 +29,7 @@ class LightSource extends Particle{
     return particle;
   } 
   
-  //puts all particles in list on screen. Should be called after every spawn().
+  //puts all particles in list on screen.
   void displayParticles(ArrayList particles)
   {
     for(int i = 0; i < particles.size(); i++)
@@ -72,7 +72,7 @@ class LightSource extends Particle{
     body.setMassFromShapes();
   }
   
-}
+}//end LightSource
 
 
 //light particles only interact with obstacles and units
@@ -84,7 +84,7 @@ class LightParticle extends Particle{
   float speed;
   
   LightParticle(float xin, float yin, float dirIn, int gID){
-    super(1, "neutral", 2, color(255, 255, 0));
+    super(5, "neutral", 2, color(255, 255, 0));
     dir = dirIn;//direction
     alive = true;
     speed = 20; //this is the speed of light!
@@ -111,8 +111,6 @@ class LightParticle extends Particle{
         killBody();
         alive = false;
     }//end if
-    else
-      alive = true;    
   }//end update()
   
   void display()
@@ -150,10 +148,12 @@ class LightParticle extends Particle{
     body.setMassFromShapes();
   }
   
-  void collide()
+  void kill()
   {
-    
-  }//checks for collisions
+    println("KILLED LIGHT PARTICLE");
+    killBody();
+    alive = false;
+  }
 }
   
 

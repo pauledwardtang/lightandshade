@@ -205,8 +205,5 @@ class GameState{
       //displayUnits();
       updateParticles();
       updateLightSources();
-  }
-
-  
-  
+  } 
 }

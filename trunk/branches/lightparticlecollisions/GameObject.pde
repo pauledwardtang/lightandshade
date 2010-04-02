@@ -122,10 +122,16 @@ class Unit extends GameObject{
 
 //small unit, can manipulate blinded units
 class Sprite extends Particle{
-    Sprite(float x, float y, int id)
+  Sprite(float x, float y, int id)
   {
     super(x, y, 10, id, "player");
     changeColor(0,255,0);
+  }
+  //redefine light when hit by a light particle
+  void changeLight()
+  {
+    light = light + 10;
+    changeColor((int)light, 255, (int)light);
   }
 }
 
@@ -144,6 +150,12 @@ class Shade extends Particle{
   {
       super(x, y, 10, id, "enemy");
       changeColor(100,100,100);
+  }
+    //redefine light when hit by a light particle
+  void changeLight()
+  {
+    light = light + 10;
+    col = color(light, light, light);
   }
 }
 

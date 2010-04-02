@@ -46,11 +46,13 @@ class Particle extends GameObject{
   }
   
   // Change color when hit
-  void changeColor(int colVal) {
+  void changeColor(int colVal) 
+  {
     col = color(colVal,0,0); 
   }
   
-  void changeColor(int r, int g, int b) {
+  void changeColor(int r, int g, int b) 
+  {
     col = color(r,g,b); 
   }
   
@@ -63,7 +65,7 @@ class Particle extends GameObject{
   }
  
  //THIS NEEDS TO BE CHANGED(for color anyways)
-    public void update() {
+  public void update() {
     //A particle is selected
     if(isSelected)
     {
@@ -75,8 +77,7 @@ class Particle extends GameObject{
     {       
       //changeColor(0,0,255);
       //println("Particle deselected");
-    }
-         
+    }         
   }
   
   //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
