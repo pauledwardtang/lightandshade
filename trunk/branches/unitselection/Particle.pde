@@ -229,12 +229,14 @@ class Particle extends GameObject{
       {
         yPos += speed/target.Dist(xPos, yPos)*target.yDist(yPos);//y-velocity
         xPos += speed/target.Dist(xPos, yPos)*target.xDist(xPos);//x-velocity
+      println("moving!" + millis());
       }
     
     if (target.Dist(xPos, yPos) < speed)//If the MovePiece is within one -speed- of the Target, move to the target and stop.
     {
         yPos += target.yDist(yPos);
         xPos += target.xDist(xPos);
+    println("stopping!" + millis());
         MOVE_MODE= false;    
     }   
   }
