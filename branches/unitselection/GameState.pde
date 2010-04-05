@@ -67,7 +67,7 @@ class GameState{
     //Light Units
     
         //LightSource
-        createLightSources();
+        //createLightSources();
         
         //createLightSourceDebug();
         //Sprites
