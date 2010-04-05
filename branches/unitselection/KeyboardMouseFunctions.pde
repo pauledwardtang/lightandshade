@@ -37,22 +37,22 @@ void mouseClicked()
     //println("Mouse clicked");
     
     //Update particle selection if the mouse is clicked. Doesn't select when dragged...
-    for(int i = 0; i < gameState.particles.size(); i++)
-     {
-        Particle temp = (Particle) gameState.particles.get(i);
-        
-        if(temp.contains(mouseX, mouseY))
-        {
-           if(temp.isSelected)
-             temp.isSelected = false;
-           else
-           {
-             temp.isSelected = true;             
-           }
-        }
-
-        //println("particle[" + i + "] selected: "+ temp.isSelected);
-     }
+//    for(int i = 0; i < gameState.particles.size(); i++)
+//     {
+//        Particle temp = (Particle) gameState.particles.get(i);
+//        
+//        if(temp.contains(mouseX, mouseY))
+//        {
+//           if(temp.isSelected)
+//             temp.isSelected = false;
+//           else
+//           {
+//             temp.isSelected = true;             
+//           }
+//        }
+//
+//        //println("particle[" + i + "] selected: "+ temp.isSelected);
+//     }
 }
 
 // When the mouse is pressed we. . .
@@ -107,13 +107,14 @@ void mouseDragged()
       
       if(L_MOUSE==true)
       {  
-          //Uh, not sure what to do yet in this part
-//        for(int i = 0; i < gameState.particles.size(); i++)
-//        {
-//          mov[i].selection();//updates selection status for the Movepiece.
-//        }     
+         for(int i = 0; i < gameState.particles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+               temp.selection();       
+        }
+     }    
         L_MOUSE = false;  
-      }   
+         
       cursor(ARROW);//Go back to the normal cursor when box selection is over.
       sBox.sizeX=sBox.sizeY=0;
       sBox.holdX=sBox.holdY=-100;//move the SelectionBox off the screen

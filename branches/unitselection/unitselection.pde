@@ -153,7 +153,7 @@ void draw() {
     if (L_MOUSE == true)
       sBox.updateBox();//update the SelectionBox 
     
-    println("Frame rate: " + frameRate);
+    //println("Frame rate: " + frameRate);
     
     
      gameState.draw();
