@@ -73,7 +73,7 @@ class LightSource extends Particle{
   {
     spawn(1);
     displayParticles();
-     println("Particle list: " + particles.size());
+     //println("Particle list: " + particles.size());
   }
 //  
 //  void makeBody(float x, float y, float r, int gID) {

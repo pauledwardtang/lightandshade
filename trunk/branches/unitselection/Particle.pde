@@ -239,6 +239,23 @@ class Particle extends GameObject{
     }   
   }
   
+  boolean MOUSE_HOVER()
+  {
+    Vec2 pos = box2d.getScreenPos(body);
+    int xPos = (int) pos.x;
+    int yPos = (int) pos.y;
+    float halfWidth = radius;
+    float halfHeight = radius;    
+      if(mouseX>xPos-1-halfWidth && mouseX<xPos+1+halfWidth && mouseY>yPos-1-halfHeight && mouseY<yPos+1+halfHeight)//The pointer is over the ShipPiece
+        return true;   
+      if(((sBox.holdX>xPos-1-halfWidth && sBox.sizeX+sBox.holdX<xPos+1+halfWidth) || 
+        (sBox.holdX<xPos+1+halfWidth && sBox.sizeX+sBox.holdX>xPos-1-halfWidth)) && 
+        ((sBox.holdY>yPos-1-halfHeight && sBox.sizeY+sBox.holdY<yPos+1+halfHeight) || 
+        (sBox.holdY<yPos+1+halfHeight && sBox.sizeY+sBox.holdY>yPos-1-halfHeight)))//Any part of the ShipPiece is within the SelectionBox.
+        return true;
+      else
+        return false;
+  }
   
   //*****************Target functions********************
   
@@ -254,6 +271,16 @@ class Particle extends GameObject{
   {
     target.X = x;
     target.Y = y;    
+  }
+  
+  
+  //Determines whether a particle will be selected within the selection box. If it is already selected it will be deselecte
+  void selection()
+  {              
+    if (MOUSE_HOVER() == true && isSelected==false)
+      isSelected = true;
+    else
+      isSelected = false;  
   }
   
 }
