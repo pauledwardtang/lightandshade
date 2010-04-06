@@ -60,9 +60,9 @@ class GameState{
         for(int i = 0; i < 1; i++)
           particles.add(new Shade( 200 ,50, i));
           
-        //Eyes
-            for(int i = 0; i < 1; i++)
-          particles.add(new Eye(200, 200, i));
+//        //Eyes
+//            for(int i = 0; i < 1; i++)
+//          particles.add(new Eye(200, 200, i));
     
     //Light Units
     
@@ -71,12 +71,12 @@ class GameState{
         
         //createLightSourceDebug();
         //Sprites
-        for(int i = 0; i < 1; i++)
-          particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
-          
-        //Prisms
-            for(int i = 0; i < 1; i++)
-          particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
+//        for(int i = 0; i < 1; i++)
+//          particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
+//          
+//        //Prisms
+//            for(int i = 0; i < 1; i++)
+//          particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
   }
   
   //FOR DEBUGGING PURPOSES
@@ -153,6 +153,14 @@ class GameState{
           
         temp.update();
         temp.display();
+        
+        if(temp.done())
+        {
+          particles.remove(temp);
+          selectedParticles.remove(temp);
+          println("Removed particle");
+        }
+        
 
      } 
   }

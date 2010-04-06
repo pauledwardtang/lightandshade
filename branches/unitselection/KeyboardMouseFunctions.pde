@@ -68,6 +68,7 @@ void mousePressed()
             Particle temp = (Particle) gameState.particles.get(i);
             if (temp.isSelected == true)
               {
+                  println("Setting target");
                   temp.setTarget();                  
               }
           }
