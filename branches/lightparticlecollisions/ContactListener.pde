@@ -22,16 +22,10 @@ class CustomListener implements ContactListener {
     Object o1 = b1.getUserData();
     Object o2 = b2.getUserData();
     
-    // What class are they?  Box or Particle?
+    // What class are they?
     String c1 = o1.getClass().getName();
     String c2 = o2.getClass().getName();
-    
-    // If object 1 is a Box, then object 2 must be a particle
-    // Note we are ignoring particle on particle collisions
-    
-    println(c1);
-    println(c2);
-    
+
     //if a LightParticle is involved in a collision with another particle, kill it and increment the other's colour
     if(c1.contains("LightParticle") && (c2.contains("Sprite") || c2.contains("Shade")))
     {

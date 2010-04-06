@@ -33,7 +33,7 @@ class GameState{
   GameState(int width, int height, int range)
   {
     randomizeObstacles();
-    createUnits(range);
+ //   createUnits(range);
     createLightSources();
   } 
   
@@ -77,11 +77,11 @@ class GameState{
   
   //FOR DEBUGGING PURPOSES
   //Initializes units (random number from a specified range)
-  private void createUnits(int range)
-  {
-    for(int i = 0; i < random(range); i++)
-      units.add(new Unit());
-  }
+//  private void createUnits(int range)
+//  {
+//    for(int i = 0; i < random(range); i++)
+//      units.add(new Unit());
+//  }
   
   //Initialize light source
   private void createLightSources()
@@ -127,16 +127,16 @@ class GameState{
   }
   
   //Displays units
-  public void displayUnits()
-  {
-      for(int i = 0; i < units.size(); i++)
-     {
-        Unit temp = (Unit) units.get(i);
-        temp.update();
-        temp.draw();
-     } 
-  }
-  
+//  public void displayUnits()
+//  {
+//      for(int i = 0; i < units.size(); i++)
+//     {
+//        Unit temp = (Unit) units.get(i);
+//        temp.update();
+//        temp.draw();
+//     } 
+//  }
+//  
     //Displays particles
   public void updateParticles()
   {
@@ -205,5 +205,6 @@ class GameState{
       //displayUnits();
       updateParticles();
       updateLightSources();
+      println(particles.size());
   } 
 }

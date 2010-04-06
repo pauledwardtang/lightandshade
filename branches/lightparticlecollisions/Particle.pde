@@ -10,8 +10,10 @@ class Particle extends GameObject{
   // We need to keep track of a Body and a radius
   Body body;
   boolean isSelected;
+  boolean blind;
+  int light;
+  float radius;
   color col;
-  float light, radius;
   boolean lit = false;
   String owner;
   int id;
@@ -25,6 +27,7 @@ class Particle extends GameObject{
     id = idNum;
     col = aCol;
     light = 1;
+    blind = false;
   }
 
   Particle(float x, float y, float radius_, int id, String owner) {
@@ -32,12 +35,11 @@ class Particle extends GameObject{
     this.owner = owner;
     this.id = id;
     light = 1;
-    
     // This function puts the particle in the Box2d world
     makeBody(x,y,radius);
     body.setUserData(this);
-    
-    col = color(150);
+    col = color(100, 100, 100);
+    blind = false;
   }
 
   // This function removes the particle from the box2d world
@@ -45,7 +47,7 @@ class Particle extends GameObject{
     box2d.destroyBody(body);
   }
   
-  // Change color when hit
+//  // Change color when hit
   void changeColor(int colVal) 
   {
     col = color(colVal,0,0); 
@@ -69,15 +71,15 @@ class Particle extends GameObject{
     //A particle is selected
     if(isSelected)
     {
-      changeColor(255);
+      //changeColor(255);
       moveToward(mouseX, mouseY);
       //println("Particle selected");
     } 
     else  //A particle is deselected
-    {       
+    {
       //changeColor(0,0,255);
       //println("Particle deselected");
-    }         
+    }
   }
   
   //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
@@ -99,7 +101,7 @@ class Particle extends GameObject{
         if(mouseY-y>1)
           y = y + light;
           else if (mouseY-y<-1)
-          y = y - light;      
+          y = y - light;
     }
   }
   // Is the particle ready for deletion?
@@ -157,14 +159,14 @@ class Particle extends GameObject{
 
     // Always do this at the end
     body.setMassFromShapes();
-
-    // Give it a random initial velocity (and angular velocity)
-    //body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
-    //body.setAngularVelocity(random(-10,10));
   }
   
   Body getBody()
   {
     return body;
+  }
+  boolean isBlind()
+  {
+    return blind;
   }
 }

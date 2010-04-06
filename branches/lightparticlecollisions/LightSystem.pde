@@ -150,7 +150,6 @@ class LightParticle extends Particle{
   
   void kill()
   {
-    println("KILLED LIGHT PARTICLE");
     killBody();
     alive = false;
   }
