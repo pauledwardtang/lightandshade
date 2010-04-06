@@ -65,73 +65,31 @@ class GameObject
    }
 }
 
-
-class Unit extends GameObject{
-  float light, radius;
-  boolean lit = false;
-  
-  Unit(){
-    radius = 8;
-    x = random(0+radius,width-radius);//spawn it somewhere on the screen
-    y = random(0+radius,height-radius);
-    light = 1;
-  }
-  
-  Unit(float x, float y)
-  {
-    super(x,y);
-    radius = 8;
-    light = 1;
-  }
-  void update(){
-    if (light > 0){
-      moveToward(mouseX, mouseY);
-      
-     // light = light*.98;//reduces light over time
-     light = 1;//this line for test purposes
-    }  
-  }//end unit.update
-  
-  void draw(){
-    color cl = color(105, 105+75*light, 0);
-    fill(cl);
-    stroke(2);
-    ellipse(x, y, radius, radius);
-    noFill();
-    noStroke();
-  }//end unit.draw
-  
-  
-  //this is garbage, make it circular
-  void moveToward(float xin, float yin){
-    if(dist(xin,yin,x,y)>1){
-    
-    if(mouseX-x>1)
-      x = x + light;
-      else if (mouseX-x<-1)
-      x = x - light;     
-      
-    if(mouseY-y>1)
-      y = y + light;
-      else if (mouseY-y<-1)
-      y = y - light;      
-    }
-  }
-  
-}//end Unit
-
 //small unit, can manipulate blinded units
+//can only move when light > 0
 class Sprite extends Particle{
   Sprite(float x, float y, int id)
   {
     super(x, y, 10, id, "player");
-    changeColor(0,255,0);
+//    changeColor(0,g,0);
   }
   //redefine light when hit by a light particle
   void changeLight()
   {
     light = light + 10;
-    changeColor((int)light, 255, (int)light);
+  }
+  void update()
+  {
+    super.update();
+    if(light > -255)
+    {
+      light = light - 1;
+    }
+    if(light <= 0)
+    {
+      blind = true;
+    }
+    col = color(light, light, 0);
   }
 }
 
@@ -146,16 +104,28 @@ class Prism extends Particle{
 
 //small unit, can manipulate blinded units
 class Shade extends Particle{
-    Shade(float x, float y, int id)
+  //can only move when light < 255
+  Shade(float x, float y, int id)
   {
       super(x, y, 10, id, "enemy");
-      changeColor(100,100,100);
   }
-    //redefine light when hit by a light particle
+  //redefine light when hit by a light particle
   void changeLight()
   {
     light = light + 10;
-    col = color(light, light, light);
+  }  
+  void update()
+  {
+    super.update();
+    if(light > -255)
+    {
+      light = light - 1;
+    }
+    if(light >= 255)
+    {
+      blind = true;
+    }
+    col = color(255, light, light);
   }
 }
 
@@ -168,96 +138,6 @@ class Eye extends Particle{
       changeColor(50,50,50);
   }
 }
-//
-//class LightSourceDebug extends Particle{
-// float spawnAngle;
-// int groupID = -1;
-// 
-//  ArrayList particles = new ArrayList();
-//  
-//  LightSourceDebug(int x, int y, int id)
-//  {
-//    super(x, y, 40, id, "lightsource");
-//    spawnAngle = radians(75);
-//    //makeBody(x, y, radius);
-//    //body.setUserData(this);
-//  }
-//
-//  //adds k new particles to the particle list.
-//  ArrayList spawn(int k)
-//  {
-//    float dir = random(radians(-spawnAngle/2), radians(spawnAngle/2));
-//    float xin, yin;
-//    
-//    for(int i = 0; i < k; i++)
-//     {
-//       //must be inside the LightSource
-//        xin = random(x-radius, x+radius);
-//        yin = random(y-radius, y+radius);
-//        particles.add(new LightParticle(xin, yin, dir, groupID)); 
-//        println("Particle spawned");
-//     }
-//     return particles;
-//  } 
-//  
-//  void display()
-//  {
-//    // We look at each body and get its screen position
-//    Vec2 pos = box2d.getScreenPos(body);
-//    // Get its angle of rotation
-//    float a = body.getAngle();
-//    pushMatrix();
-//    translate(pos.x,pos.y);
-//    rotate(a);
-//    fill(color(255, 0, 0, 100));
-//    stroke(0);
-//    strokeWeight(1);
-//    ellipse(0,0,radius*2,radius*2);
-//    // Let's add a line so we can see the rotation
-//    line(0,0,radius,0);
-//    popMatrix();
-//  
-//  }
-//  
-//  //puts all particles in list on screen. Should be called after every spawn().
-//  void displayParticles()
-//  {
-//    for(int i = 0; i < particles.size(); i++)
-//    {
-//      LightParticle temp = (LightParticle) particles.get(i);
-//      if(temp.isAlive() == true)
-//      {
-//        temp.update();
-//        temp.display();
-//      }
-//      else
-//      {
-//        particles.remove(i);
-//      }
-//    }
-//  }
-//  void update()
-//  {
-//    //spawn(5);
-//    //displayParticles();
-//  }
-//  
-//  void makeBody(float x, float y, float r) {
-//    super.makeBody(x, y, r, groupID);
-//    body.setLinearVelocity(new Vec2(random(-10f,10f),random(5f,10f)));
-//  }
-//  
-//  void draw(){
-//    color cl = color(255, 0, 0);
-//    fill(cl);
-//    stroke(2);
-//    ellipse(x, y, radius, radius);
-//    noFill();
-//    noStroke();
-//    
-//    
-//  }//end draw
-//}
-
+/*Each particle, when selected, needs to find out who it's owned by and whether it is blinded or not*/
 
 
