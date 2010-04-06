@@ -102,7 +102,6 @@ class Particle extends GameObject{
       MOVE_MODE = true;
       move();
     }  
-    done();
   }
   
   //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
@@ -132,7 +131,7 @@ class Particle extends GameObject{
     // Let's find the screen position of the particle
     Vec2 pos = box2d.getScreenPos(body);
     // Is it off the bottom of the screen?
-    if (pos.y > height+radius*2) {
+    if (pos.y > height+radius ||  pos.y < -radius || pos.x > width+radius || pos.x < -radius) {
       killBody();
       return true;
     }
@@ -157,6 +156,7 @@ class Particle extends GameObject{
     rotate(a);
     fill(col);
     stroke(0);
+    
     strokeWeight(1);
     ellipse(0,0,radius*2,radius*2);
     // Let's add a line so we can see the rotation
@@ -222,23 +222,25 @@ class Particle extends GameObject{
     //Moves the MovePiece towards the target at the movePiece's speed.
   void move()
   {
-    Vec2 pos = box2d.getScreenPos(body);
-    int xPos = (int) pos.x;
-    int yPos = (int) pos.y;
-    if (MOVE_MODE == true && target.Dist(xPos, yPos) >= speed)//If the MovePiece is at least one -speed- from the Target, move.
-      {
-        yPos += speed/target.Dist(xPos, yPos)*target.yDist(yPos);//y-velocity
-        xPos += speed/target.Dist(xPos, yPos)*target.xDist(xPos);//x-velocity
-      println("moving!" + millis());
-      }
-    
-    if (target.Dist(xPos, yPos) < speed)//If the MovePiece is within one -speed- of the Target, move to the target and stop.
-    {
-        yPos += target.yDist(yPos);
-        xPos += target.xDist(xPos);
-    println("stopping!" + millis());
-        MOVE_MODE= false;    
-    }   
+      Vec2 pos = box2d.getScreenPos(body);
+      Vec2 mouseWorld = box2d.screenToWorld(mouseX,mouseY);
+      body.applyForce(new Vec2(0f, -50f), new Vec2(0,0));
+//    int xPos = (int) pos.x;
+//    int yPos = (int) pos.y;
+//    if (MOVE_MODE == true && target.Dist(xPos, yPos) >= speed)//If the MovePiece is at least one -speed- from the Target, move.
+//      {
+//        yPos += speed/target.Dist(xPos, yPos)*target.yDist(yPos);//y-velocity
+//        xPos += speed/target.Dist(xPos, yPos)*target.xDist(xPos);//x-velocity
+//      //println("moving!" + millis());
+//      }
+//    
+//    if (target.Dist(xPos, yPos) < speed)//If the MovePiece is within one -speed- of the Target, move to the target and stop.
+//    {
+//        yPos += target.yDist(yPos);
+//        xPos += target.xDist(xPos);
+//    //println("stopping!" + millis());
+//        MOVE_MODE= false;    
+//    }   
   }
   
   boolean MOUSE_HOVER()
