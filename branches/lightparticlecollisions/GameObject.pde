@@ -68,6 +68,7 @@ class GameObject
 //small unit, can manipulate blinded units
 //can only move when light > 0
 class Sprite extends Particle{
+  DistanceSpring spring = new DistanceSpring();
   Sprite(float x, float y, int id)
   {
     super(x, y, 10, id, "player");
@@ -81,6 +82,7 @@ class Sprite extends Particle{
   void update()
   {
     super.update();
+    blind = false;
     if(light > -255)
     {
       light = light - 1;
@@ -88,12 +90,21 @@ class Sprite extends Particle{
     if(light <= 0)
     {
       blind = true;
+      spring.destroy();
     }
     col = color(light, light, 0);
   }
     boolean done()
   {
     return false;
+  }
+  void moveShade(Shade sh)
+  {
+    if(this.blind == false)
+    {
+     spring.bind(this, sh);
+     spring.update(this, sh);
+    }
   }
 }
 
@@ -126,12 +137,16 @@ class Shade extends Particle{
   }
   void moveSprite(Sprite spr)
   {
-    spring.bind(this, spr);
-    spring.update(this, spr);
+    if(this.blind == false)
+    {
+      spring.bind(this, spr);
+      spring.update(this, spr);
+    }
   }
   void update()
   {
     super.update();
+    blind = false;
     if(light > -255)
     {
       light = light - 1;
@@ -157,6 +172,7 @@ class Eye extends Particle{
       super(x, y, 30, id, "enemy");
       changeColor(50,50,50);
   }
+  
   boolean done()
   {
     return false;
