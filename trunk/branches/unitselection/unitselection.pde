@@ -171,7 +171,7 @@ void draw() {
     //Display buttons
     startButton.display();
     debugButton.display();
-    //drawSpotLight();
+    drawSpotLight();
   }
 }
 

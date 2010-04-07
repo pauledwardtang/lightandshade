@@ -69,7 +69,8 @@ void mousePressed()
             if (temp.isSelected == true)
               {
                   println("Setting target");
-                  temp.setTarget();                  
+                  temp.setTarget();        
+                  temp.body.setLinearVelocity(new Vec2(0,0));          
               }
           }
       }
