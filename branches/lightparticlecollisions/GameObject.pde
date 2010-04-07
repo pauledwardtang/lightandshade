@@ -91,6 +91,10 @@ class Sprite extends Particle{
     }
     col = color(light, light, 0);
   }
+    boolean done()
+  {
+    return false;
+  }
 }
 
 //Redirects light particles
@@ -98,13 +102,19 @@ class Prism extends Particle{
     Prism(float x, float y, int id)
   {
       super(x, y, 20, id, "player");
-      changeColor(255,255,0);
+      changeColor(255,255,100);
+  }
+  boolean done()
+  {
+    return false;
   }
 }
 
 //small unit, can manipulate blinded units
 class Shade extends Particle{
   //can only move when light < 255
+  DistanceSpring spring = new DistanceSpring();
+  
   Shade(float x, float y, int id)
   {
       super(x, y, 10, id, "enemy");
@@ -113,7 +123,12 @@ class Shade extends Particle{
   void changeLight()
   {
     light = light + 10;
-  }  
+  }
+  void moveSprite(Sprite spr)
+  {
+    spring.bind(this, spr);
+    spring.update(this, spr);
+  }
   void update()
   {
     super.update();
@@ -124,8 +139,13 @@ class Shade extends Particle{
     if(light >= 255)
     {
       blind = true;
+      spring.destroy();
     }
     col = color(255, light, light);
+  }
+    boolean done()
+  {
+    return false;
   }
 }
 
@@ -136,6 +156,10 @@ class Eye extends Particle{
   {
       super(x, y, 30, id, "enemy");
       changeColor(50,50,50);
+  }
+  boolean done()
+  {
+    return false;
   }
 }
 /*Each particle, when selected, needs to find out who it's owned by and whether it is blinded or not*/

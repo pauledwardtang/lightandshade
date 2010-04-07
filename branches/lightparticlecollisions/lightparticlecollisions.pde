@@ -1,6 +1,7 @@
 import pbox2d.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.joints.*;
+import org.jbox2d.p5.JointUtils;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.*;
@@ -228,7 +229,7 @@ void mousePressed()
         Particle temp = (Particle) gameState.selectedParticles.get(i);
         if(temp.contains(mouseX, mouseY))
         {
-           spring.bind(mouseX,mouseY,temp);
+           spring.bind(mouseX, mouseY,temp);
            attachedParticle = temp;
         }      
      }

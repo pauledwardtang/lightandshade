@@ -7,7 +7,7 @@ class LightSource extends Particle{
   
   LightSource(int x, int y, int id)
   {
-    super(40, "neutral", id, color(255, 255, 0));
+    super(40, "neutral", id, color(255, 175, 0), "player");
     makeBody(x, y, radius);
     body.setUserData(this);
   }
@@ -84,7 +84,7 @@ class LightParticle extends Particle{
   float speed;
   
   LightParticle(float xin, float yin, float dirIn, int gID){
-    super(5, "neutral", 2, color(255, 255, 0));
+    super(5, "neutral", 2, color(255, 175, 0), "none");
     dir = dirIn;//direction
     alive = true;
     speed = 20; //this is the speed of light!
@@ -137,7 +137,7 @@ class LightParticle extends Particle{
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 1.0f;
+    cd.density = 0.01f;
     cd.friction = 0.0f;
     cd.restitution = 1.0f; // Restitution is bounciness
     cd.filter.groupIndex = groupID; //objects with same negative group index will not collide

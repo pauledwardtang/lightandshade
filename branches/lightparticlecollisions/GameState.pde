@@ -154,6 +154,13 @@ class GameState{
           
         temp.update();
         temp.display();
+        
+         if(temp.done())
+        {
+          particles.remove(temp);
+          selectedParticles.remove(temp);
+//          println("Removed particle");
+        }
 
      } 
   }
@@ -205,6 +212,6 @@ class GameState{
       //displayUnits();
       updateParticles();
       updateLightSources();
-      println(particles.size());
+//      println(particles.size());
   } 
 }
