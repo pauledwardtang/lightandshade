@@ -37,7 +37,7 @@ class SelectionBox{
   {
     fill(boxColor,alpha);
     stroke(boxColor);
-    
+    strokeWeight(2);
     if(sizeX>width - holdX - 1)
       sizeX = width - holdX - 1;
     if(sizeY>height - holdY - 1)

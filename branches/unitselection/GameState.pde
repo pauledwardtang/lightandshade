@@ -58,25 +58,25 @@ class GameState{
     
         //Shades
         for(int i = 0; i < 1; i++)
-          particles.add(new Shade( 200 ,50, i));
+          particles.add(new Shade( WIDTH/2 ,HEIGHT/2, i));
           
-//        //Eyes
-//            for(int i = 0; i < 1; i++)
-//          particles.add(new Eye(200, 200, i));
+        //Eyes
+            for(int i = 0; i < 1; i++)
+          particles.add(new Eye(200, 200, i));
     
     //Light Units
     
         //LightSource
-        //createLightSources();
+        createLightSources();
         
         //createLightSourceDebug();
         //Sprites
-//        for(int i = 0; i < 1; i++)
-//          particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
-//          
-//        //Prisms
-//            for(int i = 0; i < 1; i++)
-//          particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
+        for(int i = 0; i < 1; i++)
+          particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
+          
+        //Prisms
+            for(int i = 0; i < 1; i++)
+          particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
   }
   
   //FOR DEBUGGING PURPOSES
@@ -153,6 +153,8 @@ class GameState{
           
         temp.update();
         temp.display();
+        temp.move(selectedParticles.size());
+        
         
         if(temp.done())
         {

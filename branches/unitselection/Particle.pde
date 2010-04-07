@@ -86,13 +86,10 @@ class Particle extends GameObject{
     //A particle is selected
     if(isSelected)
     {
-      changeColor(255);
-      moveToward(mouseX, mouseY);
       //println("Particle selected");
     } 
     else  //A particle is deselected
     {       
-      //changeColor(0,0,255);
       //println("Particle deselected");
     }
     
@@ -100,8 +97,12 @@ class Particle extends GameObject{
     if(target.Dist((int) pos.x, (int) pos.y) >= 1)
     {
       MOVE_MODE = true;
-      move();
+      //move();
     }  
+    else
+      setTarget(pos.x, pos.y);
+      
+    body.setAngularVelocity(0);
   }
   
   //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
@@ -150,17 +151,23 @@ class Particle extends GameObject{
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);
     // Get its angle of rotation
-    float a = body.getAngle();
+    //float a = body.getAngle();
     pushMatrix();
     translate(pos.x,pos.y);
-    rotate(a);
+    //rotate(a);
     fill(col);
-    stroke(0);
+    if(isSelected)
+    {
+      stroke(2);
+      strokeWeight(2);
+    }
+    else
+      noStroke();
     
-    strokeWeight(1);
+    //strokeWeight(1);
     ellipse(0,0,radius*2,radius*2);
     // Let's add a line so we can see the rotation
-    line(0,0,radius,0);
+    //line(0,0,radius,0);
     popMatrix();
   }
   
@@ -172,12 +179,15 @@ class Particle extends GameObject{
     bd.position = box2d.screenToWorld(x,y);
     body = box2d.world.createBody(bd);
 
+    bd.linearDamping = 1;
+    bd.angularDamping = 1;
+
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
     cd.density = 1.0f;
     cd.friction = 0.01f;
-    cd.restitution = 0.3f; // Restitution is bounciness
+    cd.restitution = .3f; // Restitution is bounciness
     body.createShape(cd);
 
     // Always do this at the end
@@ -220,27 +230,22 @@ class Particle extends GameObject{
   
   //*****************Movement functions*******************
     //Moves the MovePiece towards the target at the movePiece's speed.
-  void move()
+  void move(int threshold)
   {
       Vec2 pos = box2d.getScreenPos(body);
-      Vec2 mouseWorld = box2d.screenToWorld(mouseX,mouseY);
-      body.applyForce(new Vec2(0f, -50f), new Vec2(0,0));
-//    int xPos = (int) pos.x;
-//    int yPos = (int) pos.y;
-//    if (MOVE_MODE == true && target.Dist(xPos, yPos) >= speed)//If the MovePiece is at least one -speed- from the Target, move.
-//      {
-//        yPos += speed/target.Dist(xPos, yPos)*target.yDist(yPos);//y-velocity
-//        xPos += speed/target.Dist(xPos, yPos)*target.xDist(xPos);//x-velocity
-//      //println("moving!" + millis());
-//      }
-//    
-//    if (target.Dist(xPos, yPos) < speed)//If the MovePiece is within one -speed- of the Target, move to the target and stop.
-//    {
-//        yPos += target.yDist(yPos);
-//        xPos += target.xDist(xPos);
-//    //println("stopping!" + millis());
-//        MOVE_MODE= false;    
-//    }   
+      int xPos = (int) pos.x;
+      int yPos = (int) pos.y;
+      println("Distance to target: " + target.Dist(xPos, yPos) );
+      if(target.Dist(xPos, yPos) < 1.5*radius*threshold)
+      {        
+        body.setLinearVelocity(new Vec2(0,0));
+        body.setAngularVelocity(0);
+        setTarget(pos.x, pos.y);
+        MOVE_MODE = false;
+        
+      }  
+      else
+        body.applyForce(new Vec2(-(pos.x - target.X)/speed, (pos.y - target.Y)/speed), new Vec2(0,0));
   }
   
   boolean MOUSE_HOVER()

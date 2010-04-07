@@ -1,6 +1,6 @@
 //Holds the coordinates of the Particles's destination.
   class Target{
-    float X, Y;
+    public float X, Y;
     
     Target(float x,float y)
     {
