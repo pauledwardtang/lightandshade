@@ -1,6 +1,7 @@
 import pbox2d.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.joints.*;
+import org.jbox2d.p5.JointUtils;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.*;
@@ -14,6 +15,11 @@ static PBox2D box2d;
 // The Spring that will attach to the box from the mouse
 Spring spring;
 Particle attachedParticle;
+
+//Selection stuff
+SelectionBox sBox = new SelectionBox();
+boolean L_MOUSE = false;
+boolean R_MOUSE = false;
 
 static final int WIDTH = 800;
 static final int HEIGHT = 600;
@@ -116,9 +122,12 @@ void draw() {
       //Update the mouse joint
       spring.update(mouseX,mouseY);
       spring.display();
-      
+             
       //Draw the game's objects
       gameState.draw();
+      
+      if (L_MOUSE == true)
+        sBox.updateBox();//update the SelectionBox 
   }
   else if(debugEnable) //Debug mode
   {
@@ -141,9 +150,11 @@ void draw() {
        // Always alert the spring to the new mouse location
      spring.update(mouseX,mouseY);
      spring.display();
-     
+    
      gameState.draw();
-     //source.displayParticles();
+     
+     if (L_MOUSE == true)
+      sBox.updateBox();//update the SelectionBox 
   }
   else  //Show startup screen
   {
@@ -158,94 +169,94 @@ void draw() {
     startButton.display();
     debugButton.display();
     //drawSpotLight();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }
 }
 
-//Handles all actions when the mouse is clicked.
-void mouseClicked()
-{
-  if(startButton.isPressed() && !gameEnable)
-    {
-      gameEnable = true;
-      println("Game enabled");
-    }
-  if(debugButton.isPressed() && !debugEnable)
-    {
-      debugEnable = true;
-      println("Debug enabled");
-    }
-  if(addObsButton.isPressed() && debugEnable)
-    {
-      gameState.randomizeObstacles();
-      println("Randomized obstacles");
-    }
-   if(addUnitsButton.isPressed() && debugEnable)
-    {
-      gameState.createUnits();
-      //gameState.createParticles();
-      println("Added units");
-    }
-    
-    if(addParticles.isPressed() && debugEnable)
-    {
-      source.spawn(20);
-      source.displayParticles();
-    }
-    
-    if(clearButton.isPressed() && debugEnable)
-    {
-       gameState.removeParticles();
-       gameState.removeObstacles();
-    }
-    //println("Mouse clicked");
-    
-    //Update particle selection if the mouse is clicked. Doesn't select when dragged...
-    for(int i = 0; i < gameState.particles.size(); i++)
-     {
-        Particle temp = (Particle) gameState.particles.get(i);
-        
-        if(temp.contains(mouseX, mouseY))
-        {
-           if(temp.isSelected)
-             temp.isSelected = false;
-           else
-           {
-             temp.isSelected = true;             
-           }
-        }
-
-        //println("particle[" + i + "] selected: "+ temp.isSelected);
-     }
-}
-
-// When the mouse is pressed we. . .
-void mousePressed() 
-{
-
-    //Update particle selection if the mouse is pressed
-    for(int i = 0; i < gameState.selectedParticles.size(); i++)
-     {
-        Particle temp = (Particle) gameState.selectedParticles.get(i);
-        if(temp.contains(mouseX, mouseY))
-        {
-           spring.bind(mouseX,mouseY,temp);
-           attachedParticle = temp;
-        }      
-     }
-  }
 
 
-void mouseDragged()
-{
 
-  
-}
-//Handles all actions when a mouse is released
-  void mouseReleased()
-  {
-      attachedParticle.body.setLinearVelocity(new Vec2(0,0));
-      spring.destroy();
-  }
+
+
+
+
+
+
+
+
+
 
 /**
  * Brightness

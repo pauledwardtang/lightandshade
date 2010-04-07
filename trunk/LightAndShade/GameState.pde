@@ -20,22 +20,20 @@ class GameState{
   ArrayList selectedParticles = new ArrayList();
   private ArrayList obstacles = new ArrayList();
   private ArrayList lightSources = new ArrayList();
+  private ArrayList lightParticles = new ArrayList();
 
   GameState(int width, int height)
   {
     randomizeObstacles();
     createUnits();
-    //createParticles();
-    //createLightSources();
   } 
-  
-  GameState(int width, int height, int range)
-  {
-    randomizeObstacles();
-    createUnits(range);
-    createLightSources();
-  } 
-  
+//  
+//  GameState(int width, int height, int range)
+//  {
+//    randomizeObstacles();
+//    createLightSources();
+//  } 
+//  
   //Randomly initializes obstacles
   private void randomizeObstacles()
   {
@@ -43,13 +41,6 @@ class GameState{
       obstacles.add(new Obstacle(random(width-50), random(height-50), OBS_WIDTH, OBS_HEIGHT));
 
   }
-  
-//    //Initializes particles (random number from 1 to 10)
-//  private void createParticles()
-//  {
-//    for(int i = 0; i < 10; i++)
-//      particles.add(new Particle(10));
-//  }
   
   //Initializes units (random number from 1 to 10)
   private void createUnits()
@@ -67,9 +58,12 @@ class GameState{
     //Light Units
     
         //LightSource
-        createLightSources();
+          particles.add(new LightSource(WIDTH/2, HEIGHT/2, 0));
         
-        //createLightSourceDebug();
+        
+        //Light particles
+        createLightParticles();
+        
         //Sprites
         for(int i = 0; i < 1; i++)
           particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
@@ -78,30 +72,20 @@ class GameState{
             for(int i = 0; i < 1; i++)
           particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
   }
+
   
-  //FOR DEBUGGING PURPOSES
-  //Initializes units (random number from a specified range)
-  private void createUnits(int range)
+  private void createLightParticles()
   {
-    for(int i = 0; i < random(range); i++)
-      units.add(new Unit());
+    for(int i = 0; i < lightSources.size(); i++)
+    {
+      LightSource tempSource = (LightSource) lightSources.get(i);
+      for(int k = 0; k < 4; k++)
+      {
+        LightParticle temp = tempSource.spawn();
+        lightParticles.add(temp);
+      }
+    }
   }
-  
-  //Initialize light source
-  private void createLightSources()
-  {
-    LightSource temp = new LightSource(WIDTH/2, HEIGHT/2, 0);
-    temp.spawn(5);
-    particles.add(temp);    
-  }
-  
-//    private void createLightSourceDebug()
-//  {
-//    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
-//    temp.spawn(5);
-//    particles.add(temp);
-//    
-//  }
   
   //Returns a list of obstacles
   public ArrayList getObstacles()
@@ -123,20 +107,9 @@ class GameState{
         Obstacle obs = (Obstacle) obstacles.get(i);
         obs.display();
      } 
-  }
+  }  
   
-  //Displays units
-  public void displayUnits()
-  {
-      for(int i = 0; i < units.size(); i++)
-     {
-        Unit temp = (Unit) units.get(i);
-        temp.update();
-        temp.draw();
-     } 
-  }
-  
-    //Displays particles
+  //Displays particles
   public void updateParticles()
   {
       selectedParticles.clear();
@@ -150,30 +123,45 @@ class GameState{
         
         if(temp.isSelected)
           selectedParticles.add(temp);
+        
+        //Have LightSource give an int value that specifies the number of LightParticles to generate (i.e change the K value)
+        if(temp.body.getUserData().getClass().getName().contains("LightSource"))
+            for(int k = 0; k < 2; k++)
+              lightParticles.add(((LightSource) temp).spawn());
           
+        
         temp.update();
         temp.display();
+        temp.move(selectedParticles.size());
+        
+        
+        if(temp.done())
+        {
+          particles.remove(temp);
+          selectedParticles.remove(temp);
+          println("Removed particle");
+        }
+        
 
      } 
   }
-  
-  //displays light source
-  public void updateLightSources()
+
+    //puts all light particles in list on screen.
+  void displayLightParticles()
   {
-    for(int i = 0; i < lightSources.size(); i++)
+    for(int i = 0; i < lightParticles.size(); i++)
     {
-      LightSource temp = (LightSource) lightSources.get(i);
+      LightParticle temp = (LightParticle) lightParticles.get(i);
+      
       temp.update();
       temp.display();
+      
+      if(temp.done() || !temp.isAlive())
+        {
+          lightParticles.remove(temp);
+        }
     }
   }
-  
-  public ArrayList getLightSource()
-  {
-    return lightSources;
-  }
-  
-  
   //Kills all particle bodies
   void removeParticles()
   {
@@ -201,11 +189,7 @@ class GameState{
   void draw()
   {
       updateObstacles();
-      //displayUnits();
       updateParticles();
-      updateLightSources();
-  }
-
-  
-  
+      displayLightParticles();
+  }  
 }
