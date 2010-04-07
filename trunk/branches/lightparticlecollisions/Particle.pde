@@ -20,7 +20,7 @@ class Particle extends GameObject{
   int groupID;
   
   //for particles with their own makeBody method
-  Particle(int rad, String own, int idNum, color aCol)
+  Particle(int rad, String own, int idNum, color aCol, String owner)
   {
     radius = rad;
     owner = own;
@@ -28,6 +28,7 @@ class Particle extends GameObject{
     col = aCol;
     light = 1;
     blind = false;
+    this.owner = owner;
   }
 
   Particle(float x, float y, float radius_, int id, String owner) {
@@ -109,13 +110,12 @@ class Particle extends GameObject{
     // Let's find the screen position of the particle
     Vec2 pos = box2d.getScreenPos(body);
     // Is it off the bottom of the screen?
-    if (pos.y > height+radius*2) {
+     if (pos.y > height+radius ||  pos.y < -radius || pos.x > width+radius || pos.x < -radius) {
       killBody();
       return true;
     }
     return false;
   }
-  
 
   boolean contains(float x, float y) {
     Vec2 worldPoint = box2d.screenToWorld(x, y);
@@ -152,7 +152,7 @@ class Particle extends GameObject{
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 1.0f;
+    cd.density = 4.0f;
     cd.friction = 0.01f;
     cd.restitution = 0.3f; // Restitution is bounciness
     body.createShape(cd);

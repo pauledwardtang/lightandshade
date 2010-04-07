@@ -15,7 +15,7 @@ class Spring {
     mouseJoint = null;
   }
 
-  // If it exists we set its target to the mouse location 
+
   void update(float x, float y) {
     if (mouseJoint != null) {
       // Always convert to world coordinates!
@@ -61,6 +61,28 @@ class Spring {
 
     // Wake up body!
     box.body.wakeUp();
+
+    // Make the joint!
+    mouseJoint = (MouseJoint) box2d.world.createJoint(md);
+  }
+  
+   void bind(Particle p1, Particle p2) {
+    // Define the joint
+    MouseJointDef md = new MouseJointDef();
+    //the bodies of both particles
+    md.body1 = p1.body;
+    md.body2 = p2.body;
+    // Get the box location in world coordinates
+    Vec2 mp = box2d.screenToWorld(p1.x, p1.y);
+    // And that's the target
+    md.target.set(mp);
+    // Some stuff about how strong and bouncy the spring should be
+    md.maxForce = 100.0f * p2.body.m_mass;
+    md.frequencyHz = 0.1f;
+    md.dampingRatio = 0.1f;
+
+    // Wake up body!
+   // box.body.wakeUp();
 
     // Make the joint!
     mouseJoint = (MouseJoint) box2d.world.createJoint(md);
