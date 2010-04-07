@@ -89,8 +89,7 @@ class CustomListener implements ContactListener {
     }
     else if(sh.isBlind())
     {
-      spring.bind(sh, spr);
-      spring.update(sh, spr);
+      spr.moveShade(sh);
     }
   }
 

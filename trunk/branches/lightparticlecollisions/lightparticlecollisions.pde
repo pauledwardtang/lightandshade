@@ -139,7 +139,7 @@ void draw() {
      
      box2d.step();
      
-       // Always alert the spring to the new mouse location
+     // Always alert the spring to the new mouse location
      spring.update(mouseX,mouseY);
      spring.display();
      
