@@ -37,7 +37,7 @@ class GameState{
   //Randomly initializes obstacles
   private void randomizeObstacles()
   {
-    for(int i = 0; i < random(10) + 1 ; i++)
+    for(int i = 0; i < random(3,10) + 1 ; i++)
       obstacles.add(new Obstacle(random(width-50), random(height-50), OBS_WIDTH, OBS_HEIGHT));
 
   }

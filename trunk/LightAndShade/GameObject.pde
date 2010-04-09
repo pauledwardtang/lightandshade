@@ -58,7 +58,6 @@ class GameObject
         stroke(0);
         rectMode(CENTER);
         rect(x,y,w,h);
-   
      }
      else
        image(img, x, y);
