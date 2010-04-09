@@ -39,7 +39,7 @@ class GameState{
   //Randomly initializes obstacles
   private void randomizeObstacles()
   {
-    for(int i = 0; i < random(10) + 1 ; i++)
+    for(int i = 0; i < random(10,15) + 1; i++)
       obstacles.add(new Obstacle(random(width-50), random(height-50), OBS_WIDTH, OBS_HEIGHT));
 
   }
@@ -67,7 +67,7 @@ class GameState{
     //Light Units
     
         //LightSource
-        createLightSources();
+        //createLightSources();
         
         //createLightSourceDebug();
         //Sprites
@@ -92,17 +92,16 @@ class GameState{
   {
     LightSource temp = new LightSource(WIDTH/2, HEIGHT/2, 0);
     temp.spawn(5);
-    particles.add(temp);
-    
+    particles.add(temp);    
   }
   
-    private void createLightSourceDebug()
-  {
-    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
-    temp.spawn(5);
-    particles.add(temp);
-    
-  }
+//    private void createLightSourceDebug()
+//  {
+//    LightSourceDebug temp = new LightSourceDebug(WIDTH/2, HEIGHT/2, 0);
+//    temp.spawn(5);
+//    particles.add(temp);
+//    
+//  }
   
   //Returns a list of obstacles
   public ArrayList getObstacles()
