@@ -25,6 +25,7 @@ class GameState{
   GameState(int width, int height)
   {
     randomizeObstacles();
+    createPrison();
     createUnits();
   } 
 //  
@@ -34,11 +35,20 @@ class GameState{
 //    createLightSources();
 //  } 
 //  
+
+ private void createPrison(){
+   obstacles.add(new Obstacle(140, 0, 1));
+ }
   //Randomly initializes obstacles
   private void randomizeObstacles()
   {
-    for(int i = 0; i < random(3,10) + 1 ; i++)
-      obstacles.add(new Obstacle(random(width-50), random(height-50), OBS_WIDTH, OBS_HEIGHT));
+    //for(int i = 0; i < 1 /*random(1,2)*/ ; i++)
+      obstacles.add(new Obstacle(random(width - 300,width-250), random(height-300,height-250),0));
+      
+      obstacles.add(new Obstacle(random(width - 600,width-550), random(height-700,height-650),0));
+      
+      obstacles.add(new Obstacle(random(width - 900,width-850), random(height-350,height-300),0));
+      
 
   }
   
