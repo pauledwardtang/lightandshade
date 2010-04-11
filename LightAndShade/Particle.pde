@@ -14,6 +14,7 @@ class Particle extends GameObject{
   int id;
   int groupID;
   boolean MOVE_MODE = false;
+  int threshold;
   
   //Movement variables
   Target target;
@@ -71,15 +72,8 @@ class Particle extends GameObject{
   
   public void update() {
     Vec2 pos = box2d.getScreenPos(body);
-    //A particle is selected
-    
-    //****Update target****    
-    if(target.Dist((int) pos.x, (int) pos.y) >= 1)
-    {
-      MOVE_MODE = true;
-      //move();
-    }  
-    else
+
+    if(MOVE_MODE == false)
       setTarget(pos.x, pos.y);
       
     body.setAngularVelocity(0);
@@ -174,13 +168,13 @@ class Particle extends GameObject{
   
     //*****************Movement functions*******************
     //Moves the MovePiece towards the target at the movePiece's speed.
-  void move(int threshold)
+  void move()
   {
 
       Vec2 pos = box2d.getScreenPos(body);
       int xPos = (int) pos.x;
       int yPos = (int) pos.y;
-      if(target.Dist(xPos, yPos) < 1.5*radius*threshold)
+      if(target.Dist(xPos, yPos) < 1.5*radius*threshold) //This line needs to change: threshold is being changed constantly! (if there is nothing selected then it will never stop!)
       {        
         body.setLinearVelocity(new Vec2(0,0));
         body.setAngularVelocity(0);
@@ -189,7 +183,7 @@ class Particle extends GameObject{
         
       }  
       else
-        body.applyForce(new Vec2(-(pos.x - target.X)/speed, (pos.y - target.Y)/speed), new Vec2(0,0));
+        body.applyForce(new Vec2(-(pos.x - target.X), (pos.y - target.Y)), new Vec2(0,0));
   }
   
   boolean MOUSE_HOVER()
