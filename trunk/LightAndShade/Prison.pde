@@ -4,13 +4,13 @@ class Prison extends GameObject {
   // But we also have to make a body for box2d to know about it
   Body b;
   ArrayList surface;
+  int type;
 
-  Prison(float x_,float y_) {
+  Prison(int type_) {
     
     surface = new ArrayList();
     
-    x = x_;
-    y = y_;
+    type = type_;
      
         EdgeChainDef edges = new EdgeChainDef();
      
@@ -21,21 +21,58 @@ class Prison extends GameObject {
     	// This "edgechain" will only work in one direction!
     	//for (float i = width+10; i > -10; i -= 5) {
       
-        for (float i = x+80; i > x-80; i -= 2.5) {
+//        for (float i = x+80; i > x-80; i -= 2.5) {
+//    		
+//    		// Doing some stuff with perlin noise to calculate a surface that points down on one side
+//    		// and up on the other
+//    		float k;
+//    		
+//                  if (i > x) {
+//                     k = 150 + (x-i)*1.1f + map(noise(xoff),0,1,0,40);
+//                        	
+//    		} else { 
+//                     k = 150 +(i - x)*1.1f + map(noise(xoff),0,1,0,40);
+//            		}
+//            
+//            float a = 0.0;
+//float inc = TWO_PI/25.0;
+//
+//for(int i=0; i<100; i=i+4) {
+//  line(i, 50, i, 50+sin(a)*40.0);
+//  a = a + inc;
+//}
+            
+            float k;
+           
+           if(type == 0)
+               k = width;
+           else
+               k = 0;
+            
+            for (float i = height; i > 0; i -= 10) {
     		
     		// Doing some stuff with perlin noise to calculate a surface that points down on one side
     		// and up on the other
-    		float k;
     		
-                  if (i > x) {
-                     k = 150 + (x-i)*1.1f + map(noise(xoff),0,1,0,40);
-                        	
-    		} else { 
-                     k = 150 +(i - x)*1.1f + map(noise(xoff),0,1,0,40);
+    		
+                  if (i > height/2 + 100) {
+                     
+                    if(type == 0)
+                        k -= 3;  
+                    else
+                        k += 3;         	
+    		} 
+                 else if(i < height/2 + 100 && i > height/2-100){
+                    k = k;
+                 } else { 
+                   if(type == 0)
+                     k += 3; 
+                    else
+                     k -= 3;
             		}
     		
     		// The edge point in our window
-    		Vec2 screenEdge = new Vec2(i,k);
+    		Vec2 screenEdge = new Vec2(k,i);
     		// We store it for rendering
     		surface.add(screenEdge);
     		
@@ -62,7 +99,7 @@ class Prison extends GameObject {
 	void display() {
 		strokeWeight(2);
 		stroke(2);
-		   noFill();
+		fill(100);
                 shapeMode(CENTER);
 		beginShape();
 		for (int i = 0; i < surface.size(); i++) {
