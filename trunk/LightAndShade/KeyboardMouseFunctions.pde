@@ -62,15 +62,13 @@ void mousePressed()
     if (mouseButton == RIGHT && L_MOUSE == false)
       {
         R_MOUSE = true;
-        for(int i = 0; i < gameState.particles.size(); i++)
+        for(int i = 0; i < gameState.selectedParticles.size(); i++)
         {
-            Particle temp = (Particle) gameState.particles.get(i);
-            if (temp.isSelected == true)
-              {
-                  println("Setting target");
-                  temp.setTarget();        
-                  temp.body.setLinearVelocity(new Vec2(0,0));          
-              }
+            Particle temp = (Particle) gameState.selectedParticles.get(i);
+            temp.setTarget();        
+            temp.MOVE_MODE = true;
+            temp.threshold = gameState.selectedParticles.size();
+            temp.body.setLinearVelocity(new Vec2(0,0));     //Reset velocity when selecting a new location
           }
       }
       

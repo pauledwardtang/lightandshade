@@ -130,7 +130,11 @@ class GameState{
         
         temp.update();
         temp.display();
-        temp.move(selectedParticles.size());
+        
+        //temp.move(selectedParticles.size());  //If we use the size of the list its going to give us problems
+        
+        //temp.move(2);  //2 is arbitrary for now...its supposed to keep units in line with each other so they don't go into orbit
+        temp.move();
         
         
         if(temp.done())
