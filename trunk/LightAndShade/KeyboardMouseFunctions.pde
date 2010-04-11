@@ -109,7 +109,7 @@ void mouseReleased()
          for(int i = 0; i < gameState.particles.size(); i++)
          {
             Particle temp = (Particle) gameState.particles.get(i);
-            if(temp.owner.equals("player"))
+            if(temp.owner.equals("player") || debugEnable)
                temp.selection();       
         }
      }    
@@ -123,7 +123,7 @@ void mouseReleased()
   
 void keyPressed()
 {
-  if (keyPressed&&key=='d')//Detach speed
+  if (keyPressed&&key=='d')//Detach spring
     {
          for(int i = 0; i < gameState.selectedParticles.size(); i++)
          {
@@ -132,4 +132,9 @@ void keyPressed()
               ((Sprite)temp).spring.destroy();
         }
     } 
+    if (keyPressed&&key=='s')//Switch game mode
+    {
+        debugEnable = !debugEnable;
+        gameEnable  = !gameEnable;
+    }
 }
