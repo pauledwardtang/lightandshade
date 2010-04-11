@@ -9,6 +9,7 @@ class LightSource extends Particle{
     super(40, "neutral", id, color(255, 175, 0), "player");
     makeBody(x, y, radius);
     body.setUserData(this);
+    target = new Target(x,y);
   }
 
   //adds k new particles to the particle list.
