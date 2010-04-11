@@ -31,7 +31,7 @@ The highest layer is the "boss" of the Eyes. It decides whether or not the AI-pl
 ==Lower-level behaviors==
 
 ===Identify dark/light areas===
-  * This could be done all sorts of fun ways.
+  * This could be done all sorts of fun ways. That said, we'll probably do it the following way unless someone has a better idea.
   * A "heat map", kept by the AI might be the most straightforward way of doing it.
     * Such a heat map could be updated either by how often light particles pass over its regions
     * Could also be built up based on how often Shades get lit up. (Possibly more realistic)
