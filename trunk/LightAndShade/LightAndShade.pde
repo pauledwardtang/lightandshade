@@ -21,8 +21,8 @@ SelectionBox sBox = new SelectionBox();
 boolean L_MOUSE = false;
 boolean R_MOUSE = false;
 
-static final int WIDTH = 800;
-static final int HEIGHT = 600;
+static final int WIDTH = 1260;
+static final int HEIGHT = 730;
 
 GameState gameState;
 ArrayList obstacles;
