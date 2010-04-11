@@ -37,9 +37,9 @@ class GameState{
 
  private void createPrison(){
    
-   prison.add(new Prison(0));
+   prison.add(new PlayerPrison(0));
    
-   prison.add( new Prison(1));
+   prison.add( new EnemyPrison(1));
    
    
  }
@@ -104,7 +104,7 @@ class GameState{
      } 
   }  
   
-  //Displays Prison
+ //Displays Prison
    void updatePrison(){
      for(int i = 0; i < prison.size(); i++)
      {

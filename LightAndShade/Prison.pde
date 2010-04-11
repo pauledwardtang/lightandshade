@@ -91,6 +91,19 @@ class Prison extends GameObject {
             Vec2 edge = box2d.screenToWorld(screenEdge);
             edges.addVertex(edge);
             
+            
+        edges.setIsLoop(true);   // We could make the edge a full loop
+    	edges.friction = 0.3f;    // How much friction
+        edges.density = 0;
+    	edges.restitution = 0.3f; // How bouncy
+    	
+    	// The edge chain is now a body!
+		BodyDef bd = new BodyDef();
+		bd.position.set(0.0f,0.0f);//box2d.screenToWorld(new Vec2(j,k)));//0.0f,0.0f);
+		b = box2d.world.createBody(bd);
+		b.createShape(edges);
+                b.setUserData(this);
+            
         }
         
     
@@ -99,7 +112,8 @@ class Prison extends GameObject {
 	void display() {
 		strokeWeight(2);
 		stroke(2);
-		fill(100);
+		//fill(100);
+                noFill();
                 shapeMode(CENTER);
 		beginShape();
 		for (int i = 0; i < surface.size(); i++) {
@@ -114,4 +128,20 @@ class Prison extends GameObject {
     box2d.destroyBody(b);
   }
   
+  }
+  
+  class PlayerPrison extends Prison{
+  
+   PlayerPrison(int type){
+        super(type);  
+   }
+  
+  }
+  
+  class EnemyPrison extends Prison{
+   
+    EnemyPrison(int type){
+        super(type);
+    }
+    
   }
