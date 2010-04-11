@@ -14,13 +14,11 @@ class GameState{
   static final int OBS_HEIGHT = 150;
   
   //List of objects
-  private ArrayList units = new ArrayList();
   private ArrayList particles = new ArrayList();
   
   ArrayList selectedParticles = new ArrayList();
   private ArrayList prison = new ArrayList();
   private ArrayList obstacles = new ArrayList();
-  private ArrayList lightSources = new ArrayList();
   private ArrayList lightParticles = new ArrayList();
 
   GameState(int width, int height)
@@ -88,20 +86,6 @@ class GameState{
             for(int i = 0; i < 1; i++)
           particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
   }
-
-  
-  private void createLightParticles()
-  {
-    for(int i = 0; i < lightSources.size(); i++)
-    {
-      LightSource tempSource = (LightSource) lightSources.get(i);
-      for(int k = 0; k < 4; k++)
-      {
-        LightParticle temp = tempSource.spawn();
-        lightParticles.add(temp);
-      }
-    }
-  }
   
   //Returns a list of obstacles
   public ArrayList getObstacles()
@@ -109,11 +93,6 @@ class GameState{
     return obstacles;
   }
   
-  //Returns a list of Units
-  ArrayList getUnits()
-  {
-    return units;
-  }
   
   //Displays obstacles
   public void updateObstacles()

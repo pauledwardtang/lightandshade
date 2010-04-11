@@ -25,6 +25,7 @@ static final int WIDTH = 1260;
 static final int HEIGHT = 730;
 
 GameState gameState;
+AIPlayer AI;
 ArrayList obstacles;
   
 float pulse;
@@ -53,6 +54,9 @@ void setup() {
   //Create gameState & obstacles
   gameState = new GameState(WIDTH, HEIGHT);
   //obstacles = gameState.getObstacles();
+  
+  AI = new AIPlayer(gameState.particles, gameState.selectedParticles, gameState.obstacles, gameState.lightParticles);  
+
   
 //  ArrayList lightSource = gameState.getLightSource();
 //  source = (LightSource) lightSource.get(0);
@@ -123,6 +127,8 @@ void draw() {
       spring.update(mouseX,mouseY);
       spring.display();
              
+      AI.update(); 
+             
       //Draw the game's objects
       gameState.draw();
       
@@ -147,6 +153,8 @@ void draw() {
      
      box2d.step();
      
+     AI.update(); 
+      
        // Always alert the spring to the new mouse location
      spring.update(mouseX,mouseY);
      spring.display();
