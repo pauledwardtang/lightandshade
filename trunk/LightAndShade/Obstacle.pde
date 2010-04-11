@@ -35,11 +35,11 @@ class Obstacle extends GameObject {
     		//if (i > width/2) {
                   if (i > x) {
                      k = 150 + (x-i)*1.1f + map(noise(xoff),0,1,0,40);
-                         println( "k2 = " + k + " i2 = " + i);		
+                        // println( "k2 = " + k + " i2 = " + i);		
     		} else { 
                         //k = 100 + (width - i)*1.1f + map(noise(xoff),0,1,-80,80);
                           k = 150 +(i - x)*1.1f + map(noise(xoff),0,1,0,40);
-                      println( "k = " + k + " i = " + i); 
+                     // println( "k = " + k + " i = " + i); 
     		}
     		
     		// The edge point in our window
