@@ -28,28 +28,6 @@ class LightSource extends Particle{
     return particle;
   } 
   
-  //puts all particles in list on screen.
-  void displayParticles(ArrayList particles)
-  {
-    for(int i = 0; i < particles.size(); i++)
-    {
-      LightParticle temp = (LightParticle) particles.get(i);
-      if(temp.isAlive() == true)
-      {
-        temp.update();
-        temp.display();
-      }
-      else
-      {
-        particles.remove(i);
-      }
-    }
-  }
-  void update(ArrayList particles)
-  {
-    displayParticles(particles);
-  }
-  
    //Puts the LightSource in the world
   void makeBody(float x, float y, float radius_) {
     // Define a body
@@ -91,7 +69,7 @@ class LightParticle extends Particle{
     makeBody(xin, yin, 5, gID);
     body.setUserData(this);
     body.setLinearVelocity(velocity());
-    println("Created a light particle");
+    //println("Created a light particle");
   }
   
   Vec2 velocity()
@@ -102,8 +80,6 @@ class LightParticle extends Particle{
   
   boolean isAlive()
   {
-    if(!alive)
-      killBody();
     return alive;
   }
   

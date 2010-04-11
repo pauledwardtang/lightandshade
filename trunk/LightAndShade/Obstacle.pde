@@ -92,8 +92,8 @@ class Obstacle extends GameObject {
 
 // A simple function to just draw the edge chain as a series of vertex points
 	void display() {
-		//strokeWeight(2);
-		stroke(0);
+		strokeWeight(2);
+		stroke(2);
 		//noFill();
                 fill(200);
                 shapeMode(CENTER);

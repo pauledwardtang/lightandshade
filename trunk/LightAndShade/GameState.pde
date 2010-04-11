@@ -62,7 +62,7 @@ class GameState{
         
         
         //Light particles
-        createLightParticles();
+        //createLightParticles();
         
         //Sprites
         for(int i = 0; i < 1; i++)
@@ -126,9 +126,7 @@ class GameState{
         
         //Have LightSource give an int value that specifies the number of LightParticles to generate (i.e change the K value)
         if(temp.body.getUserData().getClass().getName().contains("LightSource"))
-            for(int k = 0; k < 2; k++)
               lightParticles.add(((LightSource) temp).spawn());
-          
         
         temp.update();
         temp.display();
@@ -156,10 +154,8 @@ class GameState{
       temp.update();
       temp.display();
       
-      if(temp.done() || !temp.isAlive())
-        {
+      if(!temp.isAlive())
           lightParticles.remove(temp);
-        }
     }
   }
   //Kills all particle bodies
@@ -188,8 +184,8 @@ class GameState{
   //Draw
   void draw()
   {
-      updateObstacles();
-      updateParticles();
       displayLightParticles();
+      updateParticles();
+      updateObstacles();
   }  
 }
