@@ -29,7 +29,7 @@ class CustomListener implements ContactListener {
     String c2 = o2.getClass().getName();
 
     //if a LightParticle is involved in a collision with another particle, kill it and increment the other's colour
-    if(c1.contains("LightParticle") && (c2.contains("Sprite") || c2.contains(".Shade")))
+    if(c1.contains("LightParticle") && (c2.contains("Sprite") || c2.contains("$Shade")))
     {
       Sprite sp;
       Shade sh;
@@ -46,7 +46,7 @@ class CustomListener implements ContactListener {
       LightParticle lParticle = (LightParticle) o1;
       lParticle.alive = false;
     }
-    else if(c2.contains("LightParticle") && (c1.contains("Sprite") || c1.contains(".Shade")))
+    else if(c2.contains("LightParticle") && (c1.contains("Sprite") || c1.contains("$Shade")))
     {
       Sprite sp;
       Shade sh;
@@ -67,12 +67,12 @@ class CustomListener implements ContactListener {
     Sprite spr;
     Shade sh;
 
-    if(c1.contains("Sprite") && c2.contains(".Shade"))
+    if(c1.contains("Sprite") && c2.contains("$Shade"))
     {
       spr = (Sprite) o1;
       sh = (Shade) o2;
     }
-    else if(c2.contains("Sprite") && c1.contains(".Shade"))
+    else if(c2.contains("Sprite") && c1.contains("$Shade"))
     {
       spr = (Sprite) o2;
       sh = (Shade) o1;
