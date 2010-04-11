@@ -29,7 +29,7 @@ ArrayList obstacles;
   
 float pulse;
 boolean gameEnable;
-boolean debugEnable;
+static boolean debugEnable;
 
 LightSource source;
 ArrayList particles;
