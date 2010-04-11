@@ -25,7 +25,7 @@ void mouseClicked()
     
     if(addParticles.isPressed() && debugEnable)
     {
-      gameState.createLightParticles();
+      //gameState.createLightParticles();
     }
     
     if(clearButton.isPressed() && debugEnable)
