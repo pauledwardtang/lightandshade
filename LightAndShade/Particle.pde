@@ -21,10 +21,9 @@ class Particle extends GameObject{
   float speed, naturalSpeed;
   
     //for particles with their own makeBody method
-  Particle(int rad, String own, int idNum, color aCol, String owner)
+  Particle(int rad, int idNum, color aCol, String owner)
   {
     radius = rad;
-    owner = own;
     id = idNum;
     col = aCol;
     light = 1;

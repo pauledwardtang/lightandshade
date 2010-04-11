@@ -6,7 +6,7 @@ class LightSource extends Particle{
   
   LightSource(int x, int y, int id)
   {
-    super(40, "neutral", id, color(255, 175, 0), "player");
+    super(40, id, color(255, 175, 0), "player");
     makeBody(x, y, radius);
     body.setUserData(this);
     target = new Target(x,y);
@@ -65,7 +65,7 @@ class LightParticle extends Particle{
   
   LightParticle(float xin, float yin, float dirIn, int gID){
     
-    super(5, "neutral", 2, color(255, 175, 0), "none");
+    super(5, 2, color(255, 175, 0), "none");
     dir = dirIn;//direction
     alive = true;
     speed = 20; //this is the speed of light!

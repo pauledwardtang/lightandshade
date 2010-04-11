@@ -69,7 +69,7 @@ void mousePressed()
             temp.MOVE_MODE = true;
             temp.threshold = gameState.selectedParticles.size();
             temp.body.setLinearVelocity(new Vec2(0,0));     //Reset velocity when selecting a new location
-          }
+        }
       }
       
     if(mouseButton == LEFT && R_MOUSE == false)
@@ -97,7 +97,7 @@ void mouseDragged()
 }
 
 //Handles all actions when a mouse is released
-  void mouseReleased()
+void mouseReleased()
   {
       attachedParticle.body.setLinearVelocity(new Vec2(0,0));
       spring.destroy();
@@ -109,6 +109,7 @@ void mouseDragged()
          for(int i = 0; i < gameState.particles.size(); i++)
          {
             Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.owner.equals("player"))
                temp.selection();       
         }
      }    
@@ -119,3 +120,16 @@ void mouseDragged()
       sBox.holdX=sBox.holdY=-100;//move the SelectionBox off the screen
 //      }
   }
+  
+void keyPressed()
+{
+  if (keyPressed&&key=='d')//Detach speed
+    {
+         for(int i = 0; i < gameState.selectedParticles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.body.getUserData().getClass().getName().contains("Sprite"))
+              ((Sprite)temp).spring.destroy();
+        }
+    } 
+}
