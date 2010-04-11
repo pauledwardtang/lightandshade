@@ -227,13 +227,13 @@ class Particle extends GameObject{
   }
   
   
-  //Determines whether a particle will be selected within the selection box. If it is already selected it will be deselecte
+  //Determines whether a particle will be selected within the selection box.
   void selection()
   {              
-    if (MOUSE_HOVER() == true && isSelected==false)
+    if (MOUSE_HOVER() == true)
       isSelected = true;
-    else
-      isSelected = false;  
+    else 
+      isSelected = false;
   }
   
 }
