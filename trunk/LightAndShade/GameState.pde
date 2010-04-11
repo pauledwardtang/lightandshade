@@ -18,6 +18,7 @@ class GameState{
   private ArrayList particles = new ArrayList();
   
   ArrayList selectedParticles = new ArrayList();
+  private Prison prison;
   private ArrayList obstacles = new ArrayList();
   private ArrayList lightSources = new ArrayList();
   private ArrayList lightParticles = new ArrayList();
@@ -37,7 +38,9 @@ class GameState{
 //  
 
  private void createPrison(){
-   obstacles.add(new Obstacle(140, 0, 1));
+   
+   prison = new Prison(140,0);
+   
  }
   //Randomly initializes obstacles
   private void randomizeObstacles()
@@ -119,6 +122,11 @@ class GameState{
      } 
   }  
   
+  //Displays Prison
+   void updatePrison(){
+    prison.display();
+  }
+  
   //Displays particles
   public void updateParticles()
   {
@@ -195,11 +203,14 @@ class GameState{
      obstacles.clear();
   }
   
+  
+ 
   //Draw
   void draw()
   {
       displayLightParticles();
       updateParticles();
       updateObstacles();
+      updatePrison();
   }  
 }
