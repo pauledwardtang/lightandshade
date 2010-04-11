@@ -91,9 +91,10 @@ class Sprite extends Particle{
     if(light <= 0)
     {
       blind = true;
+      col = color(100, 100, 100);
       spring.destroy();
     }
-    col = color(light, light, 0);
+    col = color(light, light, 100);
   }
   
   void moveShade(Shade sh)
@@ -136,7 +137,10 @@ class Shade extends Particle{
   //redefine light when hit by a light particle
   void changeLight()
   {
-    light = light + 10;
+    if(light < 610)
+    {
+      light = light + 10;
+    }
   }
   void moveSprite(Sprite spr)
   {
@@ -153,9 +157,10 @@ class Shade extends Particle{
     if(light >= 255)
     {
       blind = true;
+      col = color(200, 200, 200);
       spring.destroy();
     }
-    col = color(255, light, light);
+    col = color(200, light, light);
   }
     boolean done()
   {
