@@ -129,7 +129,7 @@ class Obstacle extends GameObject {
 
     	edges.setIsLoop(true);   // We could make the edge a full loop
     	edges.friction = 0.3f;    // How much friction
-        //edges.density = 0;
+        edges.density = 0;
     	edges.restitution = 0.3f; // How bouncy
     	
     	// The edge chain is now a body!
