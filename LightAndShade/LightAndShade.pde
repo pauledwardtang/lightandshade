@@ -64,7 +64,7 @@ void setup() {
   
   // Make the spring (it doesn't really get initialized until the mouse is clicked)
   spring = new Spring();
-  attachedParticle = new Particle(0,0,0, 0, "player");
+  attachedParticle = new Particle(0,0,0, 0, "player",0);
   //spring.bind(width/2,height/2,box);
   
   
