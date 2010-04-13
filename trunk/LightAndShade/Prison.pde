@@ -17,9 +17,9 @@ class Prison extends GameObject {
     float k;
 
     if(type == 1)
-      k = width;
+      k = width-10;
     else
-      k = 0;
+      k = 10;
 
     if(type == 1){
     for (float i = height; i > 0; i -= 10) {
