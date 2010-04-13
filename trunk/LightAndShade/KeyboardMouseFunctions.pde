@@ -137,4 +137,32 @@ void keyPressed()
         debugEnable = !debugEnable;
         gameEnable  = !gameEnable;
     }
+    if (keyPressed&&key =='l')//Change the Light sources spawning angle
+    {
+      for(int i = 0; i < gameState.particles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.body.getUserData().getClass().getName().contains("LightSource"))
+            {
+              float spawnAngle = ((LightSource)temp).getSpawnAngle();
+              spawnAngle += 50;
+              ((LightSource)temp).setSpawnAngle(spawnAngle);
+            }
+        } 
+    }
+    
+    if(keyPressed && key == 'j')
+    {
+      for(int i = 0; i < gameState.particles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.body.getUserData().getClass().getName().contains("LightSource"))
+            {
+              float spawnAngle = ((LightSource)temp).getSpawnAngle();
+              spawnAngle -= 50;
+              ((LightSource)temp).setSpawnAngle(spawnAngle);
+            }
+        } 
+      
+    }
 }
