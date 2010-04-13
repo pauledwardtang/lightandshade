@@ -3,13 +3,15 @@
 class LightSource extends Particle{
   float spawnAngle;
   ArrayList particles = new ArrayList();
+  float a, b, s;//used in animation
   
   LightSource(int x, int y, int id)
   {
-    super(40, id, color(255, 175, 0), "player");
+    super(32, id, color(255, 175, 0), "player");
     makeBody(x, y, radius);
     body.setUserData(this);
     target = new Target(x,y);
+    a = b = s = 0.0;
   }
 
   //adds k new particles to the particle list.
@@ -60,7 +62,34 @@ class LightSource extends Particle{
     // Always do this at the end
     body.setMassFromShapes();
   }
-  
+    void display() {
+    // We look at each body and get its screen position
+    Vec2 pos = box2d.getScreenPos(body);
+    // Get its angle of rotation
+    //float a = body.getAngle();
+    pushMatrix();
+    translate(pos.x,pos.y);
+    //rotate(a); 
+    if(isSelected)
+    {
+      strokeWeight(3);
+      stroke(0,255,0,200);
+    }
+    else
+      noStroke();
+      
+     a = a + 0.08;
+     b = b + 0.04; 
+      
+    fill(255,255,100,50);
+    s = cos(a)*2;
+    ellipse(0,0,radius*2-s,radius*2-s);//outer circle
+    fill(255,255,0);
+    noStroke();
+    s = cos(b)*4;
+    ellipse(0,0,radius*1.7+s,radius*1.7+s);//inner circle
+    popMatrix();
+  }//end display  
 }//end LightSource
 
 
@@ -73,6 +102,7 @@ class LightParticle extends Particle{
   boolean alive;
   float speed;
   float timer;
+  float a, s;//used in animation;
   
   LightParticle(float xin, float yin, float dirIn, int gID){
     
@@ -84,6 +114,7 @@ class LightParticle extends Particle{
     body.setUserData(this);
     body.setLinearVelocity(velocity());
     timer = millis();
+    a = s = random(1);//used in animation
     //println("Created a light particle");
   }
   
@@ -110,16 +141,22 @@ class LightParticle extends Particle{
     }//end if
   }//end update()
   
-  void display()
+void display()
   {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);
+    a = a+random(400)*0.001;
     pushMatrix();
     translate(pos.x,pos.y);
-    fill(col);
-    stroke(0);
+    fill(255,255,0,50);
     strokeWeight(1);
-    ellipse(0,0,radius*2,radius*2);
+    stroke(255,255,255);
+    s = cos(a)*2;
+    ellipse(0,0,radius*2+s,radius*2+s);//outer circle
+    fill(255,255,0);
+    
+    s = cos(a)*3;
+    ellipse(0,0,radius*1+s,radius*1+s);//inner circle
     popMatrix();
   }
   
