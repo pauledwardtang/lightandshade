@@ -62,12 +62,12 @@ class GameState{
     //Dark Units
     
         //Shades
-        for(int i = 0; i < 1; i++)
-          particles.add(new Shade( 200 ,50, i));
+        for(int i = 0; i < 6; i++)
+          particles.add(new Shade( random(width-81,width),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
-            for(int i = 0; i < 1; i++)
-          particles.add(new Eye(200, 200, i));
+            for(int i = 0; i < 3; i++)
+          particles.add(new Eye( random(width-81,width),random(height/2-100,height/2+100),i));//200, 200, i));
     
     //Light Units
     
@@ -79,12 +79,12 @@ class GameState{
         //createLightParticles();
         
         //Sprites
-        for(int i = 0; i < 1; i++)
-          particles.add(new Sprite(WIDTH-200, HEIGHT-200, i));
+        for(int i = 0; i < 5; i++)
+          particles.add(new Sprite(random(0,81),random(height/2-100,height/2+100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
-            for(int i = 0; i < 1; i++)
-          particles.add(new Prism(WIDTH-500, HEIGHT-500, i));
+            for(int i = 0; i < 5; i++)
+          particles.add(new Prism(random(0,81),random(height/2-100,height/2+100),i));//WIDTH-500, HEIGHT-500, i));
   }
   
   //Returns a list of obstacles

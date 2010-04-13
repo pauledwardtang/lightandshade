@@ -36,7 +36,7 @@ class AIPlayer{
       if(temp.body.getUserData().getClass().getName().contains("Shade") || temp.body.getUserData().getClass().getName().contains("Eye"))
       {
         if(temp.owner.equals("enemy")){
-          temp.setTarget(width/2, height/2);    //Replace this with a targeting system
+          temp.setTarget(mouseX,mouseY);//width/2, height/2);    //Replace this with a targeting system
           temp.threshold = 3;                   //Arbitrary number, it should reflect the number of units moving at once
           temp.move();
         }

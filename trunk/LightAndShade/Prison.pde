@@ -16,12 +16,12 @@ class Prison extends GameObject {
 
     float k;
 
-    if(type == 0)
+    if(type == 1)
       k = width;
     else
       k = 0;
 
-    if(type == 0){
+    if(type == 1){
     for (float i = height; i > 0; i -= 10) {
       // Doing some stuff with perlin noise to calculate a surface that points down on one side
       // and up on the other
@@ -45,7 +45,7 @@ class Prison extends GameObject {
       
         }
     }
-    else{
+    else if (type == 0){
       for (float i = 0; i < height; i += 10) {
       // Doing some stuff with perlin noise to calculate a surface that points down on one side
       // and up on the other
@@ -82,6 +82,10 @@ class Prison extends GameObject {
     edges.friction = 0.3f;    // How much friction
     edges.density = 0;
     edges.restitution = 0.3f; // How bouncy
+    if(type == 0)//Player Prison
+      edges.filter.categoryBits = 0x0004;
+    else if(type == 1)//Enemy Prison
+      edges.filter.categoryBits = 0x0008;
     
     
     // The edge chain is now a body!
