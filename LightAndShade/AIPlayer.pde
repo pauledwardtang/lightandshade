@@ -33,16 +33,31 @@ class AIPlayer{
      for(int i = 0; i < particles.size(); i++)
     {
       Particle temp = (Particle) particles.get(i);
-      if(temp.body.getUserData().getClass().getName().contains("Shade") || temp.body.getUserData().getClass().getName().contains("Eye"))
+      String name = temp.body.getUserData().getClass().getName();
+      boolean moveFlag = false;
+      if(name.contains("$Shade"))
       {
-        if(temp.owner.equals("enemy")){
-          temp.setTarget(mouseX,mouseY);//width/2, height/2);    //Replace this with a targeting system
-          temp.threshold = 3;                   //Arbitrary number, it should reflect the number of units moving at once
-          temp.move();
-        }
-      }         
+        temp = (Shade) temp;
+        moveFlag = true;
+      }
+      else if(name.contains("Eye"))
+      {
+        temp = (Eye) temp;
+        moveFlag = true;
+      }
+        
+      if(moveFlag && temp.owner.equals("enemy"))
+      {
+          if(!temp.blind){
+            temp.setTarget(random(width), random(height));    //Replace this with a targeting system
+            temp.MOVE_MODE = true;
+            temp.threshold = 3;                   //Arbitrary number, it should reflect the number of units moving at once
+            temp.move();  
+          }
+          else
+            temp.MOVE_MODE = false;
+      }
     }
- 
  }
  
 }
