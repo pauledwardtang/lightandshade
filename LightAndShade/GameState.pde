@@ -69,12 +69,11 @@ class GameState{
   //Randomly initializes obstacles
   private void randomizeObstacles()
   {
-    //for(int i = 0; i < 1 /*random(1,2)*/ ; i++)
-      obstacles.add(new Obstacle(random(width - 300,width-250), random(height-300,height-250),0));
+      obstacles.add(new Obstacle(random(width - 300,width-250), random(height-300,height-250)));
       
-      obstacles.add(new Obstacle(random(width - 600,width-550), random(height-700,height-650),0));
+      obstacles.add(new Obstacle(random(width - 600,width-550), random(height-700,height-650)));
       
-      obstacles.add(new Obstacle(random(width - 900,width-850), random(height-350,height-300),0));
+      obstacles.add(new Obstacle(random(width - 890,width-840), random(height-350,height-300)));
       
 
   }
@@ -86,11 +85,11 @@ class GameState{
     
         //Shades
         for(int i = 0; i < 6; i++)
-          particles.add(new Shade( random(width-81,width),random(height/2-100,height/2+100),i));//200 ,50, i));
+          particles.add(new Shade( random(width-91,width-10),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
             for(int i = 0; i < 3; i++)
-          particles.add(new Eye( random(width-81,width),random(height/2-100,height/2+100),i));//200, 200, i));
+          particles.add(new Eye( random(width-91,width-10),random(height/2-100,height/2+100),i));//200, 200, i));
     
     //Light Units
     
@@ -103,11 +102,11 @@ class GameState{
         
         //Sprites
         for(int i = 0; i < 5; i++)
-          particles.add(new Sprite(random(0,81),random(height/2-100,height/2+100),i));//WIDTH-200, HEIGHT-200, i));
+          particles.add(new Sprite(random(10,91),random(height/2-100,height/2+100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
             for(int i = 0; i < 5; i++)
-          particles.add(new Prism(random(0,81),random(height/2-100,height/2+100),i));//WIDTH-500, HEIGHT-500, i));
+          particles.add(new Prism(random(10,91),random(height/2-100,height/2+100),i));//WIDTH-500, HEIGHT-500, i));
   }
   
   //Returns a list of obstacles
