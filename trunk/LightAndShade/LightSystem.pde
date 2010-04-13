@@ -85,6 +85,8 @@ class LightParticle extends Particle{
   
   boolean isAlive()
   {
+    if(!alive)
+      timer = -millis(); //Should kill the particle on the next update
     return alive;
   }
   
