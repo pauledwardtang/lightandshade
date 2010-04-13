@@ -137,6 +137,8 @@ void keyPressed()
         debugEnable = !debugEnable;
         gameEnable  = !gameEnable;
     }
+    
+    //Changes the Light source spawning direction in clockwise direction
     if (keyPressed&&key =='l')//Change the Light sources spawning angle
     {
       for(int i = 0; i < gameState.particles.size(); i++)
@@ -145,12 +147,13 @@ void keyPressed()
             if(temp.body.getUserData().getClass().getName().contains("LightSource"))
             {
               float spawnAngle = ((LightSource)temp).getSpawnAngle();
-              spawnAngle += 50;
+              spawnAngle += 200;
               ((LightSource)temp).setSpawnAngle(spawnAngle);
             }
         } 
     }
     
+    //Changes the Light Source spawning direction in counterclock wise direction
     if(keyPressed && key == 'j')
     {
       for(int i = 0; i < gameState.particles.size(); i++)
@@ -159,7 +162,7 @@ void keyPressed()
             if(temp.body.getUserData().getClass().getName().contains("LightSource"))
             {
               float spawnAngle = ((LightSource)temp).getSpawnAngle();
-              spawnAngle -= 50;
+              spawnAngle -= 200;
               ((LightSource)temp).setSpawnAngle(spawnAngle);
             }
         } 
