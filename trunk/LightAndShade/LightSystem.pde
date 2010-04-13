@@ -87,13 +87,14 @@ class LightParticle extends Particle{
   {
     if(!alive)
       timer = -millis(); //Should kill the particle on the next update
+    //println(timer);
     return alive;
   }
   
   void update(){
     Vec2 pos = box2d.getScreenPos(body);
     if(pos.x > width+radius || pos.x < 0-radius || pos.y > height+radius|| pos.y < 0-radius ||
-       millis() - timer > lifeTime)      {//exits bounds
+       millis() - timer > lifeTime || alive == false)      {//exits bounds
         killBody();
         alive = false;
     }//end if
