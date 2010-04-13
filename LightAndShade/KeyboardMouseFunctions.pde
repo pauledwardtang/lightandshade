@@ -139,7 +139,7 @@ void keyPressed()
     }
     
     //Changes the Light source spawning direction in clockwise direction
-    if (keyPressed&&key =='l')//Change the Light sources spawning angle
+    if (keyPressed&&key =='d')//Change the Light sources spawning angle
     {
       for(int i = 0; i < gameState.particles.size(); i++)
          {
@@ -154,7 +154,7 @@ void keyPressed()
     }
     
     //Changes the Light Source spawning direction in counterclock wise direction
-    if(keyPressed && key == 'j')
+    if(keyPressed && key == 'a')
     {
       for(int i = 0; i < gameState.particles.size(); i++)
          {
