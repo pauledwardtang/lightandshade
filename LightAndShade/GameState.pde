@@ -20,12 +20,14 @@ class GameState{
   private ArrayList prison = new ArrayList();
   private ArrayList obstacles = new ArrayList();
   private ArrayList lightParticles = new ArrayList();
+  private ArrayList edges = new ArrayList();
 
   GameState(int width, int height)
   {
     randomizeObstacles();
     createPrison();
     createUnits();
+    createEdges();
   } 
 //  
 //  GameState(int width, int height, int range)
@@ -34,6 +36,27 @@ class GameState{
 //    createLightSources();
 //  } 
 //  
+
+  private void createEdges()
+  {
+    Edge topEdge = new Edge(WIDTH/2, 10, WIDTH, 20);
+    Edge bottomEdge = new Edge(WIDTH/2, HEIGHT-10, WIDTH, 20);
+    Edge leftEdge = new Edge(10, HEIGHT/2, 20, HEIGHT);
+    Edge rightEdge = new Edge(WIDTH-10, HEIGHT/2, 20, HEIGHT);
+    edges.add(topEdge);
+    edges.add(bottomEdge);
+    edges.add(leftEdge);
+    edges.add(rightEdge);
+  }
+  
+  private void displayEdges()
+  {
+    for(int i = 0; i < edges.size(); i++)
+    {
+      Edge temp = (Edge) edges.get(i);
+      temp.display();
+    }
+  }
 
  private void createPrison(){
    
@@ -198,5 +221,6 @@ class GameState{
       updateParticles();
       updateObstacles();
       updatePrison();
+      displayEdges();
   }  
 }
