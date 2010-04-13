@@ -85,7 +85,7 @@ class Prison extends GameObject {
     if(type == 0)//Player Prison
       edges.filter.categoryBits = 0x0004;
     else if(type == 1)//Enemy Prison
-      edges.filter.categoryBits = 0x0008;
+      edges.filter.categoryBits = 0x0008; //has to be multiple of two. 
     
     
     // The edge chain is now a body!

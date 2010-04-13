@@ -44,6 +44,7 @@ class LightSource extends Particle{
     cd.friction = 0.01f;
     cd.restitution = 0.3f; // Restitution is bounciness
     cd.filter.categoryBits = 0x0002;
+    cd.filter.maskBits = 0xffff ^ 0x0004; //Doesn't collide with players prison. But can trap in enemy prison
     body.createShape(cd);
 
     // Always do this at the end
