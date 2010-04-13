@@ -166,4 +166,42 @@ class Obstacle extends GameObject {
   }
 }
 
+class Edge
+{
+  Body body;
+  float w;
+  float h;
 
+  Edge(int x, int y, int w, int h)
+  {
+    this.w = w;
+    this.h = h;
+    makeBody(x,y,w,h);
+    body.setUserData(this);
+  }
+  void display()
+  {
+    Vec2 pos = box2d.getScreenPos(body);
+    rectMode(CENTER);
+    pushMatrix();
+    translate(pos.x, pos.y);
+    fill(0);
+    rect(0, 0, w, h);
+    popMatrix();
+  }
+  void makeBody(int x, int y, int w_, int h_)
+  {
+    BodyDef bd = new BodyDef();
+    // Set its position
+    bd.position = box2d.screenToWorld(x,y);
+    body = box2d.world.createBody(bd);
+    
+    PolygonDef sd = new PolygonDef();
+    float boxW = box2d.scaleScreenToWorld(w);
+    float boxH = box2d.scaleScreenToWorld(h);
+    sd.setAsBox(boxW, boxH);
+    
+    body.createShape(sd);
+    body.setMassFromShapes();
+  }
+}
