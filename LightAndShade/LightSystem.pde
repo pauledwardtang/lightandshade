@@ -29,6 +29,16 @@ class LightSource extends Particle{
     return particle;
   } 
   
+  //sets spawn angle
+  void setSpawnAngle(float angle){
+  
+    spawnAngle = angle;
+  }
+  
+  float getSpawnAngle(){
+    return spawnAngle;
+  }
+  
    //Puts the LightSource in the world
   void makeBody(float x, float y, float radius_) {
     // Define a body
