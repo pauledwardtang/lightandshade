@@ -25,7 +25,7 @@ class GameState{
   GameState(int width, int height)
   {
     randomizeObstacles();
-    createPrison();
+    //createPrison();
     createUnits();
     createEdges();
   } 
@@ -84,7 +84,7 @@ class GameState{
     //Dark Units
     
         //Shades
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 20; i++)
           particles.add(new Shade( random(width-91,width-10),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
@@ -94,18 +94,18 @@ class GameState{
     //Light Units
     
         //LightSource
-          particles.add(new LightSource(WIDTH/2, HEIGHT/2, 0));
+          particles.add(new LightSource(WIDTH/4, HEIGHT/2, 0));
         
         
         //Light particles
         //createLightParticles();
         
         //Sprites
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 10; i++)
           particles.add(new Sprite(random(10,91),random(height/2-100,height/2+100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 2; i++)
           particles.add(new Prism(random(10,91),random(height/2-100,height/2+100),i));//WIDTH-500, HEIGHT-500, i));
   }
   
