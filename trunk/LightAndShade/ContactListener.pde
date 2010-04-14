@@ -71,24 +71,51 @@ class CustomListener implements ContactListener {
     {
       spr = (Sprite) o1;
       sh = (Shade) o2;
+      //Shades that are blinded get moved by sprites.
+      //Sprites that are blinded get moved by shades.
+      if(spr.isBlind())
+      {
+         sh.moveSprite(spr);
+      }
+      else if(sh.isBlind())
+      {
+         spr.moveShade(sh);
+      }
     }
     else if(c2.contains("Sprite") && c1.contains("$Shade"))
     {
       spr = (Sprite) o2;
       sh = (Shade) o1;
+      //Shades that are blinded get moved by sprites.
+      //Sprites that are blinded get moved by shades.
+      if(spr.isBlind())
+      {
+         sh.moveSprite(spr);
+      }
+      else if(sh.isBlind())
+      {
+         spr.moveShade(sh);
+      }
     }
-    else return;
+    LightParticle p;
+    Prism pr;
+    if((c2.contains("$LightParticle") && c1.contains("$Prism")) || (c2.contains("$Prism") && c1.contains("$LightParticle")))
+    {
+      if(c2.contains("$LightParticle"))
+      {
+          p = (LightParticle) o2;
+          pr = (Prism) o1;
+      }
+      else
+      {
+         p = (LightParticle) o1;
+         pr = (Prism) o2;
+      }
+      p.alive = false;
+      pr.changeLight();
+    }
     
-    //Shades that are blinded get moved by sprites.
-    //Sprites that are blinded get moved by shades.
-    if(spr.isBlind())
-    {
-       sh.moveSprite(spr);
-    }
-    else if(sh.isBlind())
-    {
-       spr.moveShade(sh);
-    }
+    return;
   }
 
   // Contacts continue to collide - i.e. resting on each other

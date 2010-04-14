@@ -64,7 +64,6 @@ class Particle extends GameObject{
    x = x_;
    y = y_;
    body.setXForm(mouseWorld, 0);
-      
   }
  
  //THIS NEEDS TO BE CHANGED(for color anyways)
@@ -134,7 +133,7 @@ class Particle extends GameObject{
     rotate(a);
     fill(col);
     stroke(0);
-    strokeWeight(1);
+    strokeWeight(0);
     ellipse(0,0,radius*2,radius*2);
     // Let's add a line so we can see the rotation
     line(0,0,radius,0);
