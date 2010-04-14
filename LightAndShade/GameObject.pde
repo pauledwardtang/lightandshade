@@ -72,7 +72,7 @@ class Sprite extends Particle{
   
   Sprite(float x, float y, int id)
   {
-    super(x, y, 9, id, "player", 4);
+    super(x, y, 10, 4, id, "player", 4);
 //    changeColor(0,g,0);
   }
   //redefine light when hit by a light particle
@@ -139,7 +139,7 @@ void display() {
 class Prism extends Particle{
     Prism(float x, float y, int id)
   {
-      super(x, y, 18, id, "player", 4);
+      super(x, y, 18, 30, id, "player", 4);
       changeColor(255,255,100);
   }
   boolean done()
@@ -180,7 +180,7 @@ class Shade extends Particle{
   
   Shade(float x, float y, int id)
   {
-      super(x, y, 7, id, "enemy", 8);
+      super(x, y, 8, 3, id, "enemy", 8);
   }
   //redefine light when hit by a light particle
   void changeLight()
@@ -246,7 +246,7 @@ class Eye extends Particle{
   float a, s;//used in animation
   Eye(float x, float y, int id)
   {
-      super(x, y, 24, id, "enemy", 8);
+      super(x, y, 24, 50, id, "enemy", 8);
       changeColor(50,50,50);
       a = s = 0.0;
   }
