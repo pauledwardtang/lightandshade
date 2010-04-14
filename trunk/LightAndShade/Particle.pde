@@ -33,7 +33,7 @@ class Particle extends GameObject{
     this.owner = owner;
   }
   
-    Particle(float x, float y, float radius_, int id, String owner, int categoryBits) {
+    Particle(float x, float y, float radius_, float density, int id, String owner, int categoryBits) {
     //super(x, y);
     radius = radius_;
     this.owner = owner;
@@ -43,7 +43,7 @@ class Particle extends GameObject{
     target = new Target(x,y);
     
     // This function puts the particle in the Box2d world
-    makeBody(x,y,radius, categoryBits);
+    makeBody(x,y,radius, density, categoryBits);
     body.setUserData(this);
     col = color(100, 100, 100);
     blind = false;
@@ -129,7 +129,7 @@ class Particle extends GameObject{
   }
   
     // Here's our function that adds the particle to the Box2D world
-  void makeBody(float x, float y, float radius_, int categoryBits) {
+  void makeBody(float x, float y, float radius_, float density, int categoryBits) {
     // Define a body
     BodyDef bd = new BodyDef();
     // Set its position

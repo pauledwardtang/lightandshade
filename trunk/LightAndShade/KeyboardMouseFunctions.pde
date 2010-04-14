@@ -147,7 +147,7 @@ void keyPressed()
             if(temp.body.getUserData().getClass().getName().contains("LightSource"))
             {
               float spawnAngle = ((LightSource)temp).getSpawnAngle();
-              spawnAngle += 200;
+              spawnAngle += 100;
               ((LightSource)temp).setSpawnAngle(spawnAngle);
             }
         } 
@@ -162,7 +162,7 @@ void keyPressed()
             if(temp.body.getUserData().getClass().getName().contains("LightSource"))
             {
               float spawnAngle = ((LightSource)temp).getSpawnAngle();
-              spawnAngle -= 200;
+              spawnAngle -= 100;
               ((LightSource)temp).setSpawnAngle(spawnAngle);
             }
         } 

@@ -52,9 +52,9 @@ class LightSource extends Particle{
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 1.0f;
+    cd.density = 30.0f;
     cd.friction = 0.01f;
-    cd.restitution = 0.3f; // Restitution is bounciness
+    cd.restitution = 0.01f; // Restitution is bounciness
     cd.filter.categoryBits = 0x0002;
     cd.filter.maskBits = 0xffff ^ 0x0004; //Doesn't collide with players prison. But can trap in enemy prison
     body.createShape(cd);
@@ -69,6 +69,13 @@ class LightSource extends Particle{
     //float a = body.getAngle();
     pushMatrix();
     translate(pos.x,pos.y);
+    
+    stroke(200,200);
+    strokeWeight(2);
+    translate(sin(spawnAngle),cos(spawnAngle));
+    line(0,0,80*sin(spawnAngle/2+PI/2),80*cos(spawnAngle/2+PI/2));//direction line
+    noStroke();    
+    
     //rotate(a); 
     if(isSelected)
     {
@@ -77,7 +84,7 @@ class LightSource extends Particle{
     }
     else
       noStroke();
-      
+     
      a = a + 0.08;
      b = b + 0.04; 
       
@@ -86,8 +93,11 @@ class LightSource extends Particle{
     ellipse(0,0,radius*2-s,radius*2-s);//outer circle
     fill(255,255,0);
     noStroke();
+
+    
     s = cos(b)*4;
     ellipse(0,0,radius*1.7+s,radius*1.7+s);//inner circle
+
     popMatrix();
   }//end display  
 }//end LightSource
