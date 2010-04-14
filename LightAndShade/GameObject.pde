@@ -135,43 +135,6 @@ void display() {
   
 }
 
-//Redirects light particles
-class Prism extends Particle{
-    Prism(float x, float y, int id)
-  {
-      super(x, y, 18, 30, id, "player", 4);
-      changeColor(255,255,100);
-  }
-  boolean done()
-  {
-    return false;
-  }
-    void display() {
-    // We look at each body and get its screen position
-    Vec2 pos = box2d.getScreenPos(body);
-    // Get its angle of rotation
-    //float a = body.getAngle();
-    pushMatrix();
-    translate(pos.x,pos.y);
-    //rotate(a);
-    fill(col,50);
-    if(isSelected)
-    {
-      stroke(0,255,0);
-      strokeWeight(4);
-    }
-    else
-      stroke(200,200,255);
-      strokeWeight(2);
-    
-    ellipse(0,0,radius*2,radius*2);
-    noStroke();
-    fill(255);
-    ellipse(0,0, radius,radius);
-    popMatrix();
-  }//end display 
-  
-}// end prism
 
 //small unit, can manipulate blinded units
 class Shade extends Particle{

@@ -151,8 +151,13 @@ class GameState{
           selectedParticles.add(temp);
         
         //Have LightSource give an int value that specifies the number of LightParticles to generate (i.e change the K value)
-        if(temp.body.getUserData().getClass().getName().contains("LightSource"))
+        if(temp.body.getUserData().getClass().getName().contains("$LightSource"))
               lightParticles.add(((LightSource) temp).spawn());
+              
+        //let all the prisms update the lightParticles with their produced particles
+        if(temp.body.getUserData().getClass().getName().contains("$Prism"))
+          if(((Prism) temp).light > 0)
+            lightParticles.add(((Prism) temp).spawn());
         
         temp.update();
         temp.display();

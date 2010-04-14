@@ -64,8 +64,7 @@ class CustomListener implements ContactListener {
       LightParticle lParticle = (LightParticle) o2;
       lParticle.kill();
     }
-    
-    
+   
     Sprite spr;
     Shade sh;
     
