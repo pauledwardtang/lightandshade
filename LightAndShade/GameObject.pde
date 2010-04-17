@@ -215,6 +215,37 @@ class Eye extends Particle{
   {
     return false;
   }
+  
+  void update()
+  {
+    super.update();
+    
+    if(light >= 170)
+    {
+      blind = true;
+    }
+    else
+    {
+      blind = false; 
+    }
+    
+    if (light > 1)
+      light = light-2;
+    else if (light > 0)
+      light = light-1;
+  }
+  
+  //change light value, overrides Particle's version
+  void changeLight()
+  {
+    if (light<=290)
+      light = light + 10;
+    else if (light > 290 && light < 300)
+      light = 300;//set to max
+    else if (light <= 0)
+      light = 0;//zero is minimum
+  }
+  
   void display() {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);
@@ -230,18 +261,35 @@ class Eye extends Particle{
     }
     else
       noStroke();
-    
-    fill(10,255,80);
-    ellipse(0,0,radius*2,radius*2);//outer circle
-    a = a + random(0.16);
-    s = cos(a)*1.5;    
-    
-    fill(25,200,200);
-    ellipse(0,0, radius*1.7+2*s, radius*1.8+s);//inner ellipse
-    
-    s = cos(a)*2;   
-    fill(0);
-    ellipse(0,0, radius*0.3-s, radius*1.5+s*2);//slit
+
+    if(!blind)
+    {
+        fill(10,255,80+light/2);
+        ellipse(0,0,radius*2,radius*2);//outer circle
+        a = a + random(0.16);
+        s = cos(a)*1.5;    
+        
+        fill(25,200,200+light/4);
+        ellipse(0,0, radius*1.7+2*s, radius*1.8+s);//inner ellipse
+        
+        s = cos(a)*2;   
+        fill(0);
+        ellipse(0,0, radius*0.3-s, radius*1.5+s*2);//slit
+    }
+    else
+    {
+        fill(10,155,80+light/2);
+        ellipse(0,0,radius*2,radius*2);//outer circle
+        a = a + random(0.5);
+        s = cos(a)*1.5;    
+        
+        fill(25,200,200+light/4);
+        ellipse(0,0, radius*1.5+2*s, radius*1.6+s);//inner ellipse
+        
+        s = cos(a)*1.5;   
+        fill(0);
+        ellipse(0,0, radius*0.1-s, radius*1.1+s*2);//slit
+    }
     popMatrix();
   }//end display
   

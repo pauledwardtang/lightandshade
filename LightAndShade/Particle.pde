@@ -155,7 +155,7 @@ class Particle extends GameObject{
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 4.0f;
+    cd.density = density;
     cd.friction = 0.01f;
     cd.restitution = .3f; // Restitution is bounciness
     cd.filter.maskBits = 0xffff ^ categoryBits; //categoryBits;

@@ -84,7 +84,7 @@ class GameState{
     //Dark Units
     
         //Shades
-        for(int i = 0; i < 30; i++)
+        for(int i = 0; i < 10; i++)
           particles.add(new Shade( random(width-91,width-10),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
