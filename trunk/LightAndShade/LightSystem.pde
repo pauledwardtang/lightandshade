@@ -8,7 +8,7 @@ class LightSource extends Particle{
   LightSource(float x, float y, int id)
   {
     super(32, id, color(255, 175, 0), "player");
-    makeBody(x, y, radius, 0x0002, 30.0);
+    makeBody(x, y, radius, 0x0002, 1.0);
     body.setUserData(this);
     target = new Target(x,y);
     a = b = s = 0.0;
@@ -79,6 +79,7 @@ class LightSource extends Particle{
     cd.restitution = 0.01f; // Restitution is bounciness
     cd.filter.categoryBits = categoryBits;
     cd.filter.maskBits = 0xffff ^ 0x0004; //Doesn't collide with players prison. But can trap in enemy prison
+    println(y + " " + cd.filter.categoryBits);
     body.createShape(cd);
 
     // Always do this at the end
@@ -141,14 +142,16 @@ class LightSource extends Particle{
   }//end display  
 }//end LightSource
 
+
+
 //Redirects light particles
 class Prism extends LightSource{
   int light;
-  int catBits = int(pow(2,id+2));
-  
+  int catBits = int(pow(2,id+4));
+
   Prism(float x, float y, int id)
   {
-      super(x, y, 20, id, int(pow(2,id+2)), 1.0);
+      super(x, y, 20, id, int(pow(2,id+4)), 1.0);
       changeColor(255,255,100);
       light = 0;
   }
