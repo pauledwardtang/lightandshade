@@ -62,6 +62,17 @@ class Particle extends GameObject{
     col = color(r,g,b); 
   }
   
+  //change light value
+  void changeLight()
+  {
+    if (light<=170)
+      light = light + 10;
+    else if (light > 170 && light < 180)
+      light = 180;//set to max
+    else if (light <= 0)
+      light = 0;//zero is minimum
+  }
+  
   public void update(int x_, int y_) {
    Vec2 mouseWorld = box2d.screenToWorld(x_,y_);
    x = x_;
@@ -72,9 +83,11 @@ class Particle extends GameObject{
   public void update() {
     Vec2 pos = box2d.getScreenPos(body);
 
-    if(MOVE_MODE == false)
+    if(MOVE_MODE == false || blind)
       setTarget(pos.x, pos.y);
       
+    move();
+    
     body.setAngularVelocity(0);
   }
    //Returns true if the particle has been clicked on (Doesn't take into account being clicked on while the mouse is moving...)
@@ -180,7 +193,6 @@ class Particle extends GameObject{
         body.setAngularVelocity(0);
         setTarget(pos.x, pos.y);
         MOVE_MODE = false;
-        
       }  
       else
         body.applyForce(new Vec2(-(pos.x - target.X), (pos.y - target.Y)), new Vec2(0,0));

@@ -132,7 +132,7 @@ void keyPressed()
               ((Sprite)temp).spring.destroy();
         }
     } 
-    if (keyPressed&&key=='s')//Switch game mode
+    if (keyPressed&&key=='q')//Switch game mode
     {
         debugEnable = !debugEnable;
         gameEnable  = !gameEnable;
@@ -144,11 +144,14 @@ void keyPressed()
       for(int i = 0; i < gameState.particles.size(); i++)
          {
             Particle temp = (Particle) gameState.particles.get(i);
-            if(temp.body.getUserData().getClass().getName().contains("LightSource"))
+            if(temp.body.getUserData().getClass().getName().contains("LightSource")||temp.body.getUserData().getClass().getName().contains("Prism"))
             {
-              float spawnAngle = ((LightSource)temp).getSpawnAngle();
-              spawnAngle += 100;
-              ((LightSource)temp).setSpawnAngle(spawnAngle);
+               if (((LightSource)temp).isSelected)
+               {
+                  float spawnAngle = ((LightSource)temp).getSpawnAngle();
+                  spawnAngle += 50;
+                  ((LightSource)temp).setSpawnAngle(spawnAngle);
+               }
             }
         } 
     }
@@ -159,13 +162,46 @@ void keyPressed()
       for(int i = 0; i < gameState.particles.size(); i++)
          {
             Particle temp = (Particle) gameState.particles.get(i);
-            if(temp.body.getUserData().getClass().getName().contains("LightSource"))
+            if(temp.body.getUserData().getClass().getName().contains("LightSource")||temp.body.getUserData().getClass().getName().contains("Prism"))
             {
-              float spawnAngle = ((LightSource)temp).getSpawnAngle();
-              spawnAngle -= 100;
-              ((LightSource)temp).setSpawnAngle(spawnAngle);
+              if (((LightSource)temp).isSelected){
+                float spawnAngle = ((LightSource)temp).getSpawnAngle();
+                spawnAngle -= 50;
+                ((LightSource)temp).setSpawnAngle(spawnAngle);
+              }
             }
         } 
       
     }
+    
+    if(keyPressed && key == 'w')
+    {
+      for(int i = 0; i < gameState.particles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.body.getUserData().getClass().getName().contains("LightSource")||temp.body.getUserData().getClass().getName().contains("Prism"))
+            {
+              if (((LightSource)temp).isSelected){
+                ((LightSource)temp).increaseSpawnSpread();//wider "beam"
+              }
+            }
+        } 
+      
+    }
+
+    if(keyPressed && key == 's')
+    {
+      for(int i = 0; i < gameState.particles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.body.getUserData().getClass().getName().contains("LightSource")||temp.body.getUserData().getClass().getName().contains("Prism"))
+            {
+              if (((LightSource)temp).isSelected){
+                ((LightSource)temp).decreaseSpawnSpread();//narrower "beam"
+              }
+            }
+        } 
+      
+    }
+    
 }
