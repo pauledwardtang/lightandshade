@@ -75,26 +75,24 @@ class Sprite extends Particle{
     super(x, y, 10, 4, id, "player", 4);
 //    changeColor(0,g,0);
   }
-  //redefine light when hit by a light particle
-  void changeLight()
-  {
-    light = light + 10;
-  }
   void update()
   {
     super.update();
-    blind = false;
-    if(light > -255)
-    {
-      light = light - 1;
-    }
-    if(light <= 0)
+    if(light < 30)
     {
       blind = true;
-      col = color(100, 100, 100);
+      col = color(150, 55, light+100);
       spring.destroy();
     }
-    col = color(light, light, 100);
+    else
+    {
+      blind = false; 
+      col = color(150, 255, light+100);
+    }
+    
+    if (light > 0)
+      light = light-1;
+      
   }
   
   void moveShade(Shade sh)
@@ -121,7 +119,7 @@ void display() {
     fill(col);
     if(isSelected)
     {
-      stroke(0,255,0);
+      stroke(90,255,255);
       strokeWeight(2);
     }
     else{
@@ -145,14 +143,7 @@ class Shade extends Particle{
   {
       super(x, y, 8, 3, id, "enemy", 8);
   }
-  //redefine light when hit by a light particle
-  void changeLight()
-  {
-    if(light < 610)
-    {
-      light = light + 10;
-    }
-  }
+
   void moveSprite(Sprite spr)
   {
     if(this.blind == false)
@@ -164,14 +155,21 @@ class Shade extends Particle{
   void update()
   {
     super.update();
-    blind = false;
-    if(light >= 255)
+    
+    if(light >= 60)
     {
       blind = true;
-      col = color(200, 200, 200);
+      col = color(10, 100, 100+light);
       spring.destroy();
     }
-    col = color(200, light, light);
+    else
+    {
+      blind = false; 
+      col = color(10, 255, 100+light);
+    }
+    
+    if (light > 0)
+      light = light-1;
   }
     boolean done()
   {
@@ -187,7 +185,7 @@ class Shade extends Particle{
     fill(col);
     if(isSelected)
     {
-      stroke(0);
+      stroke(10);
       strokeWeight(2);
     }
     else
@@ -233,13 +231,13 @@ class Eye extends Particle{
     else
       noStroke();
     
-    fill(100,0,0);
+    fill(10,255,80);
     ellipse(0,0,radius*2,radius*2);//outer circle
     a = a + random(0.16);
     s = cos(a)*1.5;    
     
-    fill(155,100,50);
-    ellipse(0,0, radius*1.7+2*s, radius*1.9+s);//inner ellipse
+    fill(25,200,200);
+    ellipse(0,0, radius*1.7+2*s, radius*1.8+s);//inner ellipse
     
     s = cos(a)*2;   
     fill(0);

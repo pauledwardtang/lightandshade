@@ -12,6 +12,17 @@ class CustomListener implements ContactListener {
   CustomListener(){
 
   }
+  
+  //checks against the list of particles that absorb
+  boolean willAbsorb(String input){
+    if(input.contains("Sprite")||input.endsWith("Shade")||input.contains("Prism")||input.contains("Eye"))
+    {
+      return true;
+    }
+    else 
+      return false;
+  }
+    
   // This function is called when a new collision occurs
   void add(ContactPoint cp) {
     // Get both shapes
@@ -27,93 +38,75 @@ class CustomListener implements ContactListener {
     // What class are they?
     String c1 = o1.getClass().getName();
     String c2 = o2.getClass().getName();
-
+    
     //if a LightParticle is involved in a collision with another particle, kill it and increment the other's colour
-    if(c1.contains("LightParticle") && (c2.contains("Sprite") || c2.contains("$Shade")))
+    if(c1.contains("LightParticle") && willAbsorb(c2))
     {
-      Sprite sp;
-      Shade sh;
-      if(c2.contains("Sprite"))
-      {
-        sp = (Sprite)o2;
-        sp.changeLight();
-      }
-      else
-      {
-        sh = (Shade)o2;
-        sh.changeLight();
-      }
-      LightParticle lParticle = (LightParticle) o1;
-      lParticle.alive = false;
+        Particle particle;
+        particle = (Particle)o2;
+        particle.changeLight();
+        
+        LightParticle lParticle = (LightParticle) o1;
+        lParticle.alive = false;
     }
-    else if(c2.contains("LightParticle") && (c1.contains("Sprite") || c1.contains("$Shade")))
+    else if(c2.contains("LightParticle") && willAbsorb(c1))
     {
-      Sprite sp;
-      Shade sh;
-      if(c1.contains("Sprite"))
-      {
-        sp = (Sprite) o1;
-        sp.changeLight();
-      }
-      else
-      {
-        sh = (Shade) o1;
-        sh.changeLight();
-      }
-      LightParticle lParticle = (LightParticle) o2;
-      lParticle.alive = false;
-      
+        Particle particle;
+        particle = (Particle)o1;
+        particle.changeLight();
+        
+        LightParticle lParticle = (LightParticle) o2;
+        lParticle.alive = false;
     }
-    Sprite spr;
-    Shade sh;
+    
+//    if(c1.contains("Sprite") && c2.contains("$Shade"))
+//    {
+//      spr = (Sprite) o1;
+//      sh = (Shade) o2;
+//      //Shades that are blinded get moved by sprites.
+//      //Sprites that are blinded get moved by shades.
+//      if(spr.isBlind())
+//      {
+//         sh.moveSprite(spr);
+//      }
+//      else if(sh.isBlind())
+//      {
+//         spr.moveShade(sh);
+//      }
+//    }
+//    else if(c2.contains("Sprite") && c1.contains("$Shade"))
+//    {
+//      spr = (Sprite) o2;
+//      sh = (Shade) o1;
+//      //Shades that are blinded get moved by sprites.
+//      //Sprites that are blinded get moved by shades.
+//      if(spr.isBlind())
+//      {
+//         sh.moveSprite(spr);
+//      }
+//      else if(sh.isBlind())
+//      {
+//         spr.moveShade(sh);
+//      }
+//    }
 
-    if(c1.contains("Sprite") && c2.contains("$Shade"))
-    {
-      spr = (Sprite) o1;
-      sh = (Shade) o2;
-      //Shades that are blinded get moved by sprites.
-      //Sprites that are blinded get moved by shades.
-      if(spr.isBlind())
-      {
-         sh.moveSprite(spr);
-      }
-      else if(sh.isBlind())
-      {
-         spr.moveShade(sh);
-      }
-    }
-    else if(c2.contains("Sprite") && c1.contains("$Shade"))
-    {
-      spr = (Sprite) o2;
-      sh = (Shade) o1;
-      //Shades that are blinded get moved by sprites.
-      //Sprites that are blinded get moved by shades.
-      if(spr.isBlind())
-      {
-         sh.moveSprite(spr);
-      }
-      else if(sh.isBlind())
-      {
-         spr.moveShade(sh);
-      }
-    }
-    LightParticle p;
-    Prism pr;
-    if((c2.contains("$LightParticle") && c1.contains("$Prism")) || (c2.contains("$Prism") && c1.contains("$LightParticle")))
-    {
-      if(c2.contains("$LightParticle"))
-      {
-          p = (LightParticle) o2;
-          pr = (Prism) o1;
-      }
-      else
-      {
-         p = (LightParticle) o1;
-         pr = (Prism) o2;
-      }
-      p.alive = false;
-      pr.changeLight();
-    }
+//    LightParticle p;
+//    Prism pr;
+//    if((c2.contains("$LightParticle") && c1.contains("$Prism")) || (c2.contains("$Prism") && c1.contains("$LightParticle")))
+//    {
+//      if(c2.contains("$LightParticle"))
+//      {
+//          p = (LightParticle) o2;
+//          pr = (Prism) o1;
+//      }
+//      else
+//      {
+//         p = (LightParticle) o1;
+//         pr = (Prism) o2;
+//      }
+//      p.alive = false;
+//      pr.changeLight();
+//    }
     
     return;
   }

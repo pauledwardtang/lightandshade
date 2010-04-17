@@ -84,7 +84,7 @@ class GameState{
     //Dark Units
     
         //Shades
-        for(int i = 0; i < 20; i++)
+        for(int i = 0; i < 1; i++)
           particles.add(new Shade( random(width-91,width-10),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
@@ -102,11 +102,13 @@ class GameState{
         
         //Sprites
         for(int i = 0; i < 10; i++)
-          particles.add(new Sprite(random(10,91),random(height/2-100,height/2+100),i));//WIDTH-200, HEIGHT-200, i));
+          particles.add(new Sprite(random(10,width/2),random(100,height-100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
-            for(int i = 0; i < 2; i++)
-          particles.add(new Prism(random(10,91),random(height/2-100,height/2+100),i));//WIDTH-500, HEIGHT-500, i));
+        for(int i = 0; i < 2; i++)
+          particles.add(new Prism(random(10,width/4),random(200,height-200),i));//WIDTH-500, HEIGHT-500, i));
+//          particles.add(new Prism(width/4,height/2-200,1));
+//          particles.add(new Prism(width/4,height/2+200,2));
   }
   
   //Returns a list of obstacles
@@ -156,17 +158,12 @@ class GameState{
               
         //let all the prisms update the lightParticles with their produced particles
         if(temp.body.getUserData().getClass().getName().contains("$Prism"))
-          if(((Prism) temp).light > 0)
+          if(((Prism) temp).light >= 90)
             lightParticles.add(((Prism) temp).spawn());
         
         temp.update();
         temp.display();
-        
-        //temp.move(selectedParticles.size());  //If we use the size of the list its going to give us problems
-        
-        //temp.move(2);  //2 is arbitrary for now...its supposed to keep units in line with each other so they don't go into orbit
-        temp.move();
-        
+        //temp.move();
         
         if(temp.done())
         {

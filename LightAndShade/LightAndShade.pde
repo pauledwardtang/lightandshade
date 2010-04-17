@@ -41,6 +41,7 @@ PImage startBackground, gameBackground;
 void setup() {
   size(WIDTH, HEIGHT, OPENGL);
   background(255);
+  colorMode(HSB);
   frameRate(30);
   
     // Initialize box2d physics and create the world ( no assumed gravity)

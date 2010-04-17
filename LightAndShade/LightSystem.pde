@@ -1,8 +1,8 @@
 //light source spawns light particles headed in a direction determined by its angle
 //light source can be moved, and have its angle changed
 class LightSource extends Particle{
-  float spawnAngle;
-  ArrayList particles = new ArrayList();
+  float spawnAngle;//direction of particles spawned
+  float spawnSpread;//spread of spawn distribution
   float a, b, s;//used in animation
   
   LightSource(float x, float y, int id)
@@ -12,6 +12,7 @@ class LightSource extends Particle{
     body.setUserData(this);
     target = new Target(x,y);
     a = b = s = 0.0;
+    spawnSpread = .5;
   }
   
   LightSource(float x, float y, int radius, int id, int categoryBits, float density)
@@ -21,20 +22,20 @@ class LightSource extends Particle{
     body.setUserData(this);
     target = new Target(x,y);
     a = b = s = 0.0;
+    spawnSpread = .5;
   }
 
   //adds k new particles to the particle list.
   LightParticle spawn()
   {
     LightParticle particle;
-    float a = body.getAngle();
-    float dir = random((spawnAngle/2 - a), (spawnAngle/2 + a));
+    float dir = random((spawnAngle/2-spawnSpread), (spawnAngle/2+spawnSpread));
     float xin, yin;
 
     Vec2 pos = box2d.getScreenPos(body);
     //must be inside the LightSource
-    xin = random(pos.x-radius/2, pos.x+radius/2);
-    yin = random(pos.y-radius/2, pos.y+radius/2);
+    xin = random(pos.x-(radius*0.25+spawnSpread*.9), pos.x+(radius*0.25+spawnSpread*.9));
+    yin = random(pos.y-(radius*0.25+spawnSpread*.9), pos.y+(radius*0.25+spawnSpread*.9));
     particle = new LightParticle(xin, yin, dir, -1);
 
     return particle;
@@ -48,6 +49,18 @@ class LightSource extends Particle{
   
   float getSpawnAngle(){
     return spawnAngle;
+  }
+  
+  void increaseSpawnSpread()
+  {
+    if (spawnSpread<PI/2)
+      spawnSpread+=PI/64;
+  }
+  
+  void decreaseSpawnSpread()
+  {
+    if (spawnSpread>=PI/32)
+      spawnSpread-=PI/64;
   }
   
    //Puts the LightSource in the world
@@ -82,31 +95,48 @@ class LightSource extends Particle{
     stroke(200,200);
     strokeWeight(2);
     translate(sin(spawnAngle),cos(spawnAngle));
-    line(0,0,80*sin(spawnAngle/2+PI/2),80*cos(spawnAngle/2+PI/2));//direction line
+
+    noStroke();
+    fill(0,0,200,200);
+    quad(
+         (radius*0.25+spawnSpread)*cos(-spawnAngle/2+PI/2),
+         (radius*0.25+spawnSpread)*sin(-spawnAngle/2+PI/2),
+         80*sin(spawnAngle/2+PI/2-spawnSpread),
+         80*cos(spawnAngle/2+PI/2-spawnSpread),
+         80*sin(spawnAngle/2+PI/2+spawnSpread),
+         80*cos(spawnAngle/2+PI/2+spawnSpread),
+         (radius*0.25+spawnSpread)*cos(-spawnAngle/2-PI/2),
+         (radius*0.25+spawnSpread)*sin(-spawnAngle/2-PI/2)
+         );//spread line   
+
     noStroke();    
     
-    //rotate(a); 
     if(isSelected)
     {
       strokeWeight(3);
-      stroke(0,255,0,200);
+      stroke(90,255,255);
     }
     else
       noStroke();
      
      a = a + 0.08;
-     b = b + 0.04; 
+     b = b + 0.03/(spawnSpread+0.01); 
       
-    fill(255,255,100,50);
+    fill(40,255,255,80);
     s = cos(a)*2;
     ellipse(0,0,radius*2-s,radius*2-s);//outer circle
-    fill(255,255,0);
     noStroke();
 
+    s = cos(b)*4+8;
+    fill(40,200,255,200);
+    float inner = 30*spawnSpread+s;
+    ellipse(0,0,inner,inner);//inner circle
     
-    s = cos(b)*4;
-    ellipse(0,0,radius*1.7+s,radius*1.7+s);//inner circle
+    stroke(200,200,0);
+//    line(0,0,80*sin(spawnAngle/2+PI/2+spawnSpread),80*cos(spawnAngle/2+PI/2+spawnSpread));//spread line
+//    line(0,0,80*sin(spawnAngle/2+PI/2-spawnSpread),80*cos(spawnAngle/2+PI/2-spawnSpread));//spread line
 
+    noStroke();
     popMatrix();
   }//end display  
 }//end LightSource
@@ -114,33 +144,59 @@ class LightSource extends Particle{
 //Redirects light particles
 class Prism extends LightSource{
   int light;
-  int catBits = 0x0020;
+  int catBits = 0x0020+id+3;
   
   Prism(float x, float y, int id)
   {
-      super(x, y, 20, id, 0x0020, 1.0);
+      super(x, y, 20, id, 0x0020+id+3, 1.0);
       changeColor(255,255,100);
       light = 0;
   }
+  
+  void update()
+  {
+    super.update();
+    if(light == 0)
+    {
+      blind = true;
+      col = color(150, 55, 4*light);
+      spring.destroy();
+    }
+    else
+    {
+      blind = false; 
+      col = color(150, 255, 4*light);
+    }
+    
+    if (light > 0 && light < 90)
+      light = light-1;
+      
+  }  
+  
+  //change light value, overrides Particle's changeLight()
   void changeLight()
   {
-    light = light + 10;
-  }
+    if (light<=1490)
+      light = light + 15;// Yes, 50% more free!
+    else if (light > 1490 && light < 1500)
+      light = 1500;//set to max
+    else if (light <= 0)
+      light = 0;//zero is minimum
+  }  
   
   //returns a live particle iff it has light
   LightParticle spawn()
   {
     light = light - 10;
     LightParticle particle;
-    float a = body.getAngle();
-    float dir = random((spawnAngle/2 - a), (spawnAngle/2 + a));
+    float dir = random((spawnAngle/2-spawnSpread), (spawnAngle/2+spawnSpread));
     float xin, yin;
 
     Vec2 pos = box2d.getScreenPos(body);
-    xin = random(pos.x-radius/2, pos.x+radius/2);
-    yin = random(pos.y-radius/2, pos.y+radius/2);
+    xin = random(pos.x-(radius*0.25+spawnSpread*.9), pos.x+(radius*0.25+spawnSpread*.9));
+    yin = random(pos.y-(radius*0.25+spawnSpread*.9), pos.y+(radius*0.25+spawnSpread*.9));
     particle = new LightParticle(xin, yin, dir, -1, catBits);
-
+    println(spawnSpread);
     return particle;
   }
   boolean done()
@@ -150,25 +206,45 @@ class Prism extends LightSource{
     void display() {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);
-    // Get its angle of rotation
-    //float a = body.getAngle();
+
     pushMatrix();
     translate(pos.x,pos.y);
-    //rotate(a);
-    fill(col,50);
-    if(isSelected)
+    
+    stroke(200,200);
+    strokeWeight(2);
+    translate(sin(spawnAngle),cos(spawnAngle));
+    
+    noStroke();
+    
+    if(isSelected)//set stroke based on selection
     {
-      stroke(0,255,0);
+      stroke(90,255,255);
       strokeWeight(4);
     }
     else
-      stroke(200,200,255);
+      stroke(255,200);
       strokeWeight(2);
-    
-    ellipse(0,0,radius*2,radius*2);
+      
+    fill(col,100);
+    ellipse(0,0,radius*2,radius*2);//outer circle
     noStroke();
-    fill(255);
-    ellipse(0,0, radius,radius);
+    fill(col);
+    ellipse(0,0, radius,radius);//inner circle
+    
+    stroke(200,200);
+    line(0,0,50*sin(spawnAngle/2+PI/2),50*cos(spawnAngle/2+PI/2));//direction line
+    line(0,0,25*sin(spawnAngle/2+PI/2+spawnSpread),25*cos(spawnAngle/2+PI/2+spawnSpread));//spread line
+    line(0,0,25*sin(spawnAngle/2+PI/2-spawnSpread),25*cos(spawnAngle/2+PI/2-spawnSpread));//spread line
+    line(50*sin(spawnAngle/2+PI/2),
+         50*cos(spawnAngle/2+PI/2),
+         25*sin(spawnAngle/2+PI/2+spawnSpread),
+         25*cos(spawnAngle/2+PI/2+spawnSpread));//spread line
+    line(50*sin(spawnAngle/2+PI/2),
+         50*cos(spawnAngle/2+PI/2),
+         25*sin(spawnAngle/2+PI/2-spawnSpread),
+         25*cos(spawnAngle/2+PI/2-spawnSpread));//spread line    
+    noStroke();
+
     popMatrix();
   }//end display 
   
@@ -178,7 +254,7 @@ class Prism extends LightSource{
 //light particles are generated by light sources, and move at a uniform speed
 class LightParticle extends Particle{
   
-  static final int lifeTime = 4000;
+  static final int lifeTime = 5000;
   float dir;
   boolean alive;
   float speed;
@@ -190,7 +266,7 @@ class LightParticle extends Particle{
     super(5, 2, color(255, 175, 0), "none");
     dir = dirIn;//direction
     alive = true;
-    speed = 20; //this is the speed of light!
+    speed = 25; //this is the speed of light!
     makeBody(xin, yin, 5, gID, 0x0000);
     body.setUserData(this);
     body.setLinearVelocity(velocity());
@@ -203,7 +279,7 @@ class LightParticle extends Particle{
     super(5, 2, color(255, 175, 0), "none");
     dir = dirIn;//direction
     alive = true;
-    speed = 20; //this is the speed of light!
+    speed = 25; //this is the speed of light!
     makeBody(xin, yin, 5, gID, maskBits);
     body.setUserData(this);
     body.setLinearVelocity(velocity());
@@ -239,16 +315,18 @@ void display()
   {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);
+    int lifeTimeMod = int(255 - 255 * ( (millis()-timer) / (lifeTime) ));
+
     a = a+random(400)*0.001;
     pushMatrix();
     translate(pos.x,pos.y);
-    fill(255,255,0,50);
+    fill(40,255,255,lifeTimeMod-100);
     strokeWeight(1);
-    stroke(255,255,255);
+    stroke(255,0,255,lifeTimeMod-100);
     s = cos(a)*2;
     ellipse(0,0,radius*2+s,radius*2+s);//outer circle
-    fill(255,255,0);
     
+    fill(40,150,255,lifeTimeMod-50);
     s = cos(a)*3;
     ellipse(0,0,radius*1+s,radius*1+s);//inner circle
     popMatrix();
@@ -269,7 +347,7 @@ void display()
     cd.friction = 0.0f;
     cd.restitution = 1.0f; // Restitution is bounciness
     cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
-    cd.filter.maskBits = 0xffff ^ 0x0002 ^ maskBits; //0xffff collides with everything; 0x0002 is the categoryBits of the LightSource; will not collide with LightSource
+    cd.filter.maskBits = 0xffff & ~0x0002 & ~maskBits; //0xffff collides with everything; 0x0002 is the categoryBits of the LightSource; will not collide with LightSource
     body.createShape(cd);
 
     // Always do this at the end
