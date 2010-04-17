@@ -84,7 +84,7 @@ class GameState{
     //Dark Units
     
         //Shades
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < 30; i++)
           particles.add(new Shade( random(width-91,width-10),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
@@ -94,14 +94,14 @@ class GameState{
     //Light Units
     
         //LightSource
-          particles.add(new LightSource(WIDTH/4, HEIGHT/2, 0));
+          particles.add(new LightSource(WIDTH/8, HEIGHT/2, 0));
         
         
         //Light particles
         //createLightParticles();
         
         //Sprites
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 18; i++)
           particles.add(new Sprite(random(10,width/2),random(100,height-100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
@@ -154,13 +154,22 @@ class GameState{
         
         //Have LightSource give an int value that specifies the number of LightParticles to generate (i.e change the K value)
         if(temp.body.getUserData().getClass().getName().contains("$LightSource"))
+        {
               lightParticles.add(((LightSource) temp).spawn());
-              
+              lightParticles.add(((LightSource) temp).spawn());
+        }      
         //let all the prisms update the lightParticles with their produced particles
         if(temp.body.getUserData().getClass().getName().contains("$Prism"))
-          if(((Prism) temp).light >= 90)
-            lightParticles.add(((Prism) temp).spawn());
-        
+            if(((Prism) temp).light >= 190)
+            {
+              lightParticles.add(((Prism) temp).spawn());
+              
+            }
+            else if(((Prism) temp).light >= 190)
+            {
+              lightParticles.add(((Prism) temp).spawn());
+            }
+              
         temp.update();
         temp.display();
         //temp.move();
@@ -221,7 +230,7 @@ class GameState{
       displayLightParticles();
       updateParticles();
       updateObstacles();
-      updatePrison();
+      //updatePrison();
       displayEdges();
   }  
 }

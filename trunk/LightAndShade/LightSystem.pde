@@ -144,11 +144,11 @@ class LightSource extends Particle{
 //Redirects light particles
 class Prism extends LightSource{
   int light;
-  int catBits = 0x0020+id+3;
+  int catBits = int(pow(2,id+2));
   
   Prism(float x, float y, int id)
   {
-      super(x, y, 20, id, 0x0020+id+3, 1.0);
+      super(x, y, 20, id, int(pow(2,id+2)), 1.0);
       changeColor(255,255,100);
       light = 0;
   }
@@ -196,7 +196,7 @@ class Prism extends LightSource{
     xin = random(pos.x-(radius*0.25+spawnSpread*.9), pos.x+(radius*0.25+spawnSpread*.9));
     yin = random(pos.y-(radius*0.25+spawnSpread*.9), pos.y+(radius*0.25+spawnSpread*.9));
     particle = new LightParticle(xin, yin, dir, -1, catBits);
-    println(spawnSpread);
+    //println(spawnSpread);
     return particle;
   }
   boolean done()
@@ -347,7 +347,7 @@ void display()
     cd.friction = 0.0f;
     cd.restitution = 1.0f; // Restitution is bounciness
     cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
-    cd.filter.maskBits = 0xffff & ~0x0002 & ~maskBits; //0xffff collides with everything; 0x0002 is the categoryBits of the LightSource; will not collide with LightSource
+    cd.filter.maskBits = 0xffff ^ 0x0002 ^ maskBits; //0xffff collides with everything; 0x0002 is the categoryBits of the LightSource; will not collide with LightSource
     body.createShape(cd);
 
     // Always do this at the end
