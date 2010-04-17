@@ -4,13 +4,9 @@ Manipulation is a central mechanic in this game. It is the pushing and pulling o
 
 All units can be manipulated when [Blinding blind], though the [Light_Player light] Light Source cannot be blinded.
 
-Only two units can manipulate: Wisps and Shades. These units can manipulate any blind unit, friendly or not.
+Only two units can manipulate: Sprites and Shades. These units can manipulate any blind unit, friendly or not.
 
-When a unit is manipulated by another unit
- * Method 1 (For blinded units)
-   # Spring is attach and everything will fall out of that
- * Method 2 
-   # The manipulating unit "Hijack" the manipulated unit(drag it around)
- * Method 3
-   # Use the physics engine and have the manipulating unit push the manipulated unit. This would require some AI work that will allow the unit to correct the push
+When a Sprite is selected, the player can order it to manipulate a blinded unit by clicking on the unit.
+
+When a Sprite is manipulating a unit, the player can order it to release a blinded unit by clicking on the unit again.
  
