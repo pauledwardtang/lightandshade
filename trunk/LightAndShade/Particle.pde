@@ -65,10 +65,10 @@ class Particle extends GameObject{
   //change light value
   void changeLight()
   {
-    if (light<=170)
-      light = light + 10;
-    else if (light > 170 && light < 180)
-      light = 180;//set to max
+    if (light<=290)
+      light = light + 20;
+    else if (light > 280 && light < 300)
+      light = 300;//set to max
     else if (light <= 0)
       light = 0;//zero is minimum
   }

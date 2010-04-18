@@ -12,6 +12,10 @@ class GameState{
   //Obstacle size (rectangles)
   static final int OBS_WIDTH = 150;
   static final int OBS_HEIGHT = 150;
+  int lightUnits = 0;
+  int darkUnits = 0;
+  int lightTimer = 0;
+  int darkTimer = 0;
   
   //List of objects
   private ArrayList particles = new ArrayList();
@@ -160,12 +164,12 @@ class GameState{
         }      
         //let all the prisms update the lightParticles with their produced particles
         if(temp.body.getUserData().getClass().getName().contains("$Prism"))
-            if(((Prism) temp).light >= 180)
+            if(((Prism) temp).light >= 190)
             {
               lightParticles.add(((Prism) temp).spawn());
               
             }
-            else if(((Prism) temp).light >= 90)
+            else if(((Prism) temp).light >= 160)
             {
               lightParticles.add(((Prism) temp).spawn());
             }
@@ -221,9 +225,47 @@ class GameState{
      } 
      obstacles.clear();
   }
+
+void checkVictoryConditions(){
+  lightUnits = 0;
+  darkUnits = 0;
+  //count lit units, blind eyes
+  for(int i = 0; i < particles.size(); i++){
+    
+    Particle unit = (Particle)particles.get(i);
+    String name = unit.getClass().getName();
+    
+    //light unit
+    if(name.contains("Sprite") || name.contains("Prism")){
+      if (!unit.blind)
+        lightUnits = lightUnits+1;
+    }
+    //dark unit
+    if(name.contains("Eye")){
+      if (unit.blind)
+        darkUnits = darkUnits+1;
+    }
+  }
   
+  if(lightUnits<=0){
+    lightTimer++;
+  }
+  if(darkUnits>=3){
+    darkTimer++;
+  }
   
- 
+  if (lightTimer >=150 && darkTimer<150){//dark victory
+  println("Dark Victory");//dark victory
+  }
+  else if(lightTimer< 150 && darkTimer>=150){ //light victory
+  println("Light Victory");//light victory
+  }
+  else if(lightTimer>=150 && darkTimer >=150){//rare state- draw
+  //do nothing, wait for it to do one of the others
+  }
+  
+}
+
   //Draw
   void draw()
   {
@@ -232,5 +274,6 @@ class GameState{
       updateObstacles();
       //updatePrison();
       displayEdges();
+      checkVictoryConditions();
   }  
 }

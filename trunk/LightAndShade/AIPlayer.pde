@@ -1,20 +1,7 @@
 class AIPlayer{
- 
-
-    //List of objects
-  private ArrayList particles = new ArrayList();
   
-  ArrayList selectedParticles = new ArrayList();
-  private ArrayList obstacles = new ArrayList();
-  private ArrayList lightParticles = new ArrayList();
-  
-  
- AIPlayer(ArrayList particles, ArrayList selectedParticles, ArrayList obstacles, ArrayList lightParticles)  
+ AIPlayer()  
  {
-     this.particles = particles;
-     this.selectedParticles = selectedParticles;
-     this.obstacles = obstacles;
-     this.lightParticles = lightParticles;
  } 
  
 
@@ -30,9 +17,9 @@ class AIPlayer{
  
  void moveUnits(){
    
-     for(int i = 0; i < particles.size(); i++)
+     for(int i = 0; i < gameState.particles.size(); i++)
     {
-      Particle temp = (Particle) particles.get(i);
+      Particle temp = (Particle) gameState.particles.get(i);
       String name = temp.body.getUserData().getClass().getName();
       boolean moveFlag = false;
       if(name.contains("$Shade"))

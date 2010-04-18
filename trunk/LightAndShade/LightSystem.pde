@@ -170,7 +170,7 @@ class Prism extends LightSource{
       col = color(150, 255, 4*light);
     }
     
-    if (light > 0 && light < 90)
+    if (light > 0 && light < 160)
       light = light-1;
       
   }  
@@ -189,7 +189,7 @@ class Prism extends LightSource{
   //returns a live particle iff it has light
   LightParticle spawn()
   {
-    light = light - 10;
+    light = light - 20;
     LightParticle particle;
     float dir = random((spawnAngle/2-spawnSpread), (spawnAngle/2+spawnSpread));
     float xin, yin;
@@ -266,7 +266,7 @@ class LightParticle extends Particle{
   
   LightParticle(float xin, float yin, float dirIn, int gID){
     
-    super(5, 2, color(255, 175, 0), "none");
+    super(2, 2, color(255, 175, 0), "none");
     dir = dirIn;//direction
     alive = true;
     speed = 30 - random(5); //this is the speed of light!
@@ -279,7 +279,7 @@ class LightParticle extends Particle{
   }
   
   LightParticle(float xin, float yin, float dirIn, int gID, int maskBits){
-    super(5, 2, color(255, 175, 0), "none");
+    super(2, 2, color(255, 175, 0), "none");
     dir = dirIn;//direction
     alive = true;
     speed = 30-random(5); //this is the speed of light!
@@ -346,7 +346,7 @@ void display()
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 0.01f;
+    cd.density = 0.001f;
     cd.friction = 0.0f;
     cd.restitution = 1.0f; // Restitution is bounciness
     cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
