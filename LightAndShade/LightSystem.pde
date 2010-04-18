@@ -179,7 +179,7 @@ class Prism extends LightSource{
   void changeLight()
   {
     if (light<=1490)
-      light = light + 15;// Yes, 50% more free!
+      light = light + 30;// Yes, 50% more free!
     else if (light > 1490 && light < 1500)
       light = 1500;//set to max
     else if (light <= 0)

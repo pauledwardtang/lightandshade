@@ -122,6 +122,9 @@ class Sprite extends Particle implements Manipulator{
           if (!p.blind){
             spring.destroy();//if anything attached is blind, everything detaches...
           }
+          if(!canGrab(p)){
+            spring.destroy();//detaches if attached particle is not on the list
+          }
         }
       } 
     }
@@ -165,9 +168,9 @@ class Sprite extends Particle implements Manipulator{
 
   //releases a particle from the grablist
   void release(Particle target){
-    
-    while (grabList.indexOf(target)!=-1)
+    while (grabList.indexOf(target)!=-1){
       grabList.remove(grabList.indexOf(target));
+    }
   }
   
   //manipulation method
@@ -303,6 +306,9 @@ class Shade extends Particle implements Manipulator{
           if (!p.blind)
           {
             spring.destroy();//if anything attached is blind, everything detaches...
+          }
+          if(!canGrab(p)){
+            spring.destroy();//detaches if attached particle is not on the list
           }
         }
       } 
