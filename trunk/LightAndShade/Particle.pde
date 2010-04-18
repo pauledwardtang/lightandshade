@@ -147,17 +147,16 @@ class Particle extends GameObject{
     BodyDef bd = new BodyDef();
     // Set its position
     bd.position = box2d.screenToWorld(x,y);
-    body = box2d.world.createBody(bd);
-
-    bd.linearDamping = 1;
+    bd.linearDamping = 2;
     bd.angularDamping = 1;
-
+    body = box2d.world.createBody(bd);
+    
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
     cd.density = density;
-    cd.friction = 0.01f;
-    cd.restitution = .3f; // Restitution is bounciness
+    cd.friction = 0.1f;
+    cd.restitution = .1f; // Restitution is bounciness
     cd.filter.maskBits = 0xffff ^ categoryBits; //categoryBits;
     body.createShape(cd);
 
