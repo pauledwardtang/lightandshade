@@ -1,4 +1,4 @@
-// The Nature of Code
+ // The Nature of Code
 // <http://www.shiffman.net/teaching/nature>
 // Spring 2010
 // PBox2D example
@@ -57,6 +57,23 @@ class CustomListener implements ContactListener {
         
         LightParticle lParticle = (LightParticle) o2;
         lParticle.alive = false;
+    }
+    
+    
+    //manipulation
+    if ( (c1.contains("Sprite") || c1.endsWith("Shade")) && willAbsorb(c2) )
+    {      
+      Manipulator manipulator = (Manipulator)o1;
+      Particle manipulatee = (Particle)o2;
+
+      manipulator.attach(manipulatee);//attach. If it's not on the particle's list it is just ignored.  
+    }
+    if ( (c2.contains("Sprite") || c2.endsWith("Shade")) && willAbsorb(c1) )
+    {      
+      Manipulator manipulator = (Manipulator)o2;
+      Particle manipulatee = (Particle)o1;
+
+      manipulator.attach(manipulatee);//attach. If it's not on the particle's list it is just ignored.  
     }
     
 //    if(c1.contains("Sprite") && c2.contains("$Shade"))

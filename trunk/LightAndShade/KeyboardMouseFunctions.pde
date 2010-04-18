@@ -101,7 +101,27 @@ void mouseReleased()
   {
       attachedParticle.body.setLinearVelocity(new Vec2(0,0));
       spring.destroy();
-      if(R_MOUSE==true)        
+      if(R_MOUSE==true){
+         for(int i = 0; i < gameState.particles.size(); i++)
+         {
+            Particle temp = (Particle) gameState.particles.get(i);
+            if(temp.MOUSE_HOVER())
+            {
+              for(int j = 0; j < gameState.particles.size(); j++){
+                    Particle temp2 = (Particle)gameState.particles.get(j);
+                if (temp2.isSelected && temp2 instanceof Manipulator)//tell all selected manipulators to attach to temp
+                  {
+                    Manipulator manipulator = (Manipulator)gameState.particles.get(j);
+                    if(manipulator.canGrab(temp)){//if not on the list
+                      manipulator.grab(temp);
+                    }
+                    else
+                      manipulator.release(temp);
+                  }
+              }
+            }    
+         }
+      }        
         R_MOUSE=false;
       
       if(L_MOUSE==true)
@@ -110,7 +130,7 @@ void mouseReleased()
          {
             Particle temp = (Particle) gameState.particles.get(i);
             if(temp.owner.equals("player") || debugEnable)
-               temp.selection();       
+               temp.selection();     
         }
      }    
         L_MOUSE = false;  
