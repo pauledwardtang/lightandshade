@@ -160,12 +160,12 @@ class GameState{
         }      
         //let all the prisms update the lightParticles with their produced particles
         if(temp.body.getUserData().getClass().getName().contains("$Prism"))
-            if(((Prism) temp).light >= 190)
+            if(((Prism) temp).light >= 180)
             {
               lightParticles.add(((Prism) temp).spawn());
               
             }
-            else if(((Prism) temp).light >= 190)
+            else if(((Prism) temp).light >= 90)
             {
               lightParticles.add(((Prism) temp).spawn());
             }

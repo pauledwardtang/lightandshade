@@ -85,8 +85,8 @@ class Particle extends GameObject{
 
     if(MOVE_MODE == false || blind)
       setTarget(pos.x, pos.y);
-      
-    move();
+    else  
+      move();
     
     body.setAngularVelocity(0);
   }

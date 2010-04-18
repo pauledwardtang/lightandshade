@@ -64,36 +64,82 @@ class GameObject
    }
 }
 
+interface Manipulator{
+  boolean canGrab(Particle target);
+  void grab(Particle target);
+  void attach(Particle target);
+  void release(Particle target);
+}
+
+
 //small unit, can manipulate blinded units
 //can only move when light > 0
-class Sprite extends Particle{
-  
+class Sprite extends Particle implements Manipulator{
   DistanceSpring spring = new DistanceSpring();
+  ArrayList grabList = new ArrayList();
   
   Sprite(float x, float y, int id)
   {
-    super(x, y, 10, 4, id, "player", 4);
+    super(x, y, 8, 5, id, "player", 4);
 //    changeColor(0,g,0);
   }
   void update()
   {
     super.update();
+    manipulation();
+    
+    //decides color based on light
     if(light < 30)
     {
       blind = true;
       col = color(150, 55, light+100);
-      spring.destroy();
     }
     else
     {
       blind = false; 
       col = color(150, 255, light+100);
     }
-    
-    if (light > 0)
+
+    if (light > 0)//decrease light level
       light = light-1;
       
-  }
+  }//end update
+  
+  //Handles manipulation-relted stuff. Mostly exists to clean up update()
+  void manipulation(){
+    
+    Body target;
+    if (spring.distanceJoint != null)
+    {
+      target = spring.distanceJoint.getBody2();
+      Object obj = target.getUserData();
+      for(int i=0;i <grabList.size();i++){
+        Particle temp = (Particle)grabList.get(i);
+          
+        if (obj.getClass().getSuperclass().getName().contains("$Particle"))//check if connected thing is a particle
+        {
+          Particle p = (Particle) obj;
+          if (!p.blind){
+            spring.destroy();//if anything attached is blind, everything detaches...
+          }
+        }
+      } 
+    }
+    
+    for(int i=0;i <grabList.size();i++){
+      Particle temp = (Particle)grabList.get(i);
+      if (!temp.blind)//not blind? get off my list!
+        {
+          grabList.remove(i);
+        }    
+    }    
+    
+    //clears manipulation list when blinded, destroys spring
+    if (blind){
+      grabList.clear();
+      spring.destroy();
+    }  
+  }//end manipulation
   
   void moveShade(Shade sh)
   {
@@ -103,45 +149,77 @@ class Sprite extends Particle{
      spring.update(this, sh);
     }
   }
+
+  //manipulation method
+  boolean canGrab(Particle target){
+    return !grabList.contains(target);
+  }
   
+  //right now it seems possible to add the same unit multiple times. Not sure if that's a problem or not.
+  void grab(Particle target){
+    if (target.blind && !grabList.contains(target))//check if target is blind and if it is already on the list
+    {
+      grabList.add(target);
+    }
+  }
+
+  //releases a particle from the grablist
+  void release(Particle target){
+    
+    while (grabList.indexOf(target)!=-1)
+      grabList.remove(grabList.indexOf(target));
+  }
+  
+  //manipulation method
+    void attach(Particle target)
+    {
+      if(!blind && grabList.contains(target))
+      {
+       spring.bind(this, target);
+       spring.update(this, target);
+      }
+    }
+    
   boolean done()
   {
     return false;
   }
-void display() {
-    // We look at each body and get its screen position
-    Vec2 pos = box2d.getScreenPos(body);
-    // Get its angle of rotation
-    //float a = body.getAngle();
-    pushMatrix();
-    translate(pos.x,pos.y);
-    //rotate(a);
-    fill(col);
-    if(isSelected)
-    {
-      stroke(90,255,255);
-      strokeWeight(2);
-    }
-    else{
-      stroke(255);
-      strokeWeight(1);
-     }
     
-    ellipse(0,0,radius*2,radius*2);
-    popMatrix();
+  void display() {
+      // We look at each body and get its screen position
+      Vec2 pos = box2d.getScreenPos(body);
+      // Get its angle of rotation
+      //float a = body.getAngle();
+      pushMatrix();
+      translate(pos.x,pos.y);
+      //rotate(a);
+      fill(col);
+      if(isSelected)
+      {
+        stroke(90,255,255);
+        strokeWeight(2);
+      }
+      else{
+        stroke(255);
+        strokeWeight(1);
+       }
+      
+      ellipse(0,0,radius*2,radius*2);
+      popMatrix();
   } 
   
-}
+}//end Sprite
 
 
 //small unit, can manipulate blinded units
-class Shade extends Particle{
+class Shade extends Particle implements Manipulator{
   //can only move when light < 255
   DistanceSpring spring = new DistanceSpring();
+  ArrayList grabList = new ArrayList();
   
   Shade(float x, float y, int id)
   {
-      super(x, y, 8, 3, id, "enemy", 8);
+      super(x, y, 8, 5, id, "enemy", 8);
   }
 
   void moveSprite(Sprite spr)
@@ -152,9 +230,40 @@ class Shade extends Particle{
       spring.update(this, spr);
     }
   }
+  
+  //manipulation method
+  boolean canGrab(Particle target){
+    return !grabList.contains(target);
+  }
+  
+  //right now it seems possible to add the same unit multiple times. Not sure if that's a problem or not.
+  void grab(Particle target){
+    if (target.blind && !grabList.contains(target))//check if target is blind and if it is already on the list
+    {
+      grabList.add(target);
+    }
+  }
+
+  //releases a particle from the grablist
+  void release(Particle target){
+    while (grabList.indexOf(target)!=-1)
+      grabList.remove(grabList.indexOf(target));
+  }
+  
+  //manipulation method
+    void attach(Particle target)
+    {
+      if(!blind && grabList.contains(target))
+      {
+       spring.bind(this, target);
+       spring.update(this, target);
+      }
+    }  
+  
   void update()
   {
     super.update();
+    manipulation();
     
     if(light >= 60)
     {
@@ -168,13 +277,52 @@ class Shade extends Particle{
       col = color(10, 255, 100+light);
     }
     
-    if (light > 0)
+    if (light > 0)//decides color based on light
       light = light-1;
   }
+  
+  //Handles manipulation-related stuff. Mostly exists to clean up update()
+  void manipulation(){
+    
+    Body target;
+    if (spring.distanceJoint != null)
+    {
+      target = spring.distanceJoint.getBody2();
+      Object obj = target.getUserData();
+      for(int i=0;i <grabList.size();i++){
+        Particle temp = (Particle)grabList.get(i);//an item on the grab list
+          
+        if (obj.getClass().getSuperclass().getName().contains("$Particle"))//check if connected thing is a particle
+        {
+          Particle p = (Particle) obj;
+          if (!p.blind)
+          {
+            spring.destroy();//if anything attached is blind, everything detaches...
+          }
+        }
+      } 
+    }
+    
+    for(int i=0;i <grabList.size();i++){
+      Particle temp = (Particle)grabList.get(i);
+      if (!temp.blind)//not blind? get off my list!
+        {
+          grabList.remove(i);
+        }    
+    }
+    
+    //clears manipulation list when blinded, destroys spring
+    if (blind){
+      grabList.clear();
+      spring.destroy();
+    }  
+  }//end manipulation
+  
     boolean done()
-  {
-    return false;
-  }
+    {
+      return false;
+    }
+    
     void display() {
     // We look at each body and get its screen position
     Vec2 pos = box2d.getScreenPos(body);

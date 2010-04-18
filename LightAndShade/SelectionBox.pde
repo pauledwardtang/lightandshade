@@ -51,7 +51,11 @@ class SelectionBox{
     if(mousePressed)  
       {
         rectMode(CORNER); 
-        rect(holdX,holdY,sizeX,sizeY);        
+        fill(100,255,200,50);
+        stroke(90,255,200);
+        rect(holdX,holdY,sizeX,sizeY);      
+        noFill();
+        noStroke();  
       }
   }
   
