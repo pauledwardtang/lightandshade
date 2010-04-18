@@ -203,8 +203,13 @@ class Sprite extends Particle implements Manipulator{
         stroke(255);
         strokeWeight(1);
        }
-      
-      ellipse(0,0,radius*2,radius*2);
+       
+      fill(col,150); 
+      ellipse(0,0,radius*2,radius*2);//outer circle
+      fill(col);
+      noStroke();
+      ellipse(0,0,radius,radius);//inner circle
+   
       popMatrix();
   } 
   

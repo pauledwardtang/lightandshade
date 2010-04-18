@@ -56,7 +56,7 @@ void setup() {
   gameState = new GameState(WIDTH, HEIGHT);
   //obstacles = gameState.getObstacles();
   
-  AI = new AIPlayer(gameState.particles, gameState.selectedParticles, gameState.obstacles, gameState.lightParticles);  
+  AI = new AIPlayer();  
 
   
 //  ArrayList lightSource = gameState.getLightSource();
