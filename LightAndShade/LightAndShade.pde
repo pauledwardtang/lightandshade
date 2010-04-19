@@ -115,6 +115,7 @@ void setup() {
 
 
 void draw() {
+  println(frameRate);
   if(gameEnable) //Display Game, objects etc
   {
       //Background display
@@ -126,15 +127,14 @@ void draw() {
       
       //Update the mouse joint
       spring.update(mouseX,mouseY);
-      spring.display();
-             
-      AI.update(); 
-             
+      spring.display();        
       //Draw the game's objects
       gameState.draw();
       
       if (L_MOUSE == true)
         sBox.updateBox();//update the SelectionBox 
+        
+      AI.update(); 
   }
   else if(debugEnable) //Debug mode
   {

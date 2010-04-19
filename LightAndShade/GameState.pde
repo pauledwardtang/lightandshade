@@ -88,7 +88,7 @@ class GameState{
     //Dark Units
     
         //Shades
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 15; i++)
           particles.add(new Shade( random(width-91,width-10),random(height/2-100,height/2+100),i));//200 ,50, i));
           
         //Eyes
@@ -105,12 +105,12 @@ class GameState{
         //createLightParticles();
         
         //Sprites
-        for(int i = 0; i < 18; i++)
-          particles.add(new Sprite(random(10,width/2),random(100,height-100),i));//WIDTH-200, HEIGHT-200, i));
+        for(int i = 0; i < 10; i++)
+          particles.add(new Sprite(random(10,width/3),random(100,height-100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
-        for(int i = 0; i < 4; i++)
-          particles.add(new Prism(random(10,width/4),random(200,height-200),i));//WIDTH-500, HEIGHT-500, i));
+        for(int i = 0; i < 3; i++)
+          particles.add(new Prism(random(10,width/5),random(200,height-200),i));//WIDTH-500, HEIGHT-500, i));
 //          particles.add(new Prism(width/4,height/2-200,1));
 //          particles.add(new Prism(width/4,height/2+200,2));
   }
@@ -169,7 +169,7 @@ class GameState{
               lightParticles.add(((Prism) temp).spawn());
               
             }
-            else if(((Prism) temp).light >= 160)
+            else if(((Prism) temp).light >= 170)
             {
               lightParticles.add(((Prism) temp).spawn());
             }
@@ -250,9 +250,14 @@ void checkVictoryConditions(){
   if(lightUnits<=0){
     lightTimer++;
   }
+  else
+    lightTimer = 0;
+    
   if(darkUnits>=3){
     darkTimer++;
   }
+  else
+    darkTimer = 0;
   
   if (lightTimer >=150 && darkTimer<150){//dark victory
   println("Dark Victory");//dark victory
