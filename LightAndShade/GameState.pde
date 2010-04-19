@@ -16,7 +16,7 @@ class GameState{
   int darkUnits = 0;
   int lightTimer = 0;
   int darkTimer = 0;
-  
+  int victory;
   //List of objects
   private ArrayList particles = new ArrayList();
   
@@ -197,7 +197,7 @@ class GameState{
       LightParticle temp = (LightParticle) lightParticles.get(i);
       
       temp.update();
-      //temp.display();
+      temp.display();
       
       if(!temp.isAlive())
           lightParticles.remove(temp);
@@ -226,6 +226,7 @@ class GameState{
      obstacles.clear();
   }
 
+//Returns -1 if game lost, 1 if the player has won, and 0 otherwise
 void checkVictoryConditions(){
   lightUnits = 0;
   darkUnits = 0;
@@ -261,18 +262,24 @@ void checkVictoryConditions(){
   
   if (lightTimer >=150 && darkTimer<150){//dark victory
     println("Dark Victory");//dark victory
-    game_display = GAME_LOSE;
+    victory = -1;
   }
   else if(lightTimer< 150 && darkTimer>=150){ //light victory
     println("Light Victory");//light victory
-    game_display = GAME_WIN;
+    victory = 1;
   }
   else if(lightTimer>=150 && darkTimer >=150){//rare state- draw
   //do nothing, wait for it to do one of the others
   }
-  
 }
-
+void reset()
+{
+      gameState.removeParticles();
+      gameState.removeObstacles();
+      gameState.randomizeObstacles();
+      gameState.createUnits();
+      victory = 0;
+}
   //Draw
   void draw()
   {
