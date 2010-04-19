@@ -51,7 +51,7 @@ int[][] values, values2;
 float angle = 0;
 
 ImageButtons startButton, debugButton, addObsButton, addUnitsButton, addParticles,clearButton;
-PImage startBackground, gameBackground;
+PImage startBackground, gameBackground, winBackground, loseBackground;
 
 void setup() {
   size(WIDTH, HEIGHT, OPENGL);
@@ -72,28 +72,6 @@ void setup() {
   //obstacles = gameState.getObstacles();
   
   AI = new AIPlayer();  
-
-  // Load the image into a new array
-  extrude = loadImage("win.jpg");
-  extrude.loadPixels();
-  values = new int[extrude.width][extrude.height];
-  for (int y = 0; y < extrude.height; y++) {
-    for (int x = 0; x < extrude.width; x++) {
-      color pixel = extrude.get(x, y);
-      values[x][y] = int(brightness(pixel));
-    }
-  }
-  
-  // Load the image into a new array
-  extrude2 = loadImage("lose.jpg");
-  extrude2.loadPixels();
-  values2 = new int[extrude2.width][extrude2.height];
-  for (int y = 0; y < extrude2.height; y++) {
-    for (int x = 0; x < extrude2.width; x++) {
-      color pixel = extrude2.get(x, y);
-      values2[x][y] = int(brightness(pixel));
-    }
-  }
   
 //  ArrayList lightSource = gameState.getLightSource();
 //  source = (LightSource) lightSource.get(0);
@@ -109,6 +87,10 @@ void setup() {
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
   gameBackground  = loadImage("background.jpg");
+  winBackground   = loadImage("background2.jpg");
+  loseBackground  = loadImage("youlose.jpg");
+  
+  
   PImage debugButtonImg = loadImage("debug.gif");
   PImage obsButtonImg = loadImage("obs.gif");
   PImage unitsButtonImg = loadImage("units.gif");
@@ -167,17 +149,26 @@ void draw() {
       spring.display();
              
       AI.update(); 
-             
+   
       //Draw the game's objects
       gameState.draw();
       
       if (L_MOUSE == true)
         sBox.updateBox();//update the SelectionBox 
+//     
+//      PFont font;
+//      font = loadFont("AmericanTypewriter-24.vlw"); 
+//      textFont(font); 
+//      //translate(width/4,height/2,0);     
+//      fill(255);
+//      text("Light Timer: " + gameState.lightTimer,0,0,0);   
+//      translate(width - 20, 0);
+//      text("Dark Timer: " + gameState.darkTimer,0,0,0);  
   }
   else if(game_display == DEBUG) //Debug mode
   {
      background(255);
-     
+     image(gameBackground,0,0);
      //Update buttons
      addObsButton.update();
      addUnitsButton.update();
@@ -232,30 +223,23 @@ void draw() {
   else if(game_display == GAME_WIN)
   {
       background(255);
-      image(gameBackground, 0, 0);
+      image(winBackground, 0, 0);
       PFont font;
       font = loadFont("AmericanTypewriter-24.vlw"); 
       textFont(font); 
-      text("You have WON!!!...press Q to start again",width/2, height/2,0);   
-      //textSize(50);
-      
-      fill(255);
-      translate(width/2,height/2,0);     
+      translate(0,height/2-3);     
       text("You have WON!!!...press Q to start again",width/2, height/2,0);   
   }
   else if(game_display == GAME_LOSE)
   {
       background(255);
-      image(gameBackground, 0, 0);
+      image(loseBackground, 0, 0);
       PFont font;
       font = loadFont("AmericanTypewriter-24.vlw"); 
       textFont(font); 
-      text("You have lost the game...press Q to start again",width/2, height/2,0);   
-      //textSize(50);
-      
       fill(255);
-      //translate(width/4,height/2,0);     
-      text("You have lost the game...press Q to start again",width/2, height/2,0);  
+      translate(0, height/2-3);
+      text("You have been defeated...press Q to start again",width/2, height/2,0);   
   }
   else if(game_display == PAUSE)
   {
