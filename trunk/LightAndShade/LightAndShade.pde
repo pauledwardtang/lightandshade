@@ -96,7 +96,7 @@ void setup() {
   //spring.bind(width/2,height/2,box);
 
   //Initialize the game display to the startup screen
-  game_display = MAIN_GAME;
+  game_display = STARTUP;
 
 
   //Font
@@ -207,11 +207,14 @@ void draw() {
     else if(gameState.victory == -1)
       game_display = GAME_LOSE;
 
-    rectMode(CORNER);
-    //fill(255);
-    fill(0,0,0, gameState.lightTimer*1.5);
-    rect(0, 0, WIDTH, HEIGHT);
-    rectMode(CENTER);
+    if(gameState.lightTimer > 0)
+    {
+      rectMode(CORNER);
+      //fill(255);
+      fill(0,0,0, gameState.lightTimer*1.5);
+      rect(0, 0, WIDTH, HEIGHT);
+      rectMode(CENTER);
+    }
 
   }
   else if(game_display == DEBUG) //Debug mode
