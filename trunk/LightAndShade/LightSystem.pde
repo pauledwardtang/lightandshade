@@ -170,16 +170,16 @@ class Prism extends LightSource{
       col = color(150, 255, 4*light);
     }
     
-    if (light > 0 && light < 160)
+    if (light > 0 && light < 170)
       light = light-1;      
   }  
   
   //change light value, overrides Particle's changeLight()
   void changeLight()
   {
-    if (light<=1490)
+    if (light<=1480)
       light = light + 30;// Yes, 50% more free!
-    else if (light > 1490 && light < 1500)
+    else if (light > 1480 && light < 1500)
       light = 1500;//set to max
     else if (light <= 0)
       light = 0;//zero is minimum
@@ -345,7 +345,7 @@ void display()
     // Make the body's shape a circle
     CircleDef cd = new CircleDef();
     cd.radius = box2d.scaleScreenToWorld(radius_);
-    cd.density = 0.001f;
+    cd.density = 0.0001f;
     cd.friction = 0.0f;
     cd.restitution = 1.0f; // Restitution is bounciness
     cd.filter.groupIndex = groupID; //objects with same negative group index will not collide
