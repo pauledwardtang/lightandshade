@@ -197,7 +197,7 @@ class GameState{
       LightParticle temp = (LightParticle) lightParticles.get(i);
       
       temp.update();
-      temp.display();
+      //temp.display();
       
       if(!temp.isAlive())
           lightParticles.remove(temp);

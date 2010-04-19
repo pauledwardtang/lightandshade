@@ -51,7 +51,7 @@ class AIPlayer{
 }
 
 class LightMap{
-  int cellsize = 10;
+  int cellsize = 1;
   int[][] lightmap = new int[WIDTH/cellsize][HEIGHT/cellsize];
   int timer = 0;
   
@@ -65,32 +65,29 @@ class LightMap{
   
   void update(){
     timer++;
+      
     for(int i = 0; i < gameState.lightParticles.size(); i++){
       add((LightParticle)gameState.lightParticles.get(i));
     }
     for(int i = 0; i < WIDTH/cellsize; i++){
       for(int j = 0; j< HEIGHT/cellsize; j++){
-        if(timer%10==0 && lightmap[i][j]>0)
-          lightmap[i][j] = lightmap[i][j]-1;
+        if(timer%1==0 && lightmap[i][j]>0)
+          lightmap[i][j] = int(lightmap[i][j]*.8);
           
-        if(lightmap[i][j]>5){
+        if(lightmap[i][j]>1){
           pushMatrix();
           translate(i*cellsize,j*cellsize);
           noStroke();
-          
-          fill(255,0,255,lightmap[i][j]*.1);
+          noFill();
+          //fill(0,0,255,lightmap[i][j]*.3);
 
           rectMode(CENTER);
-          if (cellsize == 1)
-          {
-            stroke(255,0,255,lightmap[i][j]*.25);
-            point(0,0);
-          }
-          else{
-            //stroke(255,0,255,lightmap[i][j]*.1);
-            //ellipse(0,0,cellsize+2,cellsize+2);
-            rect(0,0,3*cellsize,3*cellsize);
-          }
+          stroke(random(35,45),500-lightmap[i][j],255,lightmap[i][j]*.5);
+          //translate(random(-.5,.5),random(-.5,.5));
+          rect(0,0,lightmap[i][j]/80,lightmap[i][j]/80);
+          //point(0,0);
+
+              
           popMatrix();
         }
       }
@@ -98,10 +95,12 @@ class LightMap{
   }
   
   void add(LightParticle particle){
-  Vec2 pos = box2d.getScreenPos(particle.body);
-  int x = (int)pos.x/cellsize;
-  int y = (int)pos.y/cellsize;
-  lightmap[x][y] = lightmap[x][y] + 1;
+    Vec2 pos = box2d.getScreenPos(particle.body);
+    int x = (int)pos.x/cellsize;
+    int y = (int)pos.y/cellsize;
+    if (lightmap[x][y]<512){
+      lightmap[x][y] = lightmap[x][y] + 500;
+    }
   }
   
 }
