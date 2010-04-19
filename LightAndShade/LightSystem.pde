@@ -171,8 +171,7 @@ class Prism extends LightSource{
     }
     
     if (light > 0 && light < 160)
-      light = light-1;
-      
+      light = light-1;      
   }  
   
   //change light value, overrides Particle's changeLight()
@@ -189,7 +188,7 @@ class Prism extends LightSource{
   //returns a live particle iff it has light
   LightParticle spawn()
   {
-    light = light - 20;
+    light = light - 5;
     LightParticle particle;
     float dir = random((spawnAngle/2-spawnSpread), (spawnAngle/2+spawnSpread));
     float xin, yin;
@@ -257,7 +256,7 @@ class Prism extends LightSource{
 class LightParticle extends Particle{
   
  // static final int lifeTime = 5000;
-  int lifeTime = (int)random(1000,6000);
+  int lifeTime = (int)random(2000,8000);
   float dir;
   boolean alive;
   float speed;

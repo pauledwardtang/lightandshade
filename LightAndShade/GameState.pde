@@ -109,7 +109,7 @@ class GameState{
           particles.add(new Sprite(random(10,width/2),random(100,height-100),i));//WIDTH-200, HEIGHT-200, i));
           
         //Prisms
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 4; i++)
           particles.add(new Prism(random(10,width/4),random(200,height-200),i));//WIDTH-500, HEIGHT-500, i));
 //          particles.add(new Prism(width/4,height/2-200,1));
 //          particles.add(new Prism(width/4,height/2+200,2));

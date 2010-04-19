@@ -52,13 +52,11 @@ class Particle extends GameObject{
   // Change color when hit
   void changeColor(int colVal) 
   {
-
     col = color(colVal,0,0); 
   }
   
   void changeColor(int r, int g, int b) 
   {
-
     col = color(r,g,b); 
   }
   
@@ -194,7 +192,7 @@ class Particle extends GameObject{
         MOVE_MODE = false;
       }  
       else
-        body.applyForce(new Vec2(-(pos.x - target.X), (pos.y - target.Y)), new Vec2(0,0));
+        body.applyForce(new Vec2(-3*(pos.x - target.X), 3*(pos.y - target.Y)), new Vec2(0,0));
   }
   
   boolean MOUSE_HOVER()
