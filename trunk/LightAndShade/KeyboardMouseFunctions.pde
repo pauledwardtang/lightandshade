@@ -75,7 +75,8 @@ void mousePressed()
     if(mouseButton == LEFT && R_MOUSE == false)
     {
        L_MOUSE = true;
-       cursor(CROSS);//change the cursor as the box is being drawn.
+       if(game_display == DEBUG || game_display == MAIN_GAME)
+         cursor(CROSS);//change the cursor as the box is being drawn.
     }
   }
     //Update particle selection if the mouse is pressed
@@ -140,7 +141,8 @@ void mouseReleased()
       sBox.holdX=sBox.holdY=-100;//move the SelectionBox off the screen
 //      }
   }
-  
+
+
 void keyPressed()
 {
   if (keyPressed&&key=='d')//Detach spring
@@ -154,10 +156,21 @@ void keyPressed()
     } 
     if (keyPressed&&key=='q')//Switch game mode
     {
-        gameState = new GameState(WIDTH, HEIGHT);
+        //More efficient than creating a new GameState
+        gameState.reset();
         game_display = STARTUP;
     }
     
+    if (keyPressed&&key=='r' && game_display == GAME_WIN || game_display == GAME_LOSE)//Switch game mode
+    {
+        gameState.reset();
+        game_display = MAIN_GAME;
+    }
+    if (keyPressed&&key=='r' && game_display == PAUSE)//Switch game mode
+    {
+        gameState.reset();
+        game_display = MAIN_GAME;
+    }
     //SKIP THE INTSTRUCTIONS SCREEN
     if (keyPressed&&keyCode == ENTER && game_display == INSTRUCTIONS)//Change the Light sources spawning angle
     {
@@ -165,14 +178,14 @@ void keyPressed()
          println("Game started");
     }  
     
-   //START UP THE PAUSE SCREEN
+   //EXIT THE PAUSE SCREEN
     if (keyPressed&&keyCode == ENTER && game_display == PAUSE)//Change the Light sources spawning angle
     {
          game_display = MAIN_GAME;
-         println("GAME UNPAUSED");
+         println("GAME UNPAUSED");         
     }  
     //START UP THE PAUSE SCREEN
-    if (keyPressed&&key == 'p' && game_display == MAIN_GAME)//Change the Light sources spawning angle
+    if (keyPressed&&key == 'p' && game_display == MAIN_GAME )//Change the Light sources spawning angle
     {
          game_display = PAUSE;
          println("GAME PAUSED");

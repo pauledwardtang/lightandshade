@@ -45,10 +45,7 @@ static boolean debugEnable;
 LightSource source;
 ArrayList particles;
 
-//Game Win stuff
-PImage extrude, extrude2;
-int[][] values, values2;
-float angle = 0;
+PFont font;
 
 ImageButtons startButton, debugButton, addObsButton, addUnitsButton, addParticles,clearButton;
 PImage startBackground, gameBackground, winBackground, loseBackground;
@@ -82,8 +79,13 @@ void setup() {
   attachedParticle = new Particle(0,0,0, 0,1,"player",0);
   //spring.bind(width/2,height/2,box);
   
-  game_display = STARTUP;
+  //Initialize the game display to the startup screen
+  game_display = GAME_WIN;
   
+  
+  //Font
+  font = loadFont("AmericanTypewriter-24.vlw"); 
+
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
   gameBackground  = loadImage("background.jpg");
@@ -155,15 +157,21 @@ void draw() {
       
       if (L_MOUSE == true)
         sBox.updateBox();//update the SelectionBox 
-//     
-//      PFont font;
-//      font = loadFont("AmericanTypewriter-24.vlw"); 
-//      textFont(font); 
-//      //translate(width/4,height/2,0);     
-//      fill(255);
-//      text("Light Timer: " + gameState.lightTimer,0,0,0);   
-//      translate(width - 20, 0);
-//      text("Dark Timer: " + gameState.darkTimer,0,0,0);  
+     
+      textFont(font); 
+      fill(255);
+      textAlign(LEFT,TOP);
+      text("Light Timer: " + gameState.lightTimer, 10, 20, 0);    //Arbitrary padding
+      //textAlign(RIGHT,TOP);
+      translate(width - 200, 0);
+      text("Dark Timer: " + gameState.darkTimer, 0, 20, 0);  
+      
+      ////Display game end screen if the game is over
+      if(gameState.victory == 1)  
+        game_display = GAME_WIN;
+      else if(gameState.victory == -1)
+        game_display = GAME_LOSE;
+      
   }
   else if(game_display == DEBUG) //Debug mode
   {
@@ -213,33 +221,29 @@ void draw() {
       background(255);
       image(gameBackground, 0, 0);
       
-      PFont font;
-      font = loadFont("AmericanTypewriter-24.vlw"); 
-      textFont(font); 
-      //translate(width/4,height/2,0);     
+      textFont(font);  
       fill(255);
-      text("Instructions...Please press Enter to start the game",width/4, height/2,0);     
+      textAlign(CENTER,CENTER);
+      text("Instructions...Please press Enter to start the game",width/2, height/2,0);     
   }
   else if(game_display == GAME_WIN)
   {
       background(255);
       image(winBackground, 0, 0);
-      PFont font;
-      font = loadFont("AmericanTypewriter-24.vlw"); 
       textFont(font); 
-      translate(0,height/2-3);     
-      text("You have WON!!!...press Q to start again",width/2, height/2,0);   
+      fill(0);
+      textAlign(CENTER,BOTTOM);
+      text("You have WON!!!...press R to start again, press Q for main menu.",width/2, height/2,0);   
   }
   else if(game_display == GAME_LOSE)
   {
       background(255);
       image(loseBackground, 0, 0);
-      PFont font;
-      font = loadFont("AmericanTypewriter-24.vlw"); 
       textFont(font); 
       fill(255);
-      translate(0, height/2-3);
-      text("You have been defeated...press Q to start again",width/2, height/2,0);   
+      textAlign(CENTER,BOTTOM);
+      //text("You have been defeated...press R to start again, press Q for main menu.");
+      text("You have been defeated...press R to start again, press Q for main menu.",width/2, height,0);   
   }
   else if(game_display == PAUSE)
   {
@@ -249,18 +253,12 @@ void draw() {
       for(int i = 0; i < gameState.obstacles.size(); i++)
         ((Obstacle) gameState.obstacles.get(i)).display();
         
+      gameState.displayEdges();
+        
       PFont font;
-      font = loadFont("AmericanTypewriter-24.vlw"); 
-      textFont(font); 
-      text("GAME PAUSED. Press Enter to resume.",width/4, height/2,0);   
-      //textSize(50);      
       fill(255);
-      //translate(width/4,height/2,0);     
-      text("GAME PAUSED. Press Enter to resume.",width/4, height/2,0);   
-//  private ArrayList prison = new ArrayList();
-//  private ArrayList obstacles = new ArrayList();
-//  private ArrayList lightParticles = new ArrayList();
-//  private ArrayList edges = new ArrayList();
+      textAlign(CENTER);
+      text("GAME PAUSED. Press Enter to resume, press R to start again, press Q for main menu.",width/2, height/2,0);  
   }
 }
 
@@ -284,7 +282,7 @@ void drawSpotLight() {
       g = green (startBackground.pixels[loc]);
       b = blue (startBackground.pixels[loc]);
       // Calculate an amount to change brightness based on proximity to the mouse
-      float maxdist = 100;//dist(0,0,width,height);
+      float maxdist = 200;//dist(0,0,width,height);
       float d = dist(x,y,mouseX,mouseY);
       float adjustbrightness = 255*(maxdist-d)/maxdist;
       r += adjustbrightness;
