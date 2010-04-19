@@ -49,7 +49,7 @@ ArrayList particles;
 PFont font;
 
 ImageButtons startButton, debugButton, addObsButton, addUnitsButton, addParticles,clearButton;
-PImage startBackground, gameBackground, winBackground, loseBackground;
+PImage startBackground, gameBackground, winBackground, loseBackground, controlsBackground;
 
 void setup() {
   size(WIDTH, HEIGHT, OPENGL);
@@ -81,7 +81,7 @@ void setup() {
   //spring.bind(width/2,height/2,box);
   
   //Initialize the game display to the startup screen
-  game_display = MAIN_GAME;
+  game_display = STARTUP;
   
   
   //Font
@@ -92,7 +92,7 @@ void setup() {
   gameBackground  = loadImage("background.jpg");
   winBackground   = loadImage("background2.jpg");
   loseBackground  = loadImage("youlose.jpg");
-  
+  controlsBackground = loadImage("ctrl_SelectionBox.jpg");
   
   PImage debugButtonImg = loadImage("debug.gif");
   PImage obsButtonImg = loadImage("obs.gif");
@@ -271,6 +271,18 @@ void draw() {
       fill(255);
       textAlign(CENTER);
       text("GAME PAUSED. Press Enter to resume, press R to start again, press Q for main menu.",width/2, height/2,0);  
+  }  
+  else if(game_display == CONTROLS)
+  {
+      background(255);
+      image(controlsBackground, 0, 0);
+      textFont(font); 
+      fill(255);
+      textAlign(CENTER,TOP);
+      //text("You have been defeated...press R to start again, press Q for main menu.");
+      text("Controls",width/2, 20, 0);   
+      textAlign(CENTER, BOTTOM);
+      text("Press enter to play!", width/2, height, 0);
   }
 }
 
