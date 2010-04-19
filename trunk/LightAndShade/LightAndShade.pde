@@ -8,6 +8,7 @@ import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 import processing.opengl.*;
+import ddf.minim.*;
 
 public static final int MAIN_GAME    = 1;
 public static final int DEBUG        = 2;
@@ -19,6 +20,9 @@ public static final int PAUSE        = 7;
 public static final int CONTROLS     = 8;
 
 static int game_display;
+ 
+Minim minim;
+AudioPlayer in;
 
 // A reference to our box2d world
 static PBox2D box2d;
@@ -56,6 +60,15 @@ void setup() {
   background(255);
   colorMode(HSB);
   frameRate(30);
+  
+  //Creating minim object
+  minim = new Minim(this);
+  // load a file, default sample buffer size is 1024
+  in = minim.loadFile("textSound.mp3");
+  // play the file
+  in.play();
+
+  
   
     // Initialize box2d physics and create the world ( no assumed gravity)
   box2d = new PBox2D(this);
@@ -328,3 +341,12 @@ void drawSpotLight() {
   updatePixels();
 }
 
+void stop()
+{
+  // always close audio I/O classes
+  in.close();
+  // always stop your Minim object
+  minim.stop();
+ 
+  super.stop();
+}

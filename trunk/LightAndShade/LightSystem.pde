@@ -188,7 +188,7 @@ class Prism extends LightSource{
   //returns a live particle iff it has light
   LightParticle spawn()
   {
-    light = light - 5;
+    light = light - 20;
     LightParticle particle;
     float dir = random((spawnAngle/2-spawnSpread), (spawnAngle/2+spawnSpread));
     float xin, yin;
