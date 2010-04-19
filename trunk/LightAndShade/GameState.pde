@@ -260,10 +260,12 @@ void checkVictoryConditions(){
     darkTimer = 0;
   
   if (lightTimer >=150 && darkTimer<150){//dark victory
-  println("Dark Victory");//dark victory
+    println("Dark Victory");//dark victory
+    game_display = GAME_LOSE;
   }
   else if(lightTimer< 150 && darkTimer>=150){ //light victory
-  println("Light Victory");//light victory
+    println("Light Victory");//light victory
+    game_display = GAME_WIN;
   }
   else if(lightTimer>=150 && darkTimer >=150){//rare state- draw
   //do nothing, wait for it to do one of the others

@@ -9,6 +9,16 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 import processing.opengl.*;
 
+public static final int MAIN_GAME    = 1;
+public static final int DEBUG        = 2;
+public static final int INSTRUCTIONS = 3;
+public static final int GAME_WIN     = 4;
+public static final int GAME_LOSE    = 5;
+public static final int STARTUP      = 6;
+public static final int PAUSE        = 7;
+
+static int game_display;
+
 // A reference to our box2d world
 static PBox2D box2d;
 
@@ -35,6 +45,11 @@ static boolean debugEnable;
 LightSource source;
 ArrayList particles;
 
+//Game Win stuff
+PImage extrude, extrude2;
+int[][] values, values2;
+float angle = 0;
+
 ImageButtons startButton, debugButton, addObsButton, addUnitsButton, addParticles,clearButton;
 PImage startBackground, gameBackground;
 
@@ -58,6 +73,27 @@ void setup() {
   
   AI = new AIPlayer();  
 
+  // Load the image into a new array
+  extrude = loadImage("win.jpg");
+  extrude.loadPixels();
+  values = new int[extrude.width][extrude.height];
+  for (int y = 0; y < extrude.height; y++) {
+    for (int x = 0; x < extrude.width; x++) {
+      color pixel = extrude.get(x, y);
+      values[x][y] = int(brightness(pixel));
+    }
+  }
+  
+  // Load the image into a new array
+  extrude2 = loadImage("lose.jpg");
+  extrude2.loadPixels();
+  values2 = new int[extrude2.width][extrude2.height];
+  for (int y = 0; y < extrude2.height; y++) {
+    for (int x = 0; x < extrude2.width; x++) {
+      color pixel = extrude2.get(x, y);
+      values2[x][y] = int(brightness(pixel));
+    }
+  }
   
 //  ArrayList lightSource = gameState.getLightSource();
 //  source = (LightSource) lightSource.get(0);
@@ -68,6 +104,7 @@ void setup() {
   attachedParticle = new Particle(0,0,0, 0,1,"player",0);
   //spring.bind(width/2,height/2,box);
   
+  game_display = STARTUP;
   
   //Startup Image
   startBackground = loadImage("Light&Shade.png");
@@ -81,6 +118,7 @@ void setup() {
   PImage b = loadImage("base.gif");
   PImage r = loadImage("roll.gif");
   PImage d = loadImage("down.gif");
+  PImage s = loadImage("start.gif");
   
   int w = b.width;
   int h = b.height;
@@ -105,7 +143,7 @@ void setup() {
   int leftOfAddObsButtonX = bottomRightX - b.width;
   int leftOfAddObsButtonY = bottomRightY; 
   
-  startButton = new ImageButtons(x, y, w, h, b, r, d);  //Hidden at the top right
+  startButton = new ImageButtons(width - s.width, y, s.width, s.height, s, s, s);  //Hidden at the top right
   debugButton = new ImageButtons(topLeftX, topLeftY, w, h, debugButtonImg, r, d);  //Hidden at the top left
   addObsButton= new ImageButtons(bottomRightX, bottomRightY, w, h, obsButtonImg, r, d);  //Hidden at the bottom right
   addUnitsButton= new ImageButtons(bottomLeftX, bottomLeftY, w, h, unitsButtonImg, r, d);  //Hidden at the bottom left
@@ -115,8 +153,7 @@ void setup() {
 
 
 void draw() {
-  println(frameRate);
-  if(gameEnable) //Display Game, objects etc
+  if(game_display == MAIN_GAME) //Display Game, objects etc
   {
       //Background display
       background(255);
@@ -127,16 +164,17 @@ void draw() {
       
       //Update the mouse joint
       spring.update(mouseX,mouseY);
-      spring.display();        
+      spring.display();
+             
+      AI.update(); 
+             
       //Draw the game's objects
       gameState.draw();
       
       if (L_MOUSE == true)
         sBox.updateBox();//update the SelectionBox 
-        
-      AI.update(); 
   }
-  else if(debugEnable) //Debug mode
+  else if(game_display == DEBUG) //Debug mode
   {
      background(255);
      
@@ -165,7 +203,7 @@ void draw() {
      if (L_MOUSE == true)
       sBox.updateBox();//update the SelectionBox 
   }
-  else  //Show startup screen
+  else if(game_display == STARTUP)  //Show startup screen
   {
     background(255);
     image(startBackground,0,0);
@@ -176,8 +214,69 @@ void draw() {
     
     //Display buttons
     startButton.display();
-    debugButton.display();
+    //debugButton.display();
     //drawSpotLight();
+  }
+  else if(game_display == INSTRUCTIONS)
+  {
+      background(255);
+      image(gameBackground, 0, 0);
+      
+      PFont font;
+      font = loadFont("AmericanTypewriter-24.vlw"); 
+      textFont(font); 
+      //translate(width/4,height/2,0);     
+      fill(255);
+      text("Instructions...Please press Enter to start the game",width/4, height/2,0);     
+  }
+  else if(game_display == GAME_WIN)
+  {
+      background(255);
+      image(gameBackground, 0, 0);
+      PFont font;
+      font = loadFont("AmericanTypewriter-24.vlw"); 
+      textFont(font); 
+      text("You have WON!!!...press Q to start again",width/2, height/2,0);   
+      //textSize(50);
+      
+      fill(255);
+      translate(width/2,height/2,0);     
+      text("You have WON!!!...press Q to start again",width/2, height/2,0);   
+  }
+  else if(game_display == GAME_LOSE)
+  {
+      background(255);
+      image(gameBackground, 0, 0);
+      PFont font;
+      font = loadFont("AmericanTypewriter-24.vlw"); 
+      textFont(font); 
+      text("You have lost the game...press Q to start again",width/2, height/2,0);   
+      //textSize(50);
+      
+      fill(255);
+      //translate(width/4,height/2,0);     
+      text("You have lost the game...press Q to start again",width/2, height/2,0);  
+  }
+  else if(game_display == PAUSE)
+  {
+      for(int i = 0; i < gameState.particles.size(); i++)
+        ((Particle) gameState.particles.get(i)).display();
+      
+      for(int i = 0; i < gameState.obstacles.size(); i++)
+        ((Obstacle) gameState.obstacles.get(i)).display();
+        
+      PFont font;
+      font = loadFont("AmericanTypewriter-24.vlw"); 
+      textFont(font); 
+      text("GAME PAUSED. Press Enter to resume.",width/4, height/2,0);   
+      //textSize(50);      
+      fill(255);
+      //translate(width/4,height/2,0);     
+      text("GAME PAUSED. Press Enter to resume.",width/4, height/2,0);   
+//  private ArrayList prison = new ArrayList();
+//  private ArrayList obstacles = new ArrayList();
+//  private ArrayList lightParticles = new ArrayList();
+//  private ArrayList edges = new ArrayList();
   }
 }
 
@@ -201,7 +300,7 @@ void drawSpotLight() {
       g = green (startBackground.pixels[loc]);
       b = blue (startBackground.pixels[loc]);
       // Calculate an amount to change brightness based on proximity to the mouse
-      float maxdist = 150;//dist(0,0,width,height);
+      float maxdist = 100;//dist(0,0,width,height);
       float d = dist(x,y,mouseX,mouseY);
       float adjustbrightness = 255*(maxdist-d)/maxdist;
       r += adjustbrightness;
@@ -219,3 +318,4 @@ void drawSpotLight() {
   }
   updatePixels();
 }
+

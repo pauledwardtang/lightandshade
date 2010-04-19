@@ -1,34 +1,34 @@
 //Handles all actions when the mouse is clicked.
 void mouseClicked()
 {
-  if(startButton.isPressed() && !gameEnable)
+  if(startButton.isPressed() && game_display == STARTUP)
     {
-      gameEnable = true;
-      println("Game enabled");
+      game_display =INSTRUCTIONS;
+      println("Instructions");
     }
-  if(debugButton.isPressed() && !debugEnable)
+  if(debugButton.isPressed() && game_display != DEBUG)
     {
-      debugEnable = true;
+      game_display = DEBUG;
       println("Debug enabled");
     }
-  if(addObsButton.isPressed() && debugEnable)
+  if(addObsButton.isPressed() && game_display == DEBUG)
     {
       gameState.randomizeObstacles();
       println("Randomized obstacles");
     }
-   if(addUnitsButton.isPressed() && debugEnable)
+   if(addUnitsButton.isPressed() && game_display == DEBUG)
     {
       gameState.createUnits();
       //gameState.createParticles();
       println("Added units");
     }
     
-    if(addParticles.isPressed() && debugEnable)
+    if(addParticles.isPressed() && game_display == DEBUG)
     {
       //gameState.createLightParticles();
     }
     
-    if(clearButton.isPressed() && debugEnable)
+    if(clearButton.isPressed() && game_display == DEBUG)
     {
        gameState.removeParticles();
        gameState.removeObstacles();
@@ -129,7 +129,7 @@ void mouseReleased()
          for(int i = 0; i < gameState.particles.size(); i++)
          {
             Particle temp = (Particle) gameState.particles.get(i);
-            if(temp.owner.equals("player") || debugEnable)
+            if(temp.owner.equals("player") || game_display == DEBUG)
                temp.selection();     
         }
      }    
@@ -154,12 +154,33 @@ void keyPressed()
     } 
     if (keyPressed&&key=='q')//Switch game mode
     {
-        debugEnable = !debugEnable;
-        gameEnable  = !gameEnable;
+        gameState = new GameState(WIDTH, HEIGHT);
+        game_display = STARTUP;
     }
     
+    //SKIP THE INTSTRUCTIONS SCREEN
+    if (keyPressed&&keyCode == ENTER && game_display == INSTRUCTIONS)//Change the Light sources spawning angle
+    {
+         game_display = MAIN_GAME;
+         println("Game started");
+    }  
+    
+   //START UP THE PAUSE SCREEN
+    if (keyPressed&&keyCode == ENTER && game_display == PAUSE)//Change the Light sources spawning angle
+    {
+         game_display = MAIN_GAME;
+         println("GAME UNPAUSED");
+    }  
+    //START UP THE PAUSE SCREEN
+    if (keyPressed&&key == 'p' && game_display == MAIN_GAME)//Change the Light sources spawning angle
+    {
+         game_display = PAUSE;
+         println("GAME PAUSED");
+    }  
+    
+
     //Changes the Light source spawning direction in clockwise direction
-    if (keyPressed&&key =='d')//Change the Light sources spawning angle
+    if (keyPressed&&(key =='d' || keyCode == RIGHT))//Change the Light sources spawning angle
     {
       for(int i = 0; i < gameState.particles.size(); i++)
          {
@@ -177,7 +198,7 @@ void keyPressed()
     }
     
     //Changes the Light Source spawning direction in counterclock wise direction
-    if(keyPressed && key == 'a')
+    if(keyPressed && (key =='a' || keyCode == LEFT))
     {
       for(int i = 0; i < gameState.particles.size(); i++)
          {
@@ -194,7 +215,7 @@ void keyPressed()
       
     }
     
-    if(keyPressed && key == 'w')
+    if(keyPressed && (key =='w' || keyCode == UP))
     {
       for(int i = 0; i < gameState.particles.size(); i++)
          {
@@ -209,7 +230,7 @@ void keyPressed()
       
     }
 
-    if(keyPressed && key == 's')
+    if(keyPressed && (key =='s' || keyCode == DOWN))
     {
       for(int i = 0; i < gameState.particles.size(); i++)
          {
