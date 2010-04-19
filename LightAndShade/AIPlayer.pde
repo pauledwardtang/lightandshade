@@ -82,7 +82,7 @@ class LightMap{
           //fill(0,0,255,lightmap[i][j]*.3);
 
           rectMode(CENTER);
-          stroke(random(35,45),500-lightmap[i][j],255,lightmap[i][j]*.5);
+          stroke(random(35,45),500-lightmap[i][j],255,lightmap[i][j]*.25);
           //translate(random(-.5,.5),random(-.5,.5));
           rect(0,0,lightmap[i][j]/80,lightmap[i][j]/80);
           //point(0,0);
