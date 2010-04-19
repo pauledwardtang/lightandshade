@@ -139,7 +139,6 @@ class Edge
     float boxW = box2d.scaleScreenToWorld(w);
     float boxH = box2d.scaleScreenToWorld(h);
     sd.setAsBox(boxW, boxH);
-    
     body.createShape(sd);
     body.setMassFromShapes();
   }

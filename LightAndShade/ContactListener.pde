@@ -93,6 +93,22 @@ class CustomListener implements ContactListener {
     // What class are they?
     String c1 = o1.getClass().getName();
     String c2 = o2.getClass().getName();
+        //manipulation
+    if ( (c1.contains("Sprite") || c1.endsWith("Shade")) && willAbsorb(c2) )
+    {      
+      Manipulator manipulator = (Manipulator)o1;
+      Particle manipulatee = (Particle)o2;
+
+      manipulator.attach(manipulatee);//attach. If it's not on the particle's list it is just ignored.  
+    }
+    if ( (c2.contains("Sprite") || c2.endsWith("Shade")) && willAbsorb(c1) )
+    {      
+      Manipulator manipulator = (Manipulator)o2;
+      Particle manipulatee = (Particle)o1;
+
+      manipulator.attach(manipulatee);//attach. If it's not on the particle's list it is just ignored.  
+    }
+    
     }
 
   // Objects stop touching each other
