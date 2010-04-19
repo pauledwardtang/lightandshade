@@ -171,7 +171,7 @@ void keyPressed()
         gameState.reset();
         game_display = MAIN_GAME;
     }
-    //SKIP THE INTSTRUCTIONS SCREEN
+    //SKIP THE INSTRUCTIONS SCREEN
     if (keyPressed&&keyCode == ENTER && game_display == INSTRUCTIONS)//Change the Light sources spawning angle
     {
          game_display = MAIN_GAME;
@@ -184,6 +184,21 @@ void keyPressed()
          game_display = MAIN_GAME;
          println("GAME UNPAUSED");         
     }  
+    
+    //Go to controls screen
+    if (keyPressed&&keyCode == 32 && game_display == INSTRUCTIONS)//Change the Light sources spawning angle
+    {
+         game_display = CONTROLS;
+         println("Controls screen");
+    }  
+    
+        //Go to main screen
+    if (keyPressed&&keyCode == ENTER && game_display == CONTROLS)//Change the Light sources spawning angle
+    {
+         game_display = MAIN_GAME;
+         println("Starting game");
+    }  
+    
     //START UP THE PAUSE SCREEN
     if (keyPressed&&key == 'p' && game_display == MAIN_GAME )//Change the Light sources spawning angle
     {
