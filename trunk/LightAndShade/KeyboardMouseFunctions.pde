@@ -3,7 +3,7 @@ void mouseClicked()
 {
   if(startButton.isPressed() && game_display == STARTUP)
     {
-      game_display =INSTRUCTIONS;
+      game_display =CONTROLS;
       println("Instructions");
     }
   if(debugButton.isPressed() && game_display != DEBUG)

@@ -267,6 +267,9 @@ void draw() {
         
       gameState.displayEdges();
         
+        
+      fill(0,100,200,100);  
+      rect(WIDTH/2, HEIGHT/2-8, WIDTH, 40);  
       PFont font;
       fill(255);
       textAlign(CENTER);
