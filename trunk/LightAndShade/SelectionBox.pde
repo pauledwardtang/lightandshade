@@ -56,6 +56,7 @@ class SelectionBox{
         rect(holdX,holdY,sizeX,sizeY);      
         noFill();
         noStroke();  
+        rectMode(CENTER);
       }
   }
   
