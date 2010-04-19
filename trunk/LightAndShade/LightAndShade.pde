@@ -16,6 +16,7 @@ public static final int GAME_WIN     = 4;
 public static final int GAME_LOSE    = 5;
 public static final int STARTUP      = 6;
 public static final int PAUSE        = 7;
+public static final int CONTROLS     = 8;
 
 static int game_display;
 
@@ -80,7 +81,7 @@ void setup() {
   //spring.bind(width/2,height/2,box);
   
   //Initialize the game display to the startup screen
-  game_display = GAME_WIN;
+  game_display = MAIN_GAME;
   
   
   //Font
@@ -222,9 +223,20 @@ void draw() {
       image(gameBackground, 0, 0);
       
       textFont(font);  
-      fill(255);
-      textAlign(CENTER,CENTER);
-      text("Instructions...Please press Enter to start the game",width/2, height/2,0);     
+      fill(0,0,255);
+      textAlign(LEFT,TOP);
+      text("\n\nGame Overview: \n\n " +
+          "    The game is a two-player, competitive real-time strategy game. There is a light player and a dark player.\n" +
+          "    The light player has a light source, prisms, and sprites. The dark player has eyes and shades.\n\n\n" +
+          "                     Game Flow\n\n\n" + 
+          "A typical game of Light and Shade should look like this:\n" +           
+          "     1. Game starts, pieces scattered\n"+
+          "     2. Light player rescues light units, captures dark units\n"+
+          "     3. Dark player gathers its units as the light player advances, captures light units\n"+
+          "     4. Dark player works to push into light player\n"+
+          "     5. Light player works to capture dark eyes\n"+
+          "     6. Game ends when all light units captured, or all dark eyes captured\n\n"+
+          "Please press Spacebar to continue reading, press Enter to start the game", 0, 0, 0);
   }
   else if(game_display == GAME_WIN)
   {
