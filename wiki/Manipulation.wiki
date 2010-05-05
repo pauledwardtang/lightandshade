@@ -10,3 +10,6 @@ When a Sprite is selected, the player can order it to manipulate a blinded unit 
 
 When a Sprite is manipulating a unit, the player can order it to release a blinded unit by clicking on the unit again.
  
+
+Manipulation overhaul:
+We need to make manipulation easier and more visually obvious.
