@@ -1,0 +1,1 @@
+Single-player strategy game.
